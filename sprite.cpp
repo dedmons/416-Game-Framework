@@ -1,20 +1,30 @@
 #include <iostream>
 #include <cmath>
+#include <limits>
 #include "sprite.h"
 #include "gamedata.h"
 
+float getRand(int min, int max){
+  return min + ( rand() / (std::numeric_limits<int>::max()+1.0f) ) * ( max-min );
+}
+
 Sprite::Sprite(const std::string& name, const Frame* fm) :
   Drawable(name,
-           Vector2f(Gamedata::getInstance()->getXmlInt(name+"X"), 
-                    Gamedata::getInstance()->getXmlInt(name+"Y")), 
-           Vector2f(Gamedata::getInstance()->getXmlInt(name+"SpeedX"),
-                    Gamedata::getInstance()->getXmlInt(name+"SpeedY"))
-  ), 
+           Vector2f(Gamedata::getInstance()->getXmlInt(name+"X"),
+                    Gamedata::getInstance()->getXmlInt(name+"Y")),
+           Vector2f(
+             (rand()%2?1:-1)*getRand(
+                Gamedata::getInstance()->getXmlInt(name+"SpeedXMin"),
+                Gamedata::getInstance()->getXmlInt(name+"SpeedXMax")),
+             (rand()%2?1:-1)*getRand(
+                  Gamedata::getInstance()->getXmlInt(name+"SpeedYMin"),
+                  Gamedata::getInstance()->getXmlInt(name+"SpeedYMax")))
+  ),
   frame(fm)
 { }
 
 Sprite::Sprite(const Sprite& s) :
-  Drawable(s.getName(), s.getPosition(), s.getVelocity()), 
+  Drawable(s.getName(), s.getPosition(), s.getVelocity()),
   frame(s.frame)
 { }
 
@@ -26,13 +36,13 @@ Sprite& Sprite::operator=(const Sprite& rhs) {
   return *this;
 }
 
-void Sprite::draw() const { 
+void Sprite::draw() const {
   Uint32 x = static_cast<Uint32>(X());
   Uint32 y = static_cast<Uint32>(Y());
-  frame->draw(x, y); 
+  frame->draw(x, y);
 }
 
-unsigned Sprite::getPixel(Uint32 i, Uint32 j) const { 
+unsigned Sprite::getPixel(Uint32 i, Uint32 j) const {
   Uint32 x = static_cast<Uint32>(X());
   Uint32 y = static_cast<Uint32>(Y());
   x = i - x;
@@ -42,11 +52,11 @@ unsigned Sprite::getPixel(Uint32 i, Uint32 j) const {
 }
 
 
-int Sprite::getDistance(const Sprite *obj) const { 
+int Sprite::getDistance(const Sprite *obj) const {
   return hypot(X()-obj->X(), Y()-obj->Y());
 }
 
-void Sprite::update(Uint32 ticks) { 
+void Sprite::update(Uint32 ticks) {
   float incr = velocityY() * static_cast<float>(ticks) * 0.001;
   Y( Y()+incr );
   float height = static_cast<float>(frame->getHeight());
@@ -65,5 +75,5 @@ void Sprite::update(Uint32 ticks) {
   }
   if ( X() > Gamedata::getInstance()->getXmlInt("worldWidth")-width) {
     velocityX( -abs( velocityX() ) );
-  }  
+  }
 }

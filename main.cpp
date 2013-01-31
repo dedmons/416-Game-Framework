@@ -1,10 +1,11 @@
 // Brian Malloy        Game Construction
 
 #include "manager.h"
+#include <string.h>
 Gamedata* Gamedata::instance;
 
 int main(int, char*[]) {
-   try {
+  try {
       Manager game_manager;
       game_manager.play();
    }

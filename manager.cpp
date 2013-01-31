@@ -1,11 +1,13 @@
 #include <cmath>
 #include "manager.h"
 
-Manager::~Manager() { 
+Manager::~Manager() {
   // These deletions eliminate "definitely lost" and
   // "still reachable"s in Valgrind.
   SDL_FreeSurface(orbSurface);
+  SDL_FreeSurface(backSurface);
   delete orbFrame;
+  delete backFrame;
   delete Gamedata::getInstance();
 }
 
@@ -15,25 +17,44 @@ Manager::Manager() :
   io( IOManager::getInstance() ),
   clock( Clock::getInstance() ),
   screen( io.getScreen() ),
+  backSurface( io.loadAndSet(gdata->getXmlStr("backFile"), true) ),
+  backFrame(new Frame(backSurface,
+                gdata->getXmlInt("backWidth"),
+                gdata->getXmlInt("backHeight"),
+                gdata->getXmlInt("backSrcX"),
+                gdata->getXmlInt("backSrcY"))
+  ),
+  background("background",backFrame),
   orbSurface( io.loadAndSet(gdata->getXmlStr("redorbFile"), true) ),
   orbFrame(new Frame(orbSurface,
-                gdata->getXmlInt("redorbWidth"), 
-                gdata->getXmlInt("redorbHeight"), 
-                gdata->getXmlInt("redorbSrcX"), 
-                gdata->getXmlInt("redorbSrcY")) 
-  ),
-  orb("redorb", orbFrame)
+                gdata->getXmlInt("redorbWidth"),
+                gdata->getXmlInt("redorbHeight"),
+                gdata->getXmlInt("redorbSrcX"),
+                gdata->getXmlInt("redorbSrcY"))
+  )
 {
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     throw string("Unable to initialize SDL: ");
   }
   atexit(SDL_Quit);
+
+  unsigned int n = gdata->getXmlInt("redorbNum");
+  for(unsigned i = 0; i < n; i++){
+    orbs.push_back(Sprite("redorb",orbFrame));
+  }
+
 }
 
-void Manager::drawBackground() const {
-  SDL_FillRect( screen, NULL, SDL_MapRGB(screen->format, 255, 255, 255) );
-  SDL_Rect dest = {0, 0, 0, 0};
-  SDL_BlitSurface( screen, NULL, screen, &dest );
+void Manager::draw() const {
+  //SDL_FillRect( screen, NULL, SDL_MapRGB(screen->format, 255, 255, 255) );
+  //SDL_Rect dest = {0, 0, 0, 0};
+  //SDL_BlitSurface( screen, NULL, screen, &dest );
+
+  background.draw();
+  for(unsigned i = 0; i < orbs.size(); i++){
+    orbs[i].draw();
+  }
+  SDL_Flip(screen);
 }
 
 void Manager::play() {
@@ -42,12 +63,12 @@ void Manager::play() {
   bool done = false;
   bool keyCatch = false;
   while ( ! done ) {
-    drawBackground();
-    orb.draw();
-    SDL_Flip(screen);
+    draw();
 
     Uint32 ticks = clock.getElapsedTicks();
-    orb.update(ticks);
+    for(unsigned i=0; i< orbs.size(); i++){
+      orbs[i].update(ticks);
+    }
 
     SDL_PollEvent(&event);
     if (event.type ==  SDL_QUIT) { break; }

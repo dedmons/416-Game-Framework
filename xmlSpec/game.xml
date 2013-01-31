@@ -22,16 +22,29 @@
   <fontUnused>0</fontUnused>
 </font>
 <maxStringSize>50</maxStringSize>
-
+<redorbNum>10</redorbNum>
 <redorb>
   <redorbFile>images/tri.png</redorbFile>
   <redorbSrcX>0</redorbSrcX>
   <redorbSrcY>0</redorbSrcY>
   <redorbWidth>50</redorbWidth>
   <redorbHeight>50</redorbHeight>
-  <redorbLoc redorbX="10" redorbY="10"/>
-  <redorbSpeed redorbSpeedX="200" redorbSpeedY="250"/>
+  <redorbLoc redorbX="295" redorbY="215"/>
+  <redorbSpeedMin redorbSpeedXMin="100" redorbSpeedYMin="150"/>
+  <redorbSpeedMax redorbSpeedXMax="200" redorbSpeedYMax="250"/>
   <redorbTransparency>true</redorbTransparency>
 </redorb>
+
+<background>
+  <backFile>images/background.png</backFile>
+  <backSrcX>0</backSrcX>
+  <backSrcY>0</backSrcY>
+  <backWidth>640</backWidth>
+  <backHeight>480</backHeight>
+  <backLoc backgroundX="0" backgroundY="0"/>
+  <backSpeedMin backgroundSpeedXMin="200" backgroundSpeedYMin="250"/>
+  <backSpeedMax backgroundSpeedXMax="200" backgroundSpeedYMax="250"/>
+  <backTransparency>true</backTransparency>
+</background>
 
 </GameData>

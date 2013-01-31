@@ -20,6 +20,10 @@ EXEC = run
 clang: | setclang $(EXEC)
 gcc: | setgcc $(EXEC)
 
+# For use with the clang static analyzer by
+#  using the environment variable for CXX
+sb: | $(clean) $(EXEC)
+
 # Run the executable
 r:
 	./$(EXEC)
@@ -37,7 +41,7 @@ setclang:
 
 # Phony target to use g++ for compile and linking
 setgcc:
-	echo "Setting g++"
+	@echo "Setting g++"
 	$(eval CXX = g++)
 	$(eval CXX_LINK = g++)
 

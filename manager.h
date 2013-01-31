@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "ioManager.h"
 #include "clock.h"
@@ -20,11 +21,16 @@ private:
   Clock& clock;
 
   SDL_Surface *screen;
+
+  SDL_Surface * const backSurface;
+  Frame * const backFrame;
+  Sprite background;
+
   SDL_Surface * const orbSurface;
   Frame * const orbFrame;
-  Sprite orb;
+  std::vector<Sprite> orbs;
 
-  void drawBackground() const;
+  void draw() const;
   Manager(const Manager&);
   Manager& operator=(const Manager&);
 };
