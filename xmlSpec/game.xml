@@ -30,7 +30,7 @@
   <redorbWidth>50</redorbWidth>
   <redorbHeight>50</redorbHeight>
   <redorbLoc redorbX="295" redorbY="215"/>
-  <redorbSpeedMin redorbSpeedXMin="100" redorbSpeedYMin="150"/>
+  <redorbSpeedMin redorbSpeedXMin="15" redorbSpeedYMin="15"/>
   <redorbSpeedMax redorbSpeedXMax="200" redorbSpeedYMax="250"/>
   <redorbTransparency>true</redorbTransparency>
 </redorb>
