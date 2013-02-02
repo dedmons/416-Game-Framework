@@ -10,16 +10,12 @@ class Random {
       static Random random;
       return random;
     }
-    int getRandInt(int min, int max);
-    int getRandInt(int max);
+    float getRand(int min, int max);
+    float getRand(int max);
   private:
     Random();
     Random(const Random&);
     Random& operator=(const Random&);
 };
-
-Random::Random() {
-  srand(time(NULL));
-}
 
 #endif

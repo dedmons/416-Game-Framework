@@ -4,19 +4,15 @@
 #include "sprite.h"
 #include "gamedata.h"
 
-float getRand(int min, int max){
-  return min + ( rand() / (std::numeric_limits<int>::max()+1.0f) ) * ( max-min );
-}
-
 Sprite::Sprite(const std::string& name, const Frame* fm) :
   Drawable(name,
            Vector2f(Gamedata::getInstance()->getXmlInt(name+"X"),
                     Gamedata::getInstance()->getXmlInt(name+"Y")),
            Vector2f(
-             (rand()%2?1:-1)*getRand(
+             (rand()%2?1:-1)*Random::getInstance().getRand(
                 Gamedata::getInstance()->getXmlInt(name+"SpeedXMin"),
                 Gamedata::getInstance()->getXmlInt(name+"SpeedXMax")),
-             (rand()%2?1:-1)*getRand(
+             (rand()%2?1:-1)*Random::getInstance().getRand(
                   Gamedata::getInstance()->getXmlInt(name+"SpeedYMin"),
                   Gamedata::getInstance()->getXmlInt(name+"SpeedYMax")))
   ),

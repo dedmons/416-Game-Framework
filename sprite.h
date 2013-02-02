@@ -5,7 +5,7 @@
 #include <iostream>
 
 #include "drawable.h"
-//#include "random.h"
+#include "random.h"
 
 class Sprite : public Drawable {
 public:
