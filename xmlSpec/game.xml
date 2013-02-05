@@ -23,7 +23,7 @@
 </font>
 <maxStringSize>50</maxStringSize>
 
-<redorbNum>1</redorbNum>
+<redorbNum>5</redorbNum>
 
 <redorb>
   <redorbFile>images/tri.png</redorbFile>
@@ -32,9 +32,9 @@
   <redorbWidth>50</redorbWidth>
   <redorbHeight>50</redorbHeight>
   <redorbLoc redorbX="295" redorbY="215"/>
-  <redorbSpeedMin redorbSpeedXMin="0" redorbSpeedYMin="0"/>
-  <redorbSpeedMax redorbSpeedXMax="0" redorbSpeedYMax="0"/>
-  <redorbAccel redorbAccelX="70" redorbAccelY="-50" />
+  <redorbSpeedMin redorbSpeedXMin="100" redorbSpeedYMin="100"/>
+  <redorbSpeedMax redorbSpeedXMax="300" redorbSpeedYMax="300"/>
+  <redorbAccel redorbAccelX="50" redorbAccelY="80" />
   <redorbTransparency>true</redorbTransparency>
 </redorb>
 

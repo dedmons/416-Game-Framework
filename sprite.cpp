@@ -17,8 +17,8 @@ Sprite::Sprite(const std::string& name, const Frame* fm) :
                   Gamedata::getInstance()->getXmlInt(name+"SpeedYMax")))
   ),
   acceleration(
-      Gamedata::getInstance()->getXmlInt(name+"AccelX"),
-      Gamedata::getInstance()->getXmlInt(name+"AccelY")
+      (rand()%2?1:-1)*Gamedata::getInstance()->getXmlInt(name+"AccelX"),
+      (rand()%2?1:-1)*Gamedata::getInstance()->getXmlInt(name+"AccelY")
   ),
   maxSpeeds(
       Gamedata::getInstance()->getXmlInt(name+"SpeedXMax"),
@@ -41,6 +41,8 @@ Sprite& Sprite::operator=(const Sprite& rhs) {
   setPosition(rhs.getPosition());
   setVelocity(rhs.getVelocity());
   frame = rhs.frame;
+  acceleration = rhs.acceleration;
+  maxSpeeds = rhs.maxSpeeds;
   return *this;
 }
 
@@ -68,9 +70,11 @@ void Sprite::updateVelocity(Uint32 ticks){
 
   float inc = acceleration[0] * 0.001 * static_cast<float>(ticks);
   velocityX( velocityX() + inc );
+  //std::cout << "x: " << inc << std::endl;
 
-  inc = acceleration[0] * 0.001 * static_cast<float>(ticks);
+  inc = acceleration[1] * 0.001 * static_cast<float>(ticks);
   velocityY( velocityY() + inc );
+  //std::cout << "y: " << inc << std::endl;
 
   if(velocityX() > maxSpeeds[0]) {
     velocityX( maxSpeeds[0] );
