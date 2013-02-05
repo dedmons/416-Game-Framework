@@ -70,11 +70,9 @@ void Sprite::updateVelocity(Uint32 ticks){
 
   float inc = acceleration[0] * 0.001 * static_cast<float>(ticks);
   velocityX( velocityX() + inc );
-  //std::cout << "x: " << inc << std::endl;
 
   inc = acceleration[1] * 0.001 * static_cast<float>(ticks);
   velocityY( velocityY() + inc );
-  //std::cout << "y: " << inc << std::endl;
 
   if(velocityX() > maxSpeeds[0]) {
     velocityX( maxSpeeds[0] );
