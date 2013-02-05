@@ -16,11 +16,23 @@ Sprite::Sprite(const std::string& name, const Frame* fm) :
                   Gamedata::getInstance()->getXmlInt(name+"SpeedYMin"),
                   Gamedata::getInstance()->getXmlInt(name+"SpeedYMax")))
   ),
+  acceleration(
+      Gamedata::getInstance()->getXmlInt(name+"AccelX"),
+      Gamedata::getInstance()->getXmlInt(name+"AccelY")
+  ),
+  maxSpeeds(
+      Gamedata::getInstance()->getXmlInt(name+"SpeedXMax"),
+      Gamedata::getInstance()->getXmlInt(name+"SpeedYMax")
+  ),
+  spriteName(name),
   frame(fm)
 { }
 
 Sprite::Sprite(const Sprite& s) :
   Drawable(s.getName(), s.getPosition(), s.getVelocity()),
+  acceleration(s.acceleration),
+  maxSpeeds(s.maxSpeeds),
+  spriteName(s.spriteName),
   frame(s.frame)
 { }
 
@@ -52,7 +64,27 @@ int Sprite::getDistance(const Sprite *obj) const {
   return hypot(X()-obj->X(), Y()-obj->Y());
 }
 
+void Sprite::updateVelocity(Uint32 ticks){
+
+  float inc = acceleration[0] * 0.001 * static_cast<float>(ticks);
+  velocityX( velocityX() + inc );
+
+  inc = acceleration[0] * 0.001 * static_cast<float>(ticks);
+  velocityY( velocityY() + inc );
+
+  if(velocityX() > maxSpeeds[0]) {
+    velocityX( maxSpeeds[0] );
+  }
+
+  if(velocityY() > maxSpeeds[1]) {
+    velocityY( maxSpeeds[1] );
+  }
+}
+
+
 void Sprite::update(Uint32 ticks) {
+  updateVelocity(ticks);
+
   float incr = velocityY() * static_cast<float>(ticks) * 0.001;
   Y( Y()+incr );
   float height = static_cast<float>(frame->getHeight());
