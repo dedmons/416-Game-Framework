@@ -31,7 +31,8 @@ Manager::Manager() :
                 gdata->getXmlInt("redorbHeight"),
                 gdata->getXmlInt("redorbSrcX"),
                 gdata->getXmlInt("redorbSrcY"))
-  )
+  ),
+  orbs()
 {
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     throw string("Unable to initialize SDL: ");
