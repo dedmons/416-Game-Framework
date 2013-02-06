@@ -14,7 +14,7 @@ DEPS = $(OBJS:.o=.d)
 EXEC = run
 
 # Declare the phony targets
-.PHONY: echo clean r clang gcc setclang setgcc
+.PHONY: echo clean r clang gcc setclang setgcc vg
 
 # Phony targets to run dependencies in order
 clang: | setclang $(EXEC)
@@ -23,6 +23,9 @@ gcc: | setgcc $(EXEC)
 # For use with the clang static analyzer by
 #  using the environment variable for CXX
 sb: | $(clean) $(EXEC)
+
+vg: $(EXEC)
+	valgrind ./$(EXEC)
 
 # Run the executable
 r:
