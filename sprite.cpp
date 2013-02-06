@@ -24,7 +24,6 @@ Sprite::Sprite(const std::string& name, const Frame* fm) :
       Gamedata::getInstance()->getXmlInt(name+"SpeedXMax"),
       Gamedata::getInstance()->getXmlInt(name+"SpeedYMax")
   ),
-  spriteName(name),
   frame(fm)
 { }
 
@@ -32,7 +31,6 @@ Sprite::Sprite(const Sprite& s) :
   Drawable(s.getName(), s.getPosition(), s.getVelocity()),
   acceleration(s.acceleration),
   maxSpeeds(s.maxSpeeds),
-  spriteName(s.spriteName),
   frame(s.frame)
 { }
 

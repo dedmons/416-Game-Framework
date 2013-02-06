@@ -51,10 +51,6 @@ Manager::Manager() :
 }
 
 void Manager::draw() const {
-  //SDL_FillRect( screen, NULL, SDL_MapRGB(screen->format, 255, 255, 255) );
-  //SDL_Rect dest = {0, 0, 0, 0};
-  //SDL_BlitSurface( screen, NULL, screen, &dest );
-
   background.draw();
   for(unsigned i = 0; i < sprites.size(); i++){
     sprites[i].draw();

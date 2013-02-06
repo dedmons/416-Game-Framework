@@ -26,7 +26,6 @@ public:
 private:
   Vector2f acceleration;
   Vector2f maxSpeeds;
-  std::string spriteName;
   const Frame * frame;
   int getDistance(const Sprite*) const;
   void updateVelocity(Uint32);
