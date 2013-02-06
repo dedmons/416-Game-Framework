@@ -1,0 +1,31 @@
+Name: DJ Edmonson
+Email: dedmons@g.clemson.edu
+Date: Feb. 05 2013
+
+Proj No: 1
+Description:
+  This program is theamed around zelda. All
+  aspects of the animation can be configured
+  with the xml file.
+
+To change the XML file and the animation:
+  Added parameters to:
+    -set the max speed
+    -set the range for the start speed
+    -set acceleration for the sprite
+
+The Specs that I implemented are:
+  -add sprites to a vector
+  -only use one surface for many sprites
+  -move constants to xml file
+
+The Specs that I was unable to implement are:
+  none
+
+Extras:
+  -added acceleration to sprites
+    -Acceleration is set to +/- randomly
+     for both the x and y directions
+  -added singleton random class to handle
+    most random number generation.
+
