@@ -4,9 +4,9 @@
 Manager::~Manager() {
   // These deletions eliminate "definitely lost" and
   // "still reachable"s in Valgrind.
-  SDL_FreeSurface(orbSurface);
+  SDL_FreeSurface(triForceSurface);
   SDL_FreeSurface(backSurface);
-  delete orbFrame;
+  delete triForceFrame;
   delete backFrame;
   delete Gamedata::getInstance();
 }
@@ -17,7 +17,9 @@ Manager::Manager() :
   io( IOManager::getInstance() ),
   clock( Clock::getInstance() ),
   screen( io.getScreen() ),
-  backSurface( io.loadAndSet(gdata->getXmlStr("backFile"), true) ),
+  backSurface( io.loadAndSet(gdata->getXmlStr("backFile"),
+                gdata->getXmlBool("triForceTransparency"))
+  ),
   backFrame(new Frame(backSurface,
                 gdata->getXmlInt("backWidth"),
                 gdata->getXmlInt("backHeight"),
@@ -25,23 +27,25 @@ Manager::Manager() :
                 gdata->getXmlInt("backSrcY"))
   ),
   background("background",backFrame),
-  orbSurface( io.loadAndSet(gdata->getXmlStr("redorbFile"), true) ),
-  orbFrame(new Frame(orbSurface,
-                gdata->getXmlInt("redorbWidth"),
-                gdata->getXmlInt("redorbHeight"),
-                gdata->getXmlInt("redorbSrcX"),
-                gdata->getXmlInt("redorbSrcY"))
+  triForceSurface( io.loadAndSet(gdata->getXmlStr("triForceFile"),
+                    gdata->getXmlBool("triForceTransparency"))
   ),
-  orbs()
+  triForceFrame(new Frame(triForceSurface,
+                gdata->getXmlInt("triForceWidth"),
+                gdata->getXmlInt("triForceHeight"),
+                gdata->getXmlInt("triForceSrcX"),
+                gdata->getXmlInt("triForceSrcY"))
+  ),
+  sprites()
 {
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     throw string("Unable to initialize SDL: ");
   }
   atexit(SDL_Quit);
 
-  unsigned int n = gdata->getXmlInt("redorbNum");
+  unsigned int n = gdata->getXmlInt("triForceNum");
   for(unsigned i = 0; i < n; i++){
-    orbs.push_back(Sprite("redorb",orbFrame));
+    sprites.push_back(Sprite("triForce",triForceFrame));
   }
 
 }
@@ -52,8 +56,8 @@ void Manager::draw() const {
   //SDL_BlitSurface( screen, NULL, screen, &dest );
 
   background.draw();
-  for(unsigned i = 0; i < orbs.size(); i++){
-    orbs[i].draw();
+  for(unsigned i = 0; i < sprites.size(); i++){
+    sprites[i].draw();
   }
   SDL_Flip(screen);
 }
@@ -67,8 +71,8 @@ void Manager::play() {
     draw();
 
     Uint32 ticks = clock.getElapsedTicks();
-    for(unsigned i=0; i< orbs.size(); i++){
-      orbs[i].update(ticks);
+    for(unsigned i=0; i< sprites.size(); i++){
+      sprites[i].update(ticks);
     }
 
     SDL_PollEvent(&event);

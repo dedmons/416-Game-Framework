@@ -26,9 +26,9 @@ private:
   Frame * const backFrame;
   Sprite background;
 
-  SDL_Surface * const orbSurface;
-  Frame * const orbFrame;
-  std::vector<Sprite> orbs;
+  SDL_Surface * const triForceSurface;
+  Frame * const triForceFrame;
+  std::vector<Sprite> sprites;
 
   void draw() const;
   Manager(const Manager&);

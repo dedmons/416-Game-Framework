@@ -23,20 +23,21 @@
 </font>
 <maxStringSize>50</maxStringSize>
 
-<redorbNum>5</redorbNum>
+<triForceNum>100</triForceNum>
 
-<redorb>
-  <redorbFile>images/tri.png</redorbFile>
-  <redorbSrcX>0</redorbSrcX>
-  <redorbSrcY>0</redorbSrcY>
-  <redorbWidth>50</redorbWidth>
-  <redorbHeight>50</redorbHeight>
-  <redorbLoc redorbX="295" redorbY="215"/>
-  <redorbSpeedMin redorbSpeedXMin="100" redorbSpeedYMin="100"/>
-  <redorbSpeedMax redorbSpeedXMax="300" redorbSpeedYMax="300"/>
-  <redorbAccel redorbAccelX="50" redorbAccelY="80" />
-  <redorbTransparency>true</redorbTransparency>
-</redorb>
+<triForce>
+  <triForceFile>images/tri.png</triForceFile>
+  <triForceSrcX>0</triForceSrcX>
+  <triForceSrcY>0</triForceSrcY>
+  <triForceWidth>50</triForceWidth>
+  <triForceHeight>50</triForceHeight>
+  <triForceLoc triForceX="295" triForceY="215"/>
+  <triForceSpeedMin triForceSpeedXMin="0" triForceSpeedYMin="0"/>
+  <triForceStartSpeedSeed>90</triForceStartSpeedSeed>
+  <triForceSpeedMax triForceSpeedXMax="300" triForceSpeedYMax="300"/>
+  <triForceAccel triForceAccelX="50" triForceAccelY="80" />
+  <triForceTransparency>true</triForceTransparency>
+</triForce>
 
 <background>
   <backFile>images/background.png</backFile>
@@ -46,6 +47,7 @@
   <backHeight>480</backHeight>
   <backLoc backgroundX="0" backgroundY="0"/>
   <backSpeedMin backgroundSpeedXMin="200" backgroundSpeedYMin="250"/>
+  <backgroundStartSpeedSeed>50</backgroundStartSpeedSeed>
   <backSpeedMax backgroundSpeedXMax="200" backgroundSpeedYMax="250"/>
   <backgroundAccel backgroundAccelX="10" backgroundAccelY="10" />
   <backTransparency>true</backTransparency>

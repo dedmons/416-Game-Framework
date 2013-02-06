@@ -11,10 +11,10 @@ Sprite::Sprite(const std::string& name, const Frame* fm) :
            Vector2f(
              (rand()%2?1:-1)*Random::getInstance().getRand(
                 Gamedata::getInstance()->getXmlInt(name+"SpeedXMin"),
-                Gamedata::getInstance()->getXmlInt(name+"SpeedXMax")),
+                Gamedata::getInstance()->getXmlInt(name+"StartSpeedSeed")),
              (rand()%2?1:-1)*Random::getInstance().getRand(
                   Gamedata::getInstance()->getXmlInt(name+"SpeedYMin"),
-                  Gamedata::getInstance()->getXmlInt(name+"SpeedYMax")))
+                  Gamedata::getInstance()->getXmlInt(name+"StartSpeedSeed")))
   ),
   acceleration(
       (rand()%2?1:-1)*Gamedata::getInstance()->getXmlInt(name+"AccelX"),
