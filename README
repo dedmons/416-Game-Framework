@@ -28,4 +28,13 @@ Extras:
      for both the x and y directions
   -added singleton random class to handle
     most random number generation.
-
+  -Improved Makefile
+    -Depenencies are generated automaticly
+      by reading files.
+    -Object file targets are created by
+      reading files in dir.
+    -Targets to specify compiler
+    -Works on both Mac and Unix
+    -Contains targets for building with
+      the clang static analyzer and running
+      valgrind
