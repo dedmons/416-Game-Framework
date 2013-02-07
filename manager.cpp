@@ -44,6 +44,7 @@ Manager::Manager() :
   atexit(SDL_Quit);
 
   unsigned int n = gdata->getXmlInt("triForceNum");
+  sprites.reserve(n);
   for(unsigned i = 0; i < n; i++){
     sprites.push_back(Sprite("triForce",triForceFrame));
   }
