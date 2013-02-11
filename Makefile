@@ -1,5 +1,5 @@
 # Warnings frequently signal eventual errors:
-CXXFLAGS=`sdl-config --cflags` -g -W -Wall -Weffc++ -Wextra -pedantic -O0
+CXXFLAGS=`sdl-config --cflags` -std=gnu++98 -g -W -Wall -Weffc++ -Wextra -pedantic -O0
 #CXXFLAGS=-g -W -Wall -Weffc++ -Wextra -pedantic -O0
 # Linker flags for both OS X and Linux
 LDFLAGS = `sdl-config --libs` -lSDL_ttf -lSDL_image -lexpat
@@ -14,7 +14,7 @@ DEPS = $(OBJS:.o=.d)
 EXEC = run
 
 # Declare the phony targets
-.PHONY: echo clean r clang gcc setclang setgcc vg
+.PHONY: echo clean r clang gcc setclang setgcc vg lint
 
 # Phony targets to run dependencies in order
 clang: | setclang $(EXEC)
@@ -24,13 +24,19 @@ gcc: | setgcc $(EXEC)
 #  using the environment variable for CXX
 sb: | $(clean) $(EXEC)
 
+# target to run valgrind on executable
 vg: $(EXEC)
 	valgrind ./$(EXEC)
+
+# Uses cppcheck for more static analysys
+lint:
+	cppcheck ./*.h ./*.cpp
 
 # Run the executable
 r:
 	./$(EXEC)
 
+# Clean all the created files
 clean:
 	rm -rf $(OBJS)
 	rm -rf $(DEPS)
@@ -54,6 +60,7 @@ setgcc:
 $(OBJS): %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+# Static pattern to build dependencies
 $(DEPS): %.d: %.cpp
 	@echo "Generating "$@
 	@set -e; rm -f $@; \
@@ -61,7 +68,7 @@ $(DEPS): %.d: %.cpp
       sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
       rm -f $@.$$$$
 
-# $@ refers to the target
+# Link all the object files together into exicutible
 $(EXEC): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(LDFLAGS)
 
