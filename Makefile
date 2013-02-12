@@ -1,5 +1,6 @@
 # Created by DJ Edmonson
 #   dedmons@g.clemson.edu
+
 # Warnings frequently signal eventual errors:
 CXXFLAGS=`sdl-config --cflags` -std=gnu++98 -g -W -Wall -Weffc++ -Wextra -pedantic -O0
 # Linker flags for both OS X and Linux
