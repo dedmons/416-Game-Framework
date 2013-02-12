@@ -11,9 +11,15 @@ DEPS = $(OBJS:.o=.d)
 # Set executable name
 EXEC = run
 
+SCAN_BUILD = $(shell which scan-build)
+ifeq "$(SCAN_BUILD)" ""
+SCAN_BUILD="./checker-271/scan-build"
+endif
+
+
 # Declare the phony targets
-.PHONY: \
-	echo clean r clang gcc setclang setgcc vg lint csa sbsetup sbclean sb
+.PHONY: echo clean r clang gcc \
+  setclang setgcc vg lint csa sbsetup sbclean sb
 
 # Phony targets to run dependencies in order
 clang: | setclang $(EXEC)
@@ -21,7 +27,7 @@ gcc: | setgcc $(EXEC)
 
 # For use with the clang static analyzer by
 #  using the environment variable for CXX
-sb: | clean $(EXEC)
+sb: | clean $(DEPS) $(EXEC)
 
 ifeq "$(shell uname)" "Darwin"
 # Mac only!!! if using linux, install clang with package manager
@@ -37,7 +43,7 @@ sbclean:
 endif
 
 csa:
-	./checker-271/scan-build --view make sb
+	$(SCAN_BUILD) --view make sb
 
 # target to run valgrind on executable
 vg: $(EXEC)
@@ -84,7 +90,7 @@ $(DEPS): %.d: %.cpp
       rm -f $@.$$$$
 
 # Link all the object files together into exicutible
-$(EXEC): $(OBJS) $(DEPS)
+$(EXEC): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(LDFLAGS)
 
 include $(DEPS)
