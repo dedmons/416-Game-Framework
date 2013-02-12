@@ -1,9 +1,7 @@
 # Warnings frequently signal eventual errors:
 CXXFLAGS=`sdl-config --cflags` -std=gnu++98 -g -W -Wall -Weffc++ -Wextra -pedantic -O0
-#CXXFLAGS=-g -W -Wall -Weffc++ -Wextra -pedantic -O0
 # Linker flags for both OS X and Linux
 LDFLAGS = `sdl-config --libs` -lSDL_ttf -lSDL_image -lexpat
-#LDFLAGS =
 
 # Generates list of object files from all the
 #   source files in directory
@@ -14,7 +12,8 @@ DEPS = $(OBJS:.o=.d)
 EXEC = run
 
 # Declare the phony targets
-.PHONY: echo clean r clang gcc setclang setgcc vg lint
+.PHONY: \
+	echo clean r clang gcc setclang setgcc vg lint csa sbsetup sbclean sb
 
 # Phony targets to run dependencies in order
 clang: | setclang $(EXEC)
@@ -22,7 +21,23 @@ gcc: | setgcc $(EXEC)
 
 # For use with the clang static analyzer by
 #  using the environment variable for CXX
-sb: | $(clean) $(EXEC)
+sb: | clean $(EXEC)
+
+ifeq "$(shell uname)" "Darwin"
+# Mac only!!! if using linux, install clang with package manager
+#   and it should install scan-build. Check with `which scan-build`
+sbsetup:
+	@curl -o checker.tar.bz2 https://attache.apple.com/AttacheWeb/dl?id=ATC44d356e48110443aa990771381dd5cc0
+	@tar -xvf checker.tar.bz2
+	@rm -f checker.tar.bz2
+
+# Remove the folder created to get the clang static analyzer
+sbclean:
+	rm -r checker*
+endif
+
+csa:
+	./checker-271/scan-build --view make sb
 
 # target to run valgrind on executable
 vg: $(EXEC)
@@ -69,7 +84,7 @@ $(DEPS): %.d: %.cpp
       rm -f $@.$$$$
 
 # Link all the object files together into exicutible
-$(EXEC): $(OBJS)
+$(EXEC): $(OBJS) $(DEPS)
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(LDFLAGS)
 
 include $(DEPS)
