@@ -31,7 +31,7 @@
   <triForceSrcY>0</triForceSrcY>
   <triForceWidth>50</triForceWidth>
   <triForceHeight>50</triForceHeight>
-  <triForceLoc triForceX="295" triForceY="215"/>
+  <triForceLoc triForceX="500" triForceY="600"/>
   <triForceSpeedMin triForceSpeedXMin="0" triForceSpeedYMin="0"/>
   <triForceStartSpeedSeed>90</triForceStartSpeedSeed>
   <triForceSpeedMax triForceSpeedXMax="300" triForceSpeedYMax="300"/>
@@ -43,8 +43,8 @@
   <backFile>images/background.png</backFile>
   <backSrcX>0</backSrcX>
   <backSrcY>0</backSrcY>
-  <backWidth>640</backWidth>
-  <backHeight>480</backHeight>
+  <backWidth>1280</backWidth>
+  <backHeight>960</backHeight>
   <backLoc backgroundX="0" backgroundY="0"/>
   <backSpeedMin backgroundSpeedXMin="200" backgroundSpeedYMin="250"/>
   <backgroundStartSpeedSeed>50</backgroundStartSpeedSeed>

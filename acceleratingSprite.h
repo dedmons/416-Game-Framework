@@ -2,13 +2,14 @@
 
 class AcceleratingSprite : public Sprite {
 public:
-  AcceleratingSprite(const std::string& n, const Frame*);
-  AcceleratingSprite(const AcceleratingSprite& o);
+  AcceleratingSprite(const std::string&, const Frame*);
+  AcceleratingSprite(const AcceleratingSprite&);
   virtual ~AcceleratingSprite() { };
 
-  virtual update(Uint32 ticks);
+  virtual void update(Uint32);
 private:
   Vector2f acceleration;
+  Vector2f maxSpeeds;
 
-  void updateVelocity(Uint32 ticks);
-}
+  void updateVelocity(Uint32);
+};

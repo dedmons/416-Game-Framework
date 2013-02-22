@@ -9,6 +9,9 @@ Manager::~Manager() {
   delete triForceFrame;
   delete backFrame;
   delete Gamedata::getInstance();
+  for(unsigned i=0; i < sprites.size(); i++){
+    delete sprites[i];
+  }
 }
 
 Manager::Manager() :
@@ -37,7 +40,8 @@ Manager::Manager() :
                 gdata->getXmlInt("triForceSrcX"),
                 gdata->getXmlInt("triForceSrcY"))
   ),
-  sprites()
+  sprites(),
+  currentSprite(0)
 {
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     throw string("Unable to initialize SDL: ");
@@ -47,17 +51,17 @@ Manager::Manager() :
   unsigned int n = gdata->getXmlInt("triForceNum");
   sprites.reserve(n);
   for(unsigned i = 0; i < n; i++){
-    sprites.push_back(Sprite("triForce",triForceFrame));
+    sprites.push_back(new AcceleratingSprite("triForce",triForceFrame));
   }
 
-  viewport.setObjectToTrack(&sprites[0]);
+  viewport.setObjectToTrack(sprites[currentSprite]);
 }
 
 void Manager::draw() const {
   world.draw();
   viewport.draw();
   for(unsigned i = 0; i < sprites.size(); i++){
-    sprites[i].draw();
+    sprites[i]->draw();
   }
   SDL_Flip(screen);
 }
@@ -72,7 +76,7 @@ void Manager::play() {
 
     Uint32 ticks = clock.getElapsedTicks();
     for(unsigned i=0; i< sprites.size(); i++){
-      sprites[i].update(ticks);
+      sprites[i]->update(ticks);
     }
 
     viewport.update();
@@ -92,6 +96,13 @@ void Manager::play() {
             else clock.pause();
           }
           break;
+        }
+        case SDLK_t      : {
+          if (!keyCatch) {
+            keyCatch = true;
+            currentSprite = (currentSprite+1)%sprites.size();
+            viewport.setObjectToTrack(sprites[currentSprite]);
+          }
         }
         default          : break;
       }

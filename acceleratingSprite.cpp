@@ -1,18 +1,9 @@
 #include <cmath>
 #include "acceleratingSprite.h"
+#include "gamedata.h"
 
-Sprite::Sprite(const std::string& name, const Frame* fm) :
-  Drawable(name,
-           Vector2f(Gamedata::getInstance()->getXmlInt(name+"X"),
-                    Gamedata::getInstance()->getXmlInt(name+"Y")),
-           Vector2f(
-             (rand()%2?1:-1)*Random::getInstance().getRand(
-                Gamedata::getInstance()->getXmlInt(name+"SpeedXMin"),
-                Gamedata::getInstance()->getXmlInt(name+"StartSpeedSeed")),
-             (rand()%2?1:-1)*Random::getInstance().getRand(
-                  Gamedata::getInstance()->getXmlInt(name+"SpeedYMin"),
-                  Gamedata::getInstance()->getXmlInt(name+"StartSpeedSeed")))
-  ),
+AcceleratingSprite::AcceleratingSprite(const std::string& name, const Frame* fm) :
+  Sprite(name,fm),
   acceleration(
       (rand()%2?1:-1)*Gamedata::getInstance()->getXmlInt(name+"AccelX"),
       (rand()%2?1:-1)*Gamedata::getInstance()->getXmlInt(name+"AccelY")
@@ -20,17 +11,16 @@ Sprite::Sprite(const std::string& name, const Frame* fm) :
   maxSpeeds(
       Gamedata::getInstance()->getXmlInt(name+"SpeedXMax"),
       Gamedata::getInstance()->getXmlInt(name+"SpeedYMax")
-  ),
-  frame(fm)
+  )
 { }
 
-Sprite::Sprite(const Sprite& s) :
-  Drawable(s.getName(), s.getPosition(), s.getVelocity()),
-  acceleration(s.acceleration),
-  maxSpeeds(s.maxSpeeds),
-  frame(s.frame)
+AcceleratingSprite::AcceleratingSprite(const AcceleratingSprite& o) :
+  Sprite(o.getName(), o.getFrame()),
+  acceleration(o.acceleration),
+  maxSpeeds(o.maxSpeeds)
 { }
 
+/*
 Sprite& Sprite::operator=(const Sprite& rhs) {
   setName( rhs.getName() );
   setPosition(rhs.getPosition());
@@ -40,6 +30,7 @@ Sprite& Sprite::operator=(const Sprite& rhs) {
   maxSpeeds = rhs.maxSpeeds;
   return *this;
 }
+*/
 
 void AcceleratingSprite::updateVelocity(Uint32 ticks){
 
@@ -61,5 +52,5 @@ void AcceleratingSprite::updateVelocity(Uint32 ticks){
 
 void AcceleratingSprite::update(Uint32 ticks) {
   updateVelocity(ticks);
-  Sprite::update();
+  Sprite::update(ticks);
 }
