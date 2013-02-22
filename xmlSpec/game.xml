@@ -7,8 +7,8 @@
 </view>
 
 <world>
-  <worldWidth>640</worldWidth>
-  <worldHeight>480</worldHeight>
+  <worldWidth>1280</worldWidth>
+  <worldHeight>960</worldHeight>
 </world>
 
 <screenTitle>Basic Animation Framework</screenTitle>

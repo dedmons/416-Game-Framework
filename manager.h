@@ -7,6 +7,8 @@
 #include "clock.h"
 #include "gamedata.h"
 #include "sprite.h"
+#include "world.h"
+#include "viewport.h"
 
 class Manager {
 public:
@@ -24,7 +26,8 @@ private:
 
   SDL_Surface * const backSurface;
   Frame * const backFrame;
-  Sprite background;
+  World world;
+  Viewport& viewport;
 
   SDL_Surface * const triForceSurface;
   Frame * const triForceFrame;

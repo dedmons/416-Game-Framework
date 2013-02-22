@@ -26,7 +26,8 @@ Manager::Manager() :
                 gdata->getXmlInt("backSrcX"),
                 gdata->getXmlInt("backSrcY"))
   ),
-  background("background",backFrame),
+  world( backFrame ),
+  viewport( Viewport::getInstance() ),
   triForceSurface( io.loadAndSet(gdata->getXmlStr("triForceFile"),
                     gdata->getXmlBool("triForceTransparency"))
   ),
@@ -49,10 +50,12 @@ Manager::Manager() :
     sprites.push_back(Sprite("triForce",triForceFrame));
   }
 
+  viewport.setObjectToTrack(&sprites[0]);
 }
 
 void Manager::draw() const {
-  background.draw();
+  world.draw();
+  viewport.draw();
   for(unsigned i = 0; i < sprites.size(); i++){
     sprites[i].draw();
   }
@@ -71,6 +74,9 @@ void Manager::play() {
     for(unsigned i=0; i< sprites.size(); i++){
       sprites[i].update(ticks);
     }
+
+    viewport.update();
+    world.update();
 
     SDL_PollEvent(&event);
     if (event.type ==  SDL_QUIT) { break; }
