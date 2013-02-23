@@ -3,6 +3,7 @@
 #include <limits>
 #include "sprite.h"
 #include "gamedata.h"
+#include "frameFactory.h"
 
 Sprite::Sprite(const std::string& name, const Frame* fm) :
   Drawable(name,
@@ -16,12 +17,40 @@ Sprite::Sprite(const std::string& name, const Frame* fm) :
                   Gamedata::getInstance()->getXmlInt(name+"SpeedYMin"),
                   Gamedata::getInstance()->getXmlInt(name+"StartSpeedSeed")))
   ),
-  frame(fm)
+  frame(fm),
+  frameWidth(fm->getWidth()),
+  frameHeight(fm->getHeight()),
+  worldWidth(Gamedata::getInstance()->getXmlInt("worldWidth")),
+  worldHeight(Gamedata::getInstance()->getXmlInt("worldHeight"))
+{ }
+
+Sprite::Sprite( const string& name) :
+  // we set the start location to be the middle of the screen:
+  Drawable(name,
+           Vector2f(Gamedata::getInstance()->getXmlInt(name+"X"),
+                    Gamedata::getInstance()->getXmlInt(name+"Y")),
+           Vector2f(
+             (rand()%2?1:-1)*Random::getInstance().getRand(
+                Gamedata::getInstance()->getXmlInt(name+"SpeedXMin"),
+                Gamedata::getInstance()->getXmlInt(name+"StartSpeedSeed")),
+             (rand()%2?1:-1)*Random::getInstance().getRand(
+                  Gamedata::getInstance()->getXmlInt(name+"SpeedYMin"),
+                  Gamedata::getInstance()->getXmlInt(name+"StartSpeedSeed")))
+  ),
+  frame( FrameFactory::getInstance().getFrame(name) ),
+  frameWidth(frame->getWidth()),
+  frameHeight(frame->getHeight()),
+  worldWidth(Gamedata::getInstance()->getXmlInt("worldWidth")),
+  worldHeight(Gamedata::getInstance()->getXmlInt("worldHeight"))
 { }
 
 Sprite::Sprite(const Sprite& s) :
   Drawable(s.getName(), s.getPosition(), s.getVelocity()),
-  frame(s.frame)
+  frame(s.frame),
+  frameWidth(s.getFrame()->getWidth()),
+  frameHeight(s.getFrame()->getHeight()),
+  worldWidth(Gamedata::getInstance()->getXmlInt("worldWidth")),
+  worldHeight(Gamedata::getInstance()->getXmlInt("worldHeight"))
 { }
 
 Sprite& Sprite::operator=(const Sprite& rhs) {
@@ -29,6 +58,10 @@ Sprite& Sprite::operator=(const Sprite& rhs) {
   setPosition(rhs.getPosition());
   setVelocity(rhs.getVelocity());
   frame = rhs.frame;
+  frameWidth = rhs.frameWidth;
+  frameHeight = rhs.frameHeight;
+  worldWidth = Gamedata::getInstance()->getXmlInt("worldWidth");
+  worldHeight = Gamedata::getInstance()->getXmlInt("worldHeight");
   return *this;
 }
 
@@ -47,29 +80,25 @@ unsigned Sprite::getPixel(Uint32 i, Uint32 j) const {
   return pixels[ ( y * frame->getWidth() ) + x ];
 }
 
-
 int Sprite::getDistance(const Sprite *obj) const {
   return hypot(X()-obj->X(), Y()-obj->Y());
 }
 
 void Sprite::update(Uint32 ticks) {
-  float incr = velocityY() * static_cast<float>(ticks) * 0.001;
-  Y( Y()+incr );
-  float height = static_cast<float>(frame->getHeight());
+  Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
+  setPosition(getPosition() + incr);
+
   if ( Y() < 0) {
     velocityY( abs( velocityY() ) );
   }
-  if ( Y() > Gamedata::getInstance()->getXmlInt("worldHeight")-height) {
+  if ( Y() > worldHeight-frameHeight) {
     velocityY( -abs( velocityY() ) );
   }
 
-  incr = velocityX() * static_cast<float>(ticks) * 0.001;
-  X( X()+incr );
-  float width = static_cast<float>(frame->getWidth());
   if ( X() < 0) {
     velocityX( abs( velocityX() ) );
   }
-  if ( X() > Gamedata::getInstance()->getXmlInt("worldWidth")-width) {
+  if ( X() > worldWidth-frameWidth) {
     velocityX( -abs( velocityX() ) );
   }
 }

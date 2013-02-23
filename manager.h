@@ -6,6 +6,7 @@
 #include "ioManager.h"
 #include "clock.h"
 #include "gamedata.h"
+#include "drawable.h"
 #include "sprite.h"
 #include "acceleratingSprite.h"
 #include "world.h"
@@ -30,9 +31,7 @@ private:
   World world;
   Viewport& viewport;
 
-  SDL_Surface * const triForceSurface;
-  Frame * const triForceFrame;
-  std::vector<Sprite*> sprites;
+  std::vector<Drawable*> sprites;
   int currentSprite;
 
   void draw() const;
