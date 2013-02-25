@@ -9,6 +9,9 @@ public:
   static FrameFactory& getInstance();
   ~FrameFactory();
   Frame* getFrame(const std::string&);
+  Frame* getFrame(const std::string&, const Uint16,
+    const Uint16, const Uint16, const Uint16, const Uint16);
+  std::vector<Frame*> getMultiFrames(const std::string&);
 
 private:
   Gamedata &gdata;

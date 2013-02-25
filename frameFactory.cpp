@@ -42,3 +42,48 @@ Frame* FrameFactory::getFrame(const std::string& name) {
   }
 }
 
+Frame* FrameFactory::getFrame(const std::string& name, const Uint16 num,
+    const Uint16 width, const Uint16 height, const Uint16 srcX, const Uint16 srcY) {
+
+  std::stringstream sstm;
+  sstm << name << num;
+  std::string fmName = sstm.str();
+
+  std::map<std::string, Frame*>::const_iterator pos = frames.find(fmName);
+  if ( pos == frames.end() ) {
+    SDL_Surface * const surface =
+      IOManager::getInstance().loadAndSet(
+          gdata.getXmlStr(name+"File"),
+          gdata.getXmlBool(name+"Transparency"));
+    surfaces[fmName] = surface;
+    Frame * const frame =new Frame(surface,
+                width,
+                height,
+                srcX,
+                srcY);
+    frames[fmName] = frame;
+    return frame;
+  }
+  else {
+    return pos->second;
+  }
+}
+
+std::vector<Frame*> FrameFactory::getMultiFrames(const std::string& name){
+  unsigned numberOfFrames = gdata.getXmlInt(name+"Frames");
+  std::vector<Frame*> retVector;
+  retVector.reserve(numberOfFrames);
+
+  Uint16 pwidth = gdata.getXmlInt(name+"Width");
+  Uint16 pheight = gdata.getXmlInt(name+"Height");
+  Uint16 srcX = gdata.getXmlInt(name+"SrcX");
+  Uint16 srcY = gdata.getXmlInt(name+"SrcY");
+
+  for (unsigned i = 0; i < numberOfFrames; ++i) {
+    unsigned frameX = i * pwidth + srcX;
+    retVector.push_back(
+      getFrame(name, i, pwidth, pheight, frameX, srcY) );
+  }
+
+  return retVector;
+}
