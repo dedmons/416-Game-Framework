@@ -20,7 +20,7 @@ public:
 
 private:
   const bool env;
-  const Gamedata* gdata;
+  const Gamedata& gdata;
   const IOManager& io;
   Clock& clock;
 

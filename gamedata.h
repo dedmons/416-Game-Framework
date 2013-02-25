@@ -8,7 +8,7 @@ using std::string;
 
 class Gamedata {
 public:
-  static Gamedata* getInstance();
+  static Gamedata& getInstance();
   void displayData() const;
 
   bool getXmlBool(const string&) const;
@@ -16,7 +16,6 @@ public:
   float getXmlFloat(const string&) const;
   int getXmlInt(const string&) const;
 private:
-  static Gamedata* instance;
   ParseXML parser;
   const map<string, string> gameData;
 

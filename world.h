@@ -3,13 +3,13 @@
 
 class World {
 public:
-  World(Frame* const frame, int fact = 1) : 
-      frame1(*frame), frame2(*frame), 
+  World(Frame* const frame, int fact = 1) :
+      frame1(*frame), frame2(*frame),
       frameWidth( frame1.getWidth() ),
-      worldWidth( Gamedata::getInstance()->getXmlInt("worldWidth") ),
+      worldWidth( Gamedata::getInstance().getXmlInt("worldWidth") ),
       factor(fact),
-      viewX(0.0), viewY(0.0), 
-      view(Viewport::getInstance()) 
+      viewX(0.0), viewY(0.0),
+      view(Viewport::getInstance())
   {}
   void update();
   void draw() const;

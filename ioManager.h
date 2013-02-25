@@ -32,7 +32,7 @@ private:
   IOManager();
   IOManager(const IOManager&);
   IOManager& operator=(const IOManager&);
-  const Gamedata* gdata;
+  const Gamedata& gdata;
   int viewWidth;
   int viewHeight;
   const unsigned MAX_STRING_SIZE;

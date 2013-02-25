@@ -11,10 +11,10 @@ Viewport& Viewport::getInstance() {
 Viewport::Viewport() :
   gdata(Gamedata::getInstance()),
   position(0, 0),
-  viewWidth(gdata->getXmlInt("viewWidth")),
-  viewHeight(gdata->getXmlInt("viewHeight")),
-  worldWidth(gdata->getXmlInt("worldWidth")),
-  worldHeight(gdata->getXmlInt("worldHeight")),
+  viewWidth(gdata.getXmlInt("viewWidth")),
+  viewHeight(gdata.getXmlInt("viewHeight")),
+  worldWidth(gdata.getXmlInt("worldWidth")),
+  worldHeight(gdata.getXmlInt("worldHeight")),
   objWidth(0), objHeight(0),
   objectToTrack(NULL)
 {}

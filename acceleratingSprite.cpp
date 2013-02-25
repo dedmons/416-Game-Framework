@@ -5,24 +5,24 @@
 AcceleratingSprite::AcceleratingSprite(const std::string& name, const Frame* fm) :
   Sprite(name,fm),
   acceleration(
-      (rand()%2?1:-1)*Gamedata::getInstance()->getXmlInt(name+"AccelX"),
-      (rand()%2?1:-1)*Gamedata::getInstance()->getXmlInt(name+"AccelY")
+      (rand()%2?1:-1)*Gamedata::getInstance().getXmlInt(name+"AccelX"),
+      (rand()%2?1:-1)*Gamedata::getInstance().getXmlInt(name+"AccelY")
   ),
   maxSpeeds(
-      Gamedata::getInstance()->getXmlInt(name+"SpeedXMax"),
-      Gamedata::getInstance()->getXmlInt(name+"SpeedYMax")
+      Gamedata::getInstance().getXmlInt(name+"SpeedXMax"),
+      Gamedata::getInstance().getXmlInt(name+"SpeedYMax")
   )
 { }
 
 AcceleratingSprite::AcceleratingSprite(const std::string& name) :
   Sprite(name),
   acceleration(
-      (rand()%2?1:-1)*Gamedata::getInstance()->getXmlInt(name+"AccelX"),
-      (rand()%2?1:-1)*Gamedata::getInstance()->getXmlInt(name+"AccelY")
+      (rand()%2?1:-1)*Gamedata::getInstance().getXmlInt(name+"AccelX"),
+      (rand()%2?1:-1)*Gamedata::getInstance().getXmlInt(name+"AccelY")
   ),
   maxSpeeds(
-      Gamedata::getInstance()->getXmlInt(name+"SpeedXMax"),
-      Gamedata::getInstance()->getXmlInt(name+"SpeedYMax")
+      Gamedata::getInstance().getXmlInt(name+"SpeedXMax"),
+      Gamedata::getInstance().getXmlInt(name+"SpeedYMax")
   )
 { }
 

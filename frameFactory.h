@@ -11,11 +11,11 @@ public:
   Frame* getFrame(const std::string&);
 
 private:
-  Gamedata* gdata;
+  Gamedata &gdata;
   std::map<std::string, SDL_Surface*> surfaces;
   std::map<std::string, Frame*> frames;
 
-  FrameFactory() : 
+  FrameFactory() :
     gdata( Gamedata::getInstance() ), surfaces(), frames()
   {}
   FrameFactory(const FrameFactory&);

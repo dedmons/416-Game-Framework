@@ -7,40 +7,40 @@
 
 Sprite::Sprite(const std::string& name, const Frame* fm) :
   Drawable(name,
-           Vector2f(Gamedata::getInstance()->getXmlInt(name+"X"),
-                    Gamedata::getInstance()->getXmlInt(name+"Y")),
+           Vector2f(Gamedata::getInstance().getXmlInt(name+"X"),
+                    Gamedata::getInstance().getXmlInt(name+"Y")),
            Vector2f(
              (rand()%2?1:-1)*Random::getInstance().getRand(
-                Gamedata::getInstance()->getXmlInt(name+"SpeedXMin"),
-                Gamedata::getInstance()->getXmlInt(name+"StartSpeedSeed")),
+                Gamedata::getInstance().getXmlInt(name+"SpeedXMin"),
+                Gamedata::getInstance().getXmlInt(name+"StartSpeedSeed")),
              (rand()%2?1:-1)*Random::getInstance().getRand(
-                  Gamedata::getInstance()->getXmlInt(name+"SpeedYMin"),
-                  Gamedata::getInstance()->getXmlInt(name+"StartSpeedSeed")))
+                  Gamedata::getInstance().getXmlInt(name+"SpeedYMin"),
+                  Gamedata::getInstance().getXmlInt(name+"StartSpeedSeed")))
   ),
   frame(fm),
   frameWidth(fm->getWidth()),
   frameHeight(fm->getHeight()),
-  worldWidth(Gamedata::getInstance()->getXmlInt("worldWidth")),
-  worldHeight(Gamedata::getInstance()->getXmlInt("worldHeight"))
+  worldWidth(Gamedata::getInstance().getXmlInt("worldWidth")),
+  worldHeight(Gamedata::getInstance().getXmlInt("worldHeight"))
 { }
 
 Sprite::Sprite( const string& name) :
   Drawable(name,
-           Vector2f(Gamedata::getInstance()->getXmlInt(name+"X"),
-                    Gamedata::getInstance()->getXmlInt(name+"Y")),
+           Vector2f(Gamedata::getInstance().getXmlInt(name+"X"),
+                    Gamedata::getInstance().getXmlInt(name+"Y")),
            Vector2f(
              (rand()%2?1:-1)*Random::getInstance().getRand(
-                Gamedata::getInstance()->getXmlInt(name+"SpeedXMin"),
-                Gamedata::getInstance()->getXmlInt(name+"StartSpeedSeed")),
+                Gamedata::getInstance().getXmlInt(name+"SpeedXMin"),
+                Gamedata::getInstance().getXmlInt(name+"StartSpeedSeed")),
              (rand()%2?1:-1)*Random::getInstance().getRand(
-                  Gamedata::getInstance()->getXmlInt(name+"SpeedYMin"),
-                  Gamedata::getInstance()->getXmlInt(name+"StartSpeedSeed")))
+                  Gamedata::getInstance().getXmlInt(name+"SpeedYMin"),
+                  Gamedata::getInstance().getXmlInt(name+"StartSpeedSeed")))
   ),
   frame( FrameFactory::getInstance().getFrame(name) ),
   frameWidth(frame->getWidth()),
   frameHeight(frame->getHeight()),
-  worldWidth(Gamedata::getInstance()->getXmlInt("worldWidth")),
-  worldHeight(Gamedata::getInstance()->getXmlInt("worldHeight"))
+  worldWidth(Gamedata::getInstance().getXmlInt("worldWidth")),
+  worldHeight(Gamedata::getInstance().getXmlInt("worldHeight"))
 { }
 
 Sprite::Sprite(const Sprite& s) :
@@ -48,8 +48,8 @@ Sprite::Sprite(const Sprite& s) :
   frame(s.frame),
   frameWidth(s.getFrame()->getWidth()),
   frameHeight(s.getFrame()->getHeight()),
-  worldWidth(Gamedata::getInstance()->getXmlInt("worldWidth")),
-  worldHeight(Gamedata::getInstance()->getXmlInt("worldHeight"))
+  worldWidth(Gamedata::getInstance().getXmlInt("worldWidth")),
+  worldHeight(Gamedata::getInstance().getXmlInt("worldHeight"))
 { }
 
 Sprite& Sprite::operator=(const Sprite& rhs) {
@@ -59,8 +59,8 @@ Sprite& Sprite::operator=(const Sprite& rhs) {
   frame = rhs.frame;
   frameWidth = rhs.frameWidth;
   frameHeight = rhs.frameHeight;
-  worldWidth = Gamedata::getInstance()->getXmlInt("worldWidth");
-  worldHeight = Gamedata::getInstance()->getXmlInt("worldHeight");
+  worldWidth = Gamedata::getInstance().getXmlInt("worldWidth");
+  worldHeight = Gamedata::getInstance().getXmlInt("worldHeight");
   return *this;
 }
 

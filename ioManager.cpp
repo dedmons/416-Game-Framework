@@ -10,33 +10,33 @@ IOManager& IOManager::getInstance() {
 
 IOManager::IOManager( ) :
   gdata( Gamedata::getInstance() ),
-  viewWidth( gdata->getXmlInt("viewWidth") ),
-  viewHeight( gdata->getXmlInt("viewHeight") ),
-  MAX_STRING_SIZE( gdata->getXmlInt("maxStringSize") ),
+  viewWidth( gdata.getXmlInt("viewWidth") ),
+  viewHeight( gdata.getXmlInt("viewHeight") ),
+  MAX_STRING_SIZE( gdata.getXmlInt("maxStringSize") ),
     // The 3rd and 4th parameters are just as important as the first 2!
     screen(SDL_SetVideoMode(viewWidth, viewHeight, 32, SDL_DOUBLEBUF)),
-    font( NULL ), 
+    font( NULL ),
     color(),
-    title( gdata->getXmlStr("screenTitle") ),
-    inputString("")  
+    title( gdata.getXmlStr("screenTitle") ),
+    inputString("")
 {
-  if (screen == NULL) { 
-    throw string("Unable to set video mode; screen is NULL in IOMAnager"); 
+  if (screen == NULL) {
+    throw string("Unable to set video mode; screen is NULL in IOMAnager");
   }
   if ( TTF_Init() == -1 ) {
     throw string("TTF_Init failed: ") + TTF_GetError();
   }
   font = TTF_OpenFont(
-         Gamedata::getInstance()->getXmlStr("fontFile").c_str(), 
-         Gamedata::getInstance()->getXmlInt("fontSize")
+         Gamedata::getInstance().getXmlStr("fontFile").c_str(),
+         Gamedata::getInstance().getXmlInt("fontSize")
          );
   if ( !font ) {
     throw string("TTF_OpenFont failed: ") + TTF_GetError();
   }
-  color.r = Gamedata::getInstance()->getXmlInt("fontRed");
-  color.g = Gamedata::getInstance()->getXmlInt("fontGreen");
-  color.b = Gamedata::getInstance()->getXmlInt("fontBlue");
-  color.unused = Gamedata::getInstance()->getXmlInt("fontUnused");
+  color.r = Gamedata::getInstance().getXmlInt("fontRed");
+  color.g = Gamedata::getInstance().getXmlInt("fontGreen");
+  color.b = Gamedata::getInstance().getXmlInt("fontBlue");
+  color.unused = Gamedata::getInstance().getXmlInt("fontUnused");
   SDL_EnableUNICODE( SDL_ENABLE );
   SDL_WM_SetCaption(title.c_str(), NULL);
   atexit(TTF_Quit);
@@ -55,7 +55,7 @@ SDL_Surface* IOManager::loadAndSet(const string& filename, bool setcolorkey) con
   SDL_Surface *image = SDL_DisplayFormatAlpha(tmp);
   if (image == NULL) {
     image = tmp;
-  } 
+  }
   else {
     SDL_FreeSurface(tmp);
   }
@@ -70,7 +70,7 @@ void IOManager::printMessageAt(const string& msg, Uint32 x, Uint32 y) const {
      SDL_FreeSurface(stext);
    }
    else {
-     throw 
+     throw
      string("Couldn't allocate text sureface in printMessageAt");
    }
 }
@@ -84,27 +84,27 @@ void IOManager::printMessageCenteredAt( const string& msg, Uint32 y) const {
      SDL_FreeSurface(stext);
    }
    else {
-     throw 
+     throw
      string("Couldn't allocate text sureface in printMessageCenteredAt");
    }
 }
 
 template <typename T>
-void IOManager::printMessageValueAt(const string& msg, T value, 
+void IOManager::printMessageValueAt(const string& msg, T value,
      Uint32 x, Uint32 y) const {
    std::stringstream strm;
    std::string message = msg;
    strm << message << value << "\0";
    message = strm.str();
    SDL_Rect dest = {x,y,0,0};
-   SDL_Surface *stext = 
+   SDL_Surface *stext =
        TTF_RenderText_Blended(font, message.c_str(), color);
    if (stext) {
      SDL_BlitSurface( stext, NULL, screen, &dest );
      SDL_FreeSurface(stext);
    }
    else {
-     throw 
+     throw
      string("Couldn't allocate text sureface in printMessageValueAt");
    }
 }
@@ -120,7 +120,7 @@ void IOManager::buildString(SDL_Event event) {
     if ( isalpha(ch) || isdigit(ch) || ch == ' ') {
       inputString += char(event.key.keysym.unicode);
     }
-  }     
+  }
   if( event.key.keysym.sym == SDLK_BACKSPACE
       && inputString.length() > 0 ) {
       // remove a character from the end

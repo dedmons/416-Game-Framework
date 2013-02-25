@@ -4,7 +4,6 @@
 Manager::~Manager() {
   // These deletions eliminate "definitely lost" and
   // "still reachable"s in Valgrind.
-  delete Gamedata::getInstance();
   for (unsigned i=0; i < sprites.size(); i++){
     delete sprites[i];
   }
@@ -16,14 +15,14 @@ Manager::Manager() :
   io( IOManager::getInstance() ),
   clock( Clock::getInstance() ),
   screen( io.getScreen() ),
-  backSurface( io.loadAndSet(gdata->getXmlStr("backFile"),
-                gdata->getXmlBool("triForceTransparency"))
+  backSurface( io.loadAndSet(gdata.getXmlStr("backFile"),
+                gdata.getXmlBool("triForceTransparency"))
   ),
   backFrame(new Frame(backSurface,
-                gdata->getXmlInt("backWidth"),
-                gdata->getXmlInt("backHeight"),
-                gdata->getXmlInt("backSrcX"),
-                gdata->getXmlInt("backSrcY"))
+                gdata.getXmlInt("backWidth"),
+                gdata.getXmlInt("backHeight"),
+                gdata.getXmlInt("backSrcX"),
+                gdata.getXmlInt("backSrcY"))
   ),
   world( backFrame ),
   viewport( Viewport::getInstance() ),
@@ -35,7 +34,7 @@ Manager::Manager() :
   }
   atexit(SDL_Quit);
 
-  unsigned int n = gdata->getXmlInt("triForceNum");
+  unsigned int n = gdata.getXmlInt("triForceNum");
   sprites.reserve(n);
   for(unsigned i = 0; i < n; i++){
     sprites.push_back(new AcceleratingSprite("triForce"));

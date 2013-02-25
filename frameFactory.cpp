@@ -26,14 +26,14 @@ Frame* FrameFactory::getFrame(const std::string& name) {
   if ( pos == frames.end() ) {
     SDL_Surface * const surface =
       IOManager::getInstance().loadAndSet(
-          gdata->getXmlStr(name+"File"),
-          gdata->getXmlBool(name+"Transparency"));
+          gdata.getXmlStr(name+"File"),
+          gdata.getXmlBool(name+"Transparency"));
     surfaces[name] = surface;
     Frame * const frame =new Frame(surface,
-                gdata->getXmlInt(name+"Width"),
-                gdata->getXmlInt(name+"Height"),
-                gdata->getXmlInt(name+"SrcX"),
-                gdata->getXmlInt(name+"SrcY"));
+                gdata.getXmlInt(name+"Width"),
+                gdata.getXmlInt(name+"Height"),
+                gdata.getXmlInt(name+"SrcX"),
+                gdata.getXmlInt(name+"SrcY"));
     frames[name] = frame;
     return frame;
   }

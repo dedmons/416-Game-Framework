@@ -2,7 +2,6 @@
 
 #include "manager.h"
 #include <string.h>
-Gamedata* Gamedata::instance;
 
 int main(int, char*[]) {
   try {

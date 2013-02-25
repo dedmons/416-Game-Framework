@@ -1,7 +1,7 @@
 #include "gamedata.h"
 
-Gamedata* Gamedata::getInstance() {
-  if ( instance == NULL ) instance = new Gamedata;
+Gamedata& Gamedata::getInstance() {
+  static Gamedata instance;
   return instance;
 }
 
