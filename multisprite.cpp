@@ -2,6 +2,7 @@
 #include <cmath>
 #include "multisprite.h"
 #include "gamedata.h"
+#include "frameFactory.h"
 
 void MultiframeSprite::advanceFrame(Uint32 ticks) {
   float ms = 1000.0/frameInterval;
@@ -22,6 +23,24 @@ MultiframeSprite::MultiframeSprite( const std::string& name,
   frames(fms),
   frameWidth(fms[0]->getWidth()),
   frameHeight(fms[0]->getHeight()),
+  worldWidth(Gamedata::getInstance().getXmlInt("worldWidth")),
+  worldHeight(Gamedata::getInstance().getXmlInt("worldHeight")),
+  dt(0),
+  currentFrame(0),
+  numberOfFrames( Gamedata::getInstance().getXmlInt(name+"Frames") ),
+  frameInterval( Gamedata::getInstance().getXmlInt(name+"FrameInterval") )
+{ }
+
+MultiframeSprite::MultiframeSprite( const std::string& name) :
+  Drawable(name,
+           Vector2f(Gamedata::getInstance().getXmlInt(name+"X"),
+                    Gamedata::getInstance().getXmlInt(name+"Y")),
+           Vector2f(Gamedata::getInstance().getXmlInt(name+"SpeedX"),
+                    Gamedata::getInstance().getXmlInt(name+"SpeedY"))
+           ),
+  frames( FrameFactory::getInstance().getMultiFrames(name) ),
+  frameWidth(frames[0]->getWidth()),
+  frameHeight(frames[0]->getHeight()),
   worldWidth(Gamedata::getInstance().getXmlInt("worldWidth")),
   worldHeight(Gamedata::getInstance().getXmlInt("worldHeight")),
   dt(0),

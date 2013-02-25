@@ -25,6 +25,21 @@
 
 <triForceNum>10</triForceNum>
 
+<tank>
+  <tankFile>images/mytank.png</tankFile>
+  <tankLoc tankX="200" tankY="100"/>
+
+  <tankFrames>4</tankFrames>
+  <tankFrameInterval>2</tankFrameInterval>
+
+  <tankSrcX>0</tankSrcX>
+  <tankSrcY>0</tankSrcY>
+  <tankWidth>50</tankWidth>
+  <tankHeight>30</tankHeight>
+  <tankSpeedMin tankSpeedX="100" tankSpeedY="0"/>
+  <tankTransparency>true</tankTransparency>
+</tank>
+
 <triForce>
   <triForceFile>images/tri.png</triForceFile>
   <triForceSrcX>0</triForceSrcX>

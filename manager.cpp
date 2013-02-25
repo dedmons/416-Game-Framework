@@ -1,4 +1,5 @@
 #include <cmath>
+#include "multisprite.h"
 #include "manager.h"
 
 Manager::~Manager() {
@@ -35,10 +36,12 @@ Manager::Manager() :
   atexit(SDL_Quit);
 
   unsigned int n = gdata.getXmlInt("triForceNum");
-  sprites.reserve(n);
+  sprites.reserve(n+1);
   for(unsigned i = 0; i < n; i++){
     sprites.push_back(new AcceleratingSprite("triForce"));
   }
+
+  sprites.push_back( new MultiframeSprite("tank") );
 
   viewport.setObjectToTrack(sprites[currentSprite]);
 }
@@ -57,6 +60,7 @@ void Manager::play() {
 
   bool done = false;
   bool keyCatch = false;
+  bool shiftKeyDown = false;
   while ( ! done ) {
     clock++;
     draw();
@@ -71,7 +75,18 @@ void Manager::play() {
 
     SDL_PollEvent(&event);
     if (event.type ==  SDL_QUIT) { break; }
-    if(event.type == SDL_KEYUP) { keyCatch = false; }
+    if(event.type == SDL_KEYUP) {
+      keyCatch = false;
+      switch (event.key.keysym.sym) {
+        case SDLK_LSHIFT:
+        case SDLK_RSHIFT:
+          shiftKeyDown = false;
+          break;
+
+        default:
+          break;
+      }
+    }
     if(event.type == SDL_KEYDOWN) {
       switch ( event.key.keysym.sym ) {
         case SDLK_ESCAPE : done = true; break;
@@ -87,9 +102,21 @@ void Manager::play() {
         case SDLK_t      : {
           if (!keyCatch) {
             keyCatch = true;
-            currentSprite = (currentSprite+1)%sprites.size();
+            if (shiftKeyDown)
+              currentSprite = (currentSprite+sprites.size()-1)%sprites.size();
+            else
+              currentSprite = (currentSprite+1)%sprites.size();
             viewport.setObjectToTrack(sprites[currentSprite]);
           }
+          break;
+        }
+        case SDLK_LSHIFT :
+        case SDLK_RSHIFT : {
+          if (!keyCatch) {
+            keyCatch = true;
+            shiftKeyDown = true;
+          }
+          break;
         }
         default          : break;
       }

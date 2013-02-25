@@ -10,8 +10,9 @@
 class MultiframeSprite : public Drawable {
 public:
   MultiframeSprite(const std::string& n, const std::vector<Frame*>& fms);
+  MultiframeSprite(const std::string& n);
   MultiframeSprite(const MultiframeSprite& s);
-  virtual ~MultiframeSprite() { } 
+  virtual ~MultiframeSprite() { }
   virtual const Frame* getFrame() const { return frames[currentFrame]; }
 
   virtual void draw() const;
@@ -23,7 +24,7 @@ private:
   int frameHeight;
   int worldWidth;
   int worldHeight;
-  float dt;
+  unsigned dt;
   unsigned currentFrame;
   unsigned numberOfFrames;
   unsigned frameInterval;
