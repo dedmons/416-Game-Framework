@@ -46,10 +46,10 @@ Manager::Manager() :
 
 void Manager::draw() const {
   world.draw();
-  viewport.draw();
   for(unsigned i = 0; i < sprites.size(); i++){
     sprites[i]->draw();
   }
+  viewport.draw();
   SDL_Flip(screen);
 }
 
@@ -59,6 +59,7 @@ void Manager::play() {
   bool done = false;
   bool keyCatch = false;
   while ( ! done ) {
+    clock++;
     draw();
 
     Uint32 ticks = clock.getElapsedTicks();

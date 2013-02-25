@@ -25,7 +25,6 @@ Sprite::Sprite(const std::string& name, const Frame* fm) :
 { }
 
 Sprite::Sprite( const string& name) :
-  // we set the start location to be the middle of the screen:
   Drawable(name,
            Vector2f(Gamedata::getInstance()->getXmlInt(name+"X"),
                     Gamedata::getInstance()->getXmlInt(name+"Y")),

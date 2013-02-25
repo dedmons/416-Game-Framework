@@ -1,25 +1,26 @@
 #include <sstream>
 #include "ioManager.h"
 #include "viewport.h"
+#include "clock.h"
 
 Viewport& Viewport::getInstance() {
   static Viewport viewport;
   return viewport;
 }
 
-Viewport::Viewport() : 
+Viewport::Viewport() :
   gdata(Gamedata::getInstance()),
   position(0, 0),
-  viewWidth(gdata->getXmlInt("viewWidth")), 
+  viewWidth(gdata->getXmlInt("viewWidth")),
   viewHeight(gdata->getXmlInt("viewHeight")),
   worldWidth(gdata->getXmlInt("worldWidth")),
   worldHeight(gdata->getXmlInt("worldHeight")),
   objWidth(0), objHeight(0),
-  objectToTrack(NULL) 
+  objectToTrack(NULL)
 {}
 
-void Viewport::setObjectToTrack(const Drawable *obj) { 
-  objectToTrack = obj; 
+void Viewport::setObjectToTrack(const Drawable *obj) {
+  objectToTrack = obj;
   objWidth = objectToTrack->getFrame()->getWidth();
   objHeight = objectToTrack->getFrame()->getHeight();
 }

@@ -8,6 +8,7 @@ class Clock {
 public:
   static Clock& getInstance();
   unsigned getTicks() const;
+  int getFps() const;
 
 private:
   friend class Manager;
@@ -18,7 +19,6 @@ private:
   bool isPaused() const  { return paused;  }
   unsigned getFrames() const  { return frames;  }
   unsigned getSeconds() const { return getTicks()/1000;  }
-  int getFps() const;
 
   void start();
   void pause();

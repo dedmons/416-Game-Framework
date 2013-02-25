@@ -12,7 +12,7 @@ class IOManager {
 public:
   static IOManager& getInstance();
   SDL_Surface * getScreen() const { return screen; }
-  ~IOManager() { 
+  ~IOManager() {
     TTF_CloseFont(font);
   }
   SDL_Surface* loadAndSet(const string& filename, bool setcolorkey) const;
@@ -22,7 +22,7 @@ public:
   void printStringAfterMessage(const string&, Uint32 x, Uint32 y) const;
 
   template <typename T>
-  void printMessageValueAt(const string& msg, T value, 
+  void printMessageValueAt(const string& msg, T value,
          Uint32 x, Uint32 y) const;
 
   void buildString(SDL_Event);

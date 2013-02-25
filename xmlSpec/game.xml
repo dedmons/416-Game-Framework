@@ -23,7 +23,7 @@
 </font>
 <maxStringSize>50</maxStringSize>
 
-<triForceNum>100</triForceNum>
+<triForceNum>10</triForceNum>
 
 <triForce>
   <triForceFile>images/tri.png</triForceFile>
