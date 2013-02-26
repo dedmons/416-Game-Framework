@@ -2,6 +2,7 @@
 #include <cmath>
 #include "twowayMultisprite.h"
 #include "gamedata.h"
+#include "frameFactory.h"
 
 void TwowayMultiframeSprite::advanceFrame(Uint32 ticks) {
   float ms = 1000.0/frameInterval;
@@ -40,9 +41,9 @@ TwowayMultiframeSprite::TwowayMultiframeSprite( const std::string& name):
            Vector2f(Gamedata::getInstance().getXmlInt(name+"SpeedX"),
                     Gamedata::getInstance().getXmlInt(name+"SpeedY"))
            ),
-  framesLeft(fmsLeft),
-  framesRight(fmsRight),
-  frames(fmsRight),
+  framesLeft(FrameFactory::getInstance().getLeftMultiFrames(name)),
+  framesRight(FrameFactory::getInstance().getMultiFrames(name)),
+  frames(framesRight),
   frameWidth(frames[0]->getWidth()),
   frameHeight(frames[0]->getHeight()),
   worldWidth(Gamedata::getInstance().getXmlInt("worldWidth")),

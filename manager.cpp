@@ -1,5 +1,6 @@
 #include <cmath>
 #include "multisprite.h"
+#include "twowayMultisprite.h"
 #include "manager.h"
 
 Manager::~Manager() {
@@ -36,12 +37,13 @@ Manager::Manager() :
   atexit(SDL_Quit);
 
   unsigned int n = gdata.getXmlInt("triForceNum");
-  sprites.reserve(n+1);
+  sprites.reserve(n+2);
   for(unsigned i = 0; i < n; i++){
     sprites.push_back(new AcceleratingSprite("triForce"));
   }
 
   sprites.push_back( new MultiframeSprite("tank") );
+  sprites.push_back( new TwowayMultiframeSprite("tank2"));
 
   viewport.setObjectToTrack(sprites[currentSprite]);
 }

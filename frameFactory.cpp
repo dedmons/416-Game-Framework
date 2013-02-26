@@ -42,7 +42,7 @@ Frame* FrameFactory::getFrame(const std::string& name) {
   }
 }
 
-Frame* FrameFactory::getFrame(const std::string& name, const Uint16 num,
+Frame* FrameFactory::getFrame(const std::string& name, const int num,
     const Uint16 width, const Uint16 height, const Uint16 srcX, const Uint16 srcY) {
 
   std::stringstream sstm;
@@ -70,22 +70,40 @@ Frame* FrameFactory::getFrame(const std::string& name, const Uint16 num,
 }
 
 std::vector<Frame*> FrameFactory::getMultiFrames(const std::string& name){
-  unsigned numberOfFrames = gdata.getXmlInt(name+"Frames");
-  std::vector<Frame*> retVector;
-  retVector.reserve(numberOfFrames);
+  unsigned numberofframes = gdata.getXmlInt(name+"Frames");
+  std::vector<Frame*> retvector;
+  retvector.reserve(numberofframes);
 
   Uint16 pwidth = gdata.getXmlInt(name+"Width");
   Uint16 pheight = gdata.getXmlInt(name+"Height");
-  Uint16 srcX = gdata.getXmlInt(name+"SrcX");
-  Uint16 srcY = gdata.getXmlInt(name+"SrcY");
+  Uint16 srcx = gdata.getXmlInt(name+"SrcX");
+  Uint16 srcy = gdata.getXmlInt(name+"SrcY");
 
-  for (unsigned i = 0; i < numberOfFrames; ++i) {
-    unsigned frameX = i * pwidth + srcX;
-    retVector.push_back(
-      getFrame(name, i, pwidth, pheight, frameX, srcY) );
+  for (unsigned i = 0; i < numberofframes; ++i) {
+    unsigned framex = i * pwidth + srcx;
+    retvector.push_back(
+      getFrame(name, i+1, pwidth, pheight, framex, srcy) );
   }
 
-  return retVector;
+  return retvector;
 }
 
-std::vector<Frame*> FrameFactory::getLeftMultiFrames(const std::string& name)
+std::vector<Frame*> FrameFactory::getLeftMultiFrames(const std::string& name){
+  unsigned numberofframes = gdata.getXmlInt(name+"Frames");
+  std::vector<Frame*> retvector;
+  retvector.reserve(numberofframes);
+
+  Uint16 pwidth = gdata.getXmlInt(name+"Width");
+  Uint16 pheight = gdata.getXmlInt(name+"Height");
+  Uint16 srcx = gdata.getXmlInt(name+"SrcX");
+  Uint16 srcy = gdata.getXmlInt(name+"SrcY");
+
+  for (unsigned i = 0; i < numberofframes; ++i) {
+    unsigned framex = i * pwidth + srcx;
+    unsigned framey = srcy + pheight;
+    retvector.push_back(
+      getFrame(name, -(i+1), pwidth, pheight, framex, framey) );
+  }
+
+  return retvector;
+}

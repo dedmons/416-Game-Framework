@@ -40,6 +40,21 @@
   <tankTransparency>true</tankTransparency>
 </tank>
 
+<tank2>
+  <tank2File>images/mytank.png</tank2File>
+  <tank2Loc tank2X="200" tank2Y="200"/>
+
+  <tank2Frames>4</tank2Frames>
+  <tank2FrameInterval>2</tank2FrameInterval>
+
+  <tank2SrcX>0</tank2SrcX>
+  <tank2SrcY>0</tank2SrcY>
+  <tank2Width>50</tank2Width>
+  <tank2Height>33</tank2Height>
+  <tank2SpeedMin tank2SpeedX="100" tank2SpeedY="0"/>
+  <tank2Transparency>true</tank2Transparency>
+</tank2>
+
 <triForce>
   <triForceFile>images/tri.png</triForceFile>
   <triForceSrcX>0</triForceSrcX>
