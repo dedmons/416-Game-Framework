@@ -11,6 +11,7 @@ FrameFactory::~FrameFactory() {
   }
   std::map<std::string, Frame*>::iterator itFrame = frames.begin();
   while ( itFrame != frames.end() ) {
+    std::cout << "Deleting Frame " << itFrame->first << std::endl;
     delete itFrame->second;
     ++itFrame;
   }
@@ -22,24 +23,12 @@ FrameFactory& FrameFactory::getInstance() {
 }
 
 Frame* FrameFactory::getFrame(const std::string& name) {
-  std::map<std::string, Frame*>::const_iterator pos = frames.find(name);
-  if ( pos == frames.end() ) {
-    SDL_Surface * const surface =
-      IOManager::getInstance().loadAndSet(
-          gdata.getXmlStr(name+"File"),
-          gdata.getXmlBool(name+"Transparency"));
-    surfaces[name] = surface;
-    Frame * const frame =new Frame(surface,
-                gdata.getXmlInt(name+"Width"),
-                gdata.getXmlInt(name+"Height"),
-                gdata.getXmlInt(name+"SrcX"),
-                gdata.getXmlInt(name+"SrcY"));
-    frames[name] = frame;
-    return frame;
-  }
-  else {
-    return pos->second;
-  }
+  return getFrame(name,
+            0,
+            gdata.getXmlInt(name+"Width"),
+            gdata.getXmlInt(name+"Height"),
+            gdata.getXmlInt(name+"SrcX"),
+            gdata.getXmlInt(name+"SrcY"));
 }
 
 Frame* FrameFactory::getFrame(const std::string& name, const int num,
@@ -49,8 +38,11 @@ Frame* FrameFactory::getFrame(const std::string& name, const int num,
   sstm << name << num;
   std::string fmName = sstm.str();
 
+  std::cout << "Getting frame: " << fmName << " => ";
+
   std::map<std::string, Frame*>::const_iterator pos = frames.find(fmName);
   if ( pos == frames.end() ) {
+    std::cout << "Making its frame" << std::endl;
     SDL_Surface * const surface =
       IOManager::getInstance().loadAndSet(
           gdata.getXmlStr(name+"File"),
@@ -65,6 +57,7 @@ Frame* FrameFactory::getFrame(const std::string& name, const int num,
     return frame;
   }
   else {
+    std::cout << "Returning previously made frame" << std::endl;
     return pos->second;
   }
 }

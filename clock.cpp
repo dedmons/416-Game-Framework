@@ -67,25 +67,13 @@ unsigned Clock::getElapsedTicks() {
 }
 
 int Clock::getFps(){
-  /*
-  int fps = 0;
-  if ( getSeconds() > 0 ) fps = frames/getSeconds();
-  else if ( getTicks() > 1000 and getFrames() == 0 ) {
-    throw std::string("Can't getFps if you don't increment the frames");
-  }
-  else fps = 0;
-
-  fpsLog.push_front(fps);
-  fpsLog.pop_back();
-  */
-
   int sum = 0;
-  std::cout << "FPSLog: ";
+  //std::cout << "FPSLog: ";
   for(unsigned i=0; i < fpsLogLength; i++){
     sum += fpsLog[i];
-    std::cout << fpsLog[i] << ", ";
+    //std::cout << fpsLog[i] << ", ";
   }
-  std::cout << "\b\b" << std::endl;
+  //std::cout << "\b\b" << std::endl;
 
   return sum/fpsLogLength;
 }
