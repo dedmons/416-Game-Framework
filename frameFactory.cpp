@@ -87,3 +87,5 @@ std::vector<Frame*> FrameFactory::getMultiFrames(const std::string& name){
 
   return retVector;
 }
+
+std::vector<Frame*> FrameFactory::getLeftMultiFrames(const std::string& name)

@@ -11,26 +11,46 @@ void TwowayMultiframeSprite::advanceFrame(Uint32 ticks) {
   currentFrame = (currentFrame + df) % numberOfFrames;
 }
 
-TwowayMultiframeSprite::TwowayMultiframeSprite( const std::string& name, 
+TwowayMultiframeSprite::TwowayMultiframeSprite( const std::string& name,
                   std::vector<Frame*> & fmsLeft,
                   std::vector<Frame*> & fmsRight) :
-  Drawable(name, 
-           Vector2f(Gamedata::getInstance()->getXmlInt(name+"X"), 
-                    Gamedata::getInstance()->getXmlInt(name+"Y")), 
-           Vector2f(Gamedata::getInstance()->getXmlInt(name+"SpeedX"),
-                    Gamedata::getInstance()->getXmlInt(name+"SpeedY"))
+  Drawable(name,
+           Vector2f(Gamedata::getInstance().getXmlInt(name+"X"),
+                    Gamedata::getInstance().getXmlInt(name+"Y")),
+           Vector2f(Gamedata::getInstance().getXmlInt(name+"SpeedX"),
+                    Gamedata::getInstance().getXmlInt(name+"SpeedY"))
            ),
   framesLeft(fmsLeft),
   framesRight(fmsRight),
   frames(fmsRight),
   frameWidth(framesLeft[0]->getWidth()),
   frameHeight(framesLeft[0]->getHeight()),
-  worldWidth(Gamedata::getInstance()->getXmlInt("worldWidth")),
-  worldHeight(Gamedata::getInstance()->getXmlInt("worldHeight")),
+  worldWidth(Gamedata::getInstance().getXmlInt("worldWidth")),
+  worldHeight(Gamedata::getInstance().getXmlInt("worldHeight")),
   dt(0),
   currentFrame(0),
-  numberOfFrames( Gamedata::getInstance()->getXmlInt(name+"Frames") ),
-  frameInterval( Gamedata::getInstance()->getXmlInt(name+"FrameInterval") )
+  numberOfFrames( Gamedata::getInstance().getXmlInt(name+"Frames") ),
+  frameInterval( Gamedata::getInstance().getXmlInt(name+"FrameInterval") )
+{ }
+
+TwowayMultiframeSprite::TwowayMultiframeSprite( const std::string& name):
+  Drawable(name,
+           Vector2f(Gamedata::getInstance().getXmlInt(name+"X"),
+                    Gamedata::getInstance().getXmlInt(name+"Y")),
+           Vector2f(Gamedata::getInstance().getXmlInt(name+"SpeedX"),
+                    Gamedata::getInstance().getXmlInt(name+"SpeedY"))
+           ),
+  framesLeft(fmsLeft),
+  framesRight(fmsRight),
+  frames(fmsRight),
+  frameWidth(frames[0]->getWidth()),
+  frameHeight(frames[0]->getHeight()),
+  worldWidth(Gamedata::getInstance().getXmlInt("worldWidth")),
+  worldHeight(Gamedata::getInstance().getXmlInt("worldHeight")),
+  dt(0),
+  currentFrame(0),
+  numberOfFrames( Gamedata::getInstance().getXmlInt(name+"Frames") ),
+  frameInterval( Gamedata::getInstance().getXmlInt(name+"FrameInterval") )
 { }
 
 TwowayMultiframeSprite::
@@ -41,21 +61,21 @@ TwowayMultiframeSprite(const TwowayMultiframeSprite& s) :
   frames(s.framesRight),
   frameWidth(s.getFrame()->getWidth()),
   frameHeight(s.getFrame()->getHeight()),
-  worldWidth(Gamedata::getInstance()->getXmlInt("worldWidth")),
-  worldHeight(Gamedata::getInstance()->getXmlInt("worldHeight")),
+  worldWidth(Gamedata::getInstance().getXmlInt("worldWidth")),
+  worldHeight(Gamedata::getInstance().getXmlInt("worldHeight")),
   dt(s.dt),
   currentFrame(s.currentFrame),
   numberOfFrames( s.numberOfFrames ),
   frameInterval( s.frameInterval )
   { }
 
-void TwowayMultiframeSprite::draw() const { 
+void TwowayMultiframeSprite::draw() const {
   Uint32 x = static_cast<Uint32>(X());
   Uint32 y = static_cast<Uint32>(Y());
   frames[currentFrame]->draw(x, y);
 }
 
-void TwowayMultiframeSprite::update(Uint32 ticks) { 
+void TwowayMultiframeSprite::update(Uint32 ticks) {
   advanceFrame(ticks);
 
   Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
@@ -73,7 +93,7 @@ void TwowayMultiframeSprite::update(Uint32 ticks) {
   }
   if ( X() > worldWidth-frameWidth) {
     velocityX( -abs( velocityX() ) );
-  }  
+  }
 
   if ( velocityX() < 0 ) frames = framesLeft;
   if ( velocityX() > 0 ) frames = framesRight;

@@ -8,11 +8,12 @@
 
 class TwowayMultiframeSprite : public Drawable {
 public:
-  TwowayMultiframeSprite(const std::string& n, 
+  TwowayMultiframeSprite(const std::string& n,
                    std::vector<Frame*>& fmsLeft,
                    std::vector<Frame*>& fmsRight);
+  TwowayMultiframeSprite(const std::string& n);
   TwowayMultiframeSprite(const TwowayMultiframeSprite& s);
-  virtual ~TwowayMultiframeSprite() { } 
+  virtual ~TwowayMultiframeSprite() { }
   virtual const Frame* getFrame() const { return frames[currentFrame]; }
 
   virtual void draw() const;
