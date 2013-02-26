@@ -2,8 +2,9 @@
 #include <map>
 #include <string>
 #include <sstream>
-using std::cout; using std::endl;
 #include "clock.h"
+#include "gamedata.h"
+
 using std::cout; using std::endl;
 
 Clock& Clock::getInstance() {
@@ -19,7 +20,8 @@ Clock::Clock() :
   paused(false),
   frames(0),
   timeAtStart(0), timeAtPause(0),
-  currTicks(0), prevTicks(0), ticks(0)
+  currTicks(0), prevTicks(0), ticks(0),
+  fpsLogLength( Gamedata::getInstance().getXmlInt("fpsLogLength")), fpsLog(fpsLogLength)
   {
   start();
 }
@@ -28,7 +30,8 @@ Clock::Clock(const Clock& c) :
   started(c.started),
   paused(c.paused), frames(c.frames),
   timeAtStart(c.timeAtStart), timeAtPause(c.timeAtPause),
-  currTicks(c.currTicks), prevTicks(c.prevTicks), ticks(c.ticks)
+  currTicks(c.currTicks), prevTicks(c.prevTicks), ticks(c.ticks),
+  fpsLogLength(c.fpsLogLength), fpsLog(c.fpsLog)
   {
   start();
 }
@@ -56,15 +59,35 @@ unsigned Clock::getElapsedTicks() {
   currTicks = getTicks();
   ticks = currTicks-prevTicks;
   prevTicks = currTicks;
+
+  fpsLog.push_front(1/(ticks/1000.0));
+  fpsLog.pop_back();
+
   return ticks;
 }
 
-int Clock::getFps() const {
-  if ( getSeconds() > 0 ) return frames/getSeconds();
+int Clock::getFps(){
+  /*
+  int fps = 0;
+  if ( getSeconds() > 0 ) fps = frames/getSeconds();
   else if ( getTicks() > 1000 and getFrames() == 0 ) {
     throw std::string("Can't getFps if you don't increment the frames");
   }
-  else return 0;
+  else fps = 0;
+
+  fpsLog.push_front(fps);
+  fpsLog.pop_back();
+  */
+
+  int sum = 0;
+  std::cout << "FPSLog: ";
+  for(unsigned i=0; i < fpsLogLength; i++){
+    sum += fpsLog[i];
+    std::cout << fpsLog[i] << ", ";
+  }
+  std::cout << "\b\b" << std::endl;
+
+  return sum/fpsLogLength;
 }
 
 Clock& Clock::operator++() {

@@ -33,8 +33,12 @@ private:
 
   std::vector<Drawable*> sprites;
   int currentSprite;
+  const unsigned TICK_INTERVAL;
+  int nextTime;
 
   void draw() const;
+  void update();
+  int timeLeft();
   Manager(const Manager&);
   Manager& operator=(const Manager&);
 };

@@ -29,7 +29,9 @@ Manager::Manager() :
   world( backFrame ),
   viewport( Viewport::getInstance() ),
   sprites(),
-  currentSprite(0)
+  currentSprite(0),
+  TICK_INTERVAL(gdata.getXmlInt("tickInterval")),
+  nextTime(clock.getTicks()+TICK_INTERVAL)
 {
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     throw string("Unable to initialize SDL: ");
@@ -54,7 +56,22 @@ void Manager::draw() const {
     sprites[i]->draw();
   }
   viewport.draw();
+
   SDL_Flip(screen);
+}
+
+void Manager::update(){
+    Uint32 ticks = clock.getElapsedTicks();
+    for(unsigned i=0; i< sprites.size(); i++){
+      sprites[i]->update(ticks);
+    }
+    viewport.update();
+    world.update();
+}
+
+int Manager::timeLeft(){
+    int now = clock.getTicks();
+    return std::max(0, nextTime - now);
 }
 
 void Manager::play() {
@@ -63,17 +80,15 @@ void Manager::play() {
   bool done = false;
   bool keyCatch = false;
   bool shiftKeyDown = false;
+
+  int userTickInterval = 0;
   while ( ! done ) {
-    clock++;
     draw();
+    clock++;
 
-    Uint32 ticks = clock.getElapsedTicks();
-    for(unsigned i=0; i< sprites.size(); i++){
-      sprites[i]->update(ticks);
-    }
-
-    viewport.update();
-    world.update();
+    update();
+    SDL_Delay(timeLeft());
+    nextTime += TICK_INTERVAL+userTickInterval;
 
     SDL_PollEvent(&event);
     if (event.type ==  SDL_QUIT) { break; }
@@ -119,6 +134,25 @@ void Manager::play() {
             shiftKeyDown = true;
           }
           break;
+        }
+        case SDLK_s      : {
+          if(!keyCatch) {
+              keyCatch = true;
+              userTickInterval = (userTickInterval+1);
+          }
+        }
+        case SDLK_f      : {
+          if(!keyCatch) {
+              keyCatch = true;
+              if (TICK_INTERVAL + userTickInterval > 0)
+                  userTickInterval--;
+          }
+        }
+        case SDLK_r      : {
+          if(!keyCatch) {
+              keyCatch = true;
+              userTickInterval = 0;
+          }
         }
         default          : break;
       }

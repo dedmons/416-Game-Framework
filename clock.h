@@ -2,13 +2,14 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <deque>
 
 class Manager;
 class Clock {
 public:
   static Clock& getInstance();
   unsigned getTicks() const;
-  int getFps() const;
+  int getFps();
 
 private:
   friend class Manager;
@@ -35,6 +36,9 @@ private:
   unsigned currTicks;
   unsigned prevTicks;
   unsigned ticks;
+
+  unsigned fpsLogLength;
+  std::deque<int> fpsLog;
 
   Clock();
   Clock(const Clock&);

@@ -6,8 +6,8 @@ void World::update() {
   viewY = view.Y();
 }
 
-void World::draw() const { 
-  frame1.draw(viewX, viewY, 0, 0); 
-  frame2.draw(0, viewY, frameWidth-viewX, 0); 
+void World::draw() const {
+  frame1.draw(viewX, viewY, 0, 0);
+  frame2.draw(0, viewY, frameWidth-viewX, 0);
 }
 

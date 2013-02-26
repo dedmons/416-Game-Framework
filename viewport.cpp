@@ -26,6 +26,10 @@ void Viewport::setObjectToTrack(const Drawable *obj) {
 }
 
 void Viewport::draw() const {
+  std::stringstream sstm;
+  sstm << "FPS: " << Clock::getInstance().getFps();
+  IOManager::getInstance().
+    printMessageAt(sstm.str(),10,10);
   IOManager::getInstance().
     printMessageCenteredAt("Tracking "+objectToTrack->getName(), 30);
 }

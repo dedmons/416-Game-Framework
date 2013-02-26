@@ -13,12 +13,15 @@
 
 <screenTitle>Basic Animation Framework</screenTitle>
 
+<tickInterval>18</tickInterval>
+<fpsLogLength>30</fpsLogLength>
+
 <font name="font">
   <fontFile>font/dyslexic-bold.otf</fontFile>
   <fontSize>14</fontSize>
-  <fontRed>255</fontRed>
-  <fontGreen>255</fontGreen>
-  <fontBlue>255</fontBlue>
+  <fontRed>55</fontRed>
+  <fontGreen>55</fontGreen>
+  <fontBlue>55</fontBlue>
   <fontUnused>0</fontUnused>
 </font>
 <maxStringSize>50</maxStringSize>
