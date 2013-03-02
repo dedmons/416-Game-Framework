@@ -1,8 +1,8 @@
 Name: DJ Edmonson
 Email: dedmons@g.clemson.edu
-Date: Feb. 05 2013
+Date: March 1, 2013
 
-Proj No: 1
+Proj No: 2
 Description:
   This program is theamed around zelda. All
   aspects of the animation can be configured
@@ -13,28 +13,21 @@ To change the XML file and the animation:
     -set the max speed
     -set the range for the start speed
     -set acceleration for the sprite
+    -set the default frame rate cap
 
 The Specs that I implemented are:
-  -add sprites to a vector
-  -only use one surface for many sprites
-  -move constants to xml file
+  -converted project to use the tracker framework
+  -added multiframe and two way multiframe sprites
+  -added a frame factory you make all frames
+  -added help screen
 
 The Specs that I was unable to implement are:
   none
 
 Extras:
-  -added acceleration to sprites
-    -Acceleration is set to +/- randomly
-     for both the x and y directions
-  -added singleton random class to handle
-    most random number generation.
   -Improved Makefile
-    -Depenencies are generated automaticly
-      by reading files.
-    -Object file targets are created by
-      reading files in dir.
-    -Targets to specify compiler
-    -Works on both Mac and Unix
-    -Contains targets for building with
-      the clang static analyzer and running
-      valgrind
+    -Added target to install the clang static analyzer on macs
+    -added target to check code with cppcheck
+  -I created all the sprites
+  -Added frame rate cap
+  -Changed the way the fps is calculated by using a deque.
