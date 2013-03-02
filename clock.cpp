@@ -21,9 +21,13 @@ Clock::Clock() :
   frames(0),
   timeAtStart(0), timeAtPause(0),
   currTicks(0), prevTicks(0), ticks(0),
-  fpsLogLength( Gamedata::getInstance().getXmlInt("fpsLogLength")), fpsLog(fpsLogLength)
+  fpsLogLength( Gamedata::getInstance().getXmlInt("fpsLogLength")),
+  fpsLog(fpsLogLength),
+  fps(0),
+  fpsAlpha(Gamedata::getInstance().getXmlFloat("fpsAlpha"))
   {
   start();
+  std::cout << fpsAlpha << std::endl;
 }
 
 Clock::Clock(const Clock& c) :
@@ -31,7 +35,7 @@ Clock::Clock(const Clock& c) :
   paused(c.paused), frames(c.frames),
   timeAtStart(c.timeAtStart), timeAtPause(c.timeAtPause),
   currTicks(c.currTicks), prevTicks(c.prevTicks), ticks(c.ticks),
-  fpsLogLength(c.fpsLogLength), fpsLog(c.fpsLog)
+  fpsLogLength(c.fpsLogLength), fpsLog(c.fpsLog), fps(0), fpsAlpha(c.fpsAlpha)
   {
   start();
 }
@@ -63,10 +67,12 @@ unsigned Clock::getElapsedTicks() {
   fpsLog.push_front(1/(ticks/1000.0));
   fpsLog.pop_back();
 
+  //fps = fpsAlpha*fps + (1.0-fpsAlpha)*(1/(ticks/1000.0));
+
   return ticks;
 }
 
-int Clock::getFps(){
+float Clock::getFps(){
   int sum = 0;
   //std::cout << "FPSLog: ";
   for(unsigned i=0; i < fpsLogLength; i++){
@@ -76,6 +82,7 @@ int Clock::getFps(){
   //std::cout << "\b\b" << std::endl;
 
   return sum/fpsLogLength;
+  //return fps;
 }
 
 Clock& Clock::operator++() {

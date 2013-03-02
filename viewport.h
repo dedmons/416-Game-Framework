@@ -8,12 +8,15 @@ public:
   static Viewport& getInstance();
   ~Viewport() { std::cout << "Blocking the view ..." << std::endl; }
   void draw() const;
+  void drawHelp() const;
   void update();
 
   float X() const { return position[0]; }
   void X(float x) { position[0] = x; }
   float Y() const { return position[1]; }
   void Y(float y) { position[1] = y; }
+  unsigned W() const { return viewWidth; }
+  unsigned H() const { return viewHeight; }
 
   void setObjectToTrack(const Drawable *obj);
   const Drawable* getObjectToTrack() const { return objectToTrack; }

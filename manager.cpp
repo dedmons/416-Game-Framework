@@ -9,6 +9,7 @@ Manager::~Manager() {
   for (unsigned i=0; i < sprites.size(); i++){
     delete sprites[i];
   }
+  delete backFrame;
 }
 
 Manager::Manager() :
@@ -57,7 +58,6 @@ void Manager::draw() const {
   }
   viewport.draw();
 
-  SDL_Flip(screen);
 }
 
 void Manager::update(){
@@ -80,14 +80,25 @@ void Manager::play() {
   bool done = false;
   bool keyCatch = false;
   bool shiftKeyDown = false;
+  bool showHelp = false;
 
   int userTickInterval = 0;
   while ( ! done ) {
     draw();
+    if (showHelp)
+      viewport.drawHelp();
+    std::stringstream sstm;
+    sstm << "T_INT: " << TICK_INTERVAL+userTickInterval;
+    IOManager::getInstance().printMessageAt(sstm.str(),10,25);
+
+    SDL_Flip(screen);
+
     clock++;
 
     update();
+
     SDL_Delay(timeLeft());
+
     nextTime += TICK_INTERVAL+userTickInterval;
 
     SDL_PollEvent(&event);
@@ -129,8 +140,7 @@ void Manager::play() {
         }
         case SDLK_LSHIFT :
         case SDLK_RSHIFT : {
-          if (!keyCatch) {
-            keyCatch = true;
+          if (!shiftKeyDown) {
             shiftKeyDown = true;
           }
           break;
@@ -152,6 +162,12 @@ void Manager::play() {
           if(!keyCatch) {
               keyCatch = true;
               userTickInterval = 0;
+          }
+        }
+        case SDLK_F1     : {
+          if(!keyCatch) {
+              keyCatch = true;
+              showHelp = !showHelp;
           }
         }
         default          : break;

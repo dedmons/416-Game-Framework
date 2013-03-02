@@ -28,10 +28,23 @@ void Viewport::setObjectToTrack(const Drawable *obj) {
 void Viewport::draw() const {
   std::stringstream sstm;
   sstm << "FPS: " << Clock::getInstance().getFps();
+  IOManager::getInstance().printMessageAt(
+      sstm.str(),
+      gdata.getXmlInt("fpsX"),
+      gdata.getXmlInt("fpsY"));
   IOManager::getInstance().
-    printMessageAt(sstm.str(),10,10);
+    printMessageCenteredAt("Tracking "+objectToTrack->getName(),
+        gdata.getXmlInt("trackY"));
+}
+
+void Viewport::drawHelp() const {
   IOManager::getInstance().
-    printMessageCenteredAt("Tracking "+objectToTrack->getName(), 30);
+    printMessageCenteredAt("Press t to cycle forward through sprites",
+        gdata.getXmlInt("helpLineY"));
+
+  IOManager::getInstance().
+    printMessageCenteredAt("Press shift+t to cycle backward through sprites",
+        gdata.getXmlInt("helpLineY")+15);
 }
 
 void Viewport::update() {

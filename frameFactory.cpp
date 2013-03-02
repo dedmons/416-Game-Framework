@@ -11,7 +11,7 @@ FrameFactory::~FrameFactory() {
   }
   std::map<std::string, Frame*>::iterator itFrame = frames.begin();
   while ( itFrame != frames.end() ) {
-    std::cout << "Deleting Frame " << itFrame->first << std::endl;
+    //std::cout << "Deleting Frame " << itFrame->first << std::endl;
     delete itFrame->second;
     ++itFrame;
   }
@@ -38,11 +38,11 @@ Frame* FrameFactory::getFrame(const std::string& name, const int num,
   sstm << name << num;
   std::string fmName = sstm.str();
 
-  std::cout << "Getting frame: " << fmName << " => ";
+  //std::cout << "Getting frame: " << fmName << " => ";
 
   std::map<std::string, Frame*>::const_iterator pos = frames.find(fmName);
   if ( pos == frames.end() ) {
-    std::cout << "Making its frame" << std::endl;
+    //std::cout << "Making its frame" << std::endl;
     SDL_Surface * const surface =
       IOManager::getInstance().loadAndSet(
           gdata.getXmlStr(name+"File"),
@@ -57,7 +57,7 @@ Frame* FrameFactory::getFrame(const std::string& name, const int num,
     return frame;
   }
   else {
-    std::cout << "Returning previously made frame" << std::endl;
+    //std::cout << "Returning previously made frame" << std::endl;
     return pos->second;
   }
 }

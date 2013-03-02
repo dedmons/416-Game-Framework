@@ -13,15 +13,20 @@
 
 <screenTitle>Basic Animation Framework</screenTitle>
 
+<fpsLoc fpsX="10" fpsY="10" />
+<trackY>10</trackY>
+<helpLineY>25</helpLineY>
+
 <tickInterval>18</tickInterval>
-<fpsLogLength>30</fpsLogLength>
+<fpsLogLength>15</fpsLogLength>
+<fpsAlpha>0.9</fpsAlpha>
 
 <font name="font">
   <fontFile>font/dyslexic-bold.otf</fontFile>
   <fontSize>14</fontSize>
-  <fontRed>55</fontRed>
-  <fontGreen>55</fontGreen>
-  <fontBlue>55</fontBlue>
+  <fontRed>255</fontRed>
+  <fontGreen>0</fontGreen>
+  <fontBlue>0</fontBlue>
   <fontUnused>0</fontUnused>
 </font>
 <maxStringSize>50</maxStringSize>

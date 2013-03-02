@@ -29,8 +29,18 @@ Frame& Frame::operator=(const Frame& rhs) {
 }
 
 void Frame::draw(Sint16 x, Sint16 y) const {
-  x -= Viewport::getInstance().X();
-  y -= Viewport::getInstance().Y();
+  Viewport& vp = Viewport::getInstance();
+  if (x + spriteWidth < vp.X())
+    return;
+  else if (x > vp.X() + vp.W())
+    return;
+  else if (y + spriteHeight < vp.Y())
+    return;
+  else if (y > vp.Y() + vp.H())
+    return;
+
+  x -= vp.X();
+  y -= vp.Y();
   SDL_Rect src = { spriteSourceX, spriteSourceY,
                    spriteWidth, spriteHeight
                  };

@@ -9,7 +9,7 @@ class Clock {
 public:
   static Clock& getInstance();
   unsigned getTicks() const;
-  int getFps();
+  float getFps();
 
 private:
   friend class Manager;
@@ -39,6 +39,8 @@ private:
 
   unsigned fpsLogLength;
   std::deque<int> fpsLog;
+  float fps;
+  float fpsAlpha;
 
   Clock();
   Clock(const Clock&);
