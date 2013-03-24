@@ -1,0 +1,151 @@
+{
+	"view":{
+  	"width":640,
+  	"height":480
+	},
+
+	"world":{
+  	"width":1280,
+  	"height":960
+	},
+
+	"screenTitle":"Basic Animation Framework",
+
+	"fpsLoc":{
+		"x":10,
+		"y":10
+	},
+
+	"trackText":{
+		"x":"center",
+		"y":10
+	},
+
+	"helpLine":{
+		"x":"center",
+		"y":25
+	},
+
+	"fpsController": {
+		"tickInterval":18,
+		"fpsLogLength":15,
+		"fpsAlpha":0.9
+	},
+
+	"font": {
+		"name":"font",
+		"file":"font/dyslexic-bold.otf",
+		"size":14,
+		"color":{ "r":255, "b":0, "g":0 },
+		"unused": 0
+	},
+
+	"maxStringSize":50,
+
+	"triForce": {
+		"num":10,
+		"file":"images/tri.png",
+		"transparency":true,
+		"src": {
+			"x":0,
+			"y":0
+		},
+		"size":{
+			"width":50,
+			"height":50
+		},
+		"speed":{
+			"min":{
+				"x":0, "y":0
+			},
+			"max":{
+				"x":300, "y":300
+			},
+			"start":{
+				"x":90, "y":90
+			}
+		},
+		"accel":{
+			"x":50, "y":80
+		},
+		"loc":{
+			"start":{
+				"x":600, "y":600
+			}
+		}
+	},
+
+	"tank":{
+		"num":1,
+		"file":"images/mytank.png",
+		"transparency":true,
+		"frames":{
+			"interval":2,
+			"num":4
+		},
+		"loc":{
+			"start":{
+				"x":200,"y":200
+			}
+		},
+		"src":{
+			"x":5, "y":0,
+			"offset":{
+				"x":10
+			}
+		},
+		"size":{
+			"width":40, "height":30
+		},
+		"speed":{
+			"start":{
+				"x":100, "y":0
+			}
+		}
+	},
+
+	"tank2":{
+		"num":1,
+		"file":"images/mytank.png",
+		"transparency":true,
+		"frames":{
+			"interval":2,
+			"num":4
+		},
+		"loc":{
+			"start":{
+				"x":200,"y":100
+			}
+		},
+		"src":{
+			"x":5, "y":0, 
+			"offset":{
+				"x":10, "y":5
+			}
+		},
+		"size":{
+			"width":40, "height":30
+		},
+		"speed":{
+			"start":{
+				"x":100, "y":0
+			}
+		}
+	},
+
+	"background": {
+		"file":"images/background.png",
+		"transparency":true,
+		"src":{
+			"x":0,"y":0
+		},
+		"size":{
+			"width":1280,
+			"height":960
+		},
+		"loc":{
+			"x":0,
+			"y":0
+		}
+	}
+}
