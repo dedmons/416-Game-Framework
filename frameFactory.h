@@ -2,7 +2,7 @@
 #include <vector>
 #include <map>
 #include "frame.h"
-#include "gamedata.h"
+#include "jsongamedata.h"
 
 class FrameFactory {
 public:
@@ -15,12 +15,12 @@ public:
   std::vector<Frame*> getLeftMultiFrames(const std::string&);
 
 private:
-  Gamedata &gdata;
+  JSONGamedata &jgdata;
   std::map<std::string, SDL_Surface*> surfaces;
   std::map<std::string, Frame*> frames;
 
   FrameFactory() :
-    gdata( Gamedata::getInstance() ), surfaces(), frames()
+    jgdata( JSONGamedata::getInstance() ), surfaces(), frames()
   {}
   FrameFactory(const FrameFactory&);
   FrameFactory& operator=(const FrameFactory&);

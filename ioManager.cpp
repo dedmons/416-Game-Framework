@@ -9,15 +9,15 @@ IOManager& IOManager::getInstance() {
 }
 
 IOManager::IOManager( ) :
-  gdata( Gamedata::getInstance() ),
-  viewWidth( gdata.getXmlInt("viewWidth") ),
-  viewHeight( gdata.getXmlInt("viewHeight") ),
-  MAX_STRING_SIZE( gdata.getXmlInt("maxStringSize") ),
+  jgdata( JSONGamedata::getInstance() ),
+  viewWidth( jgdata.getInt("view.width") ),
+  viewHeight( jgdata.getInt("view.height") ),
+  MAX_STRING_SIZE( jgdata.getInt("maxStringSize") ),
     // The 3rd and 4th parameters are just as important as the first 2!
     screen(SDL_SetVideoMode(viewWidth, viewHeight, 32, SDL_DOUBLEBUF)),
     font( NULL ),
     color(),
-    title( gdata.getXmlStr("screenTitle") ),
+    title( jgdata.getStr("screenTitle") ),
     inputString("")
 {
   if (screen == NULL) {
@@ -27,16 +27,16 @@ IOManager::IOManager( ) :
     throw string("TTF_Init failed: ") + TTF_GetError();
   }
   font = TTF_OpenFont(
-         Gamedata::getInstance().getXmlStr("fontFile").c_str(),
-         Gamedata::getInstance().getXmlInt("fontSize")
+         JSONGamedata::getInstance().getStr("font.file").c_str(),
+         JSONGamedata::getInstance().getInt("font.size")
          );
   if ( !font ) {
     throw string("TTF_OpenFont failed: ") + TTF_GetError();
   }
-  color.r = Gamedata::getInstance().getXmlInt("fontRed");
-  color.g = Gamedata::getInstance().getXmlInt("fontGreen");
-  color.b = Gamedata::getInstance().getXmlInt("fontBlue");
-  color.unused = Gamedata::getInstance().getXmlInt("fontUnused");
+  color.r = JSONGamedata::getInstance().getInt("font.color.r");
+  color.g = JSONGamedata::getInstance().getInt("font.color.g");
+  color.b = JSONGamedata::getInstance().getInt("font.color.b");
+  color.unused = JSONGamedata::getInstance().getInt("font.unused");
   SDL_EnableUNICODE( SDL_ENABLE );
   SDL_WM_SetCaption(title.c_str(), NULL);
   atexit(TTF_Quit);

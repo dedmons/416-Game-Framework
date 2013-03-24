@@ -15,23 +15,24 @@ Manager::~Manager() {
 Manager::Manager() :
   env( SDL_putenv(const_cast<char*>("SDL_VIDEO_CENTERED=center")) ),
   gdata( Gamedata::getInstance() ),
+  jgdata( JSONGamedata::getInstance() ),
   io( IOManager::getInstance() ),
   clock( Clock::getInstance() ),
   screen( io.getScreen() ),
-  backSurface( io.loadAndSet(gdata.getXmlStr("backFile"),
-                gdata.getXmlBool("triForceTransparency"))
+  backSurface( io.loadAndSet(jgdata.getStr("background.file"),
+                jgdata.getBool("background.transparency"))
   ),
   backFrame(new Frame(backSurface,
-                gdata.getXmlInt("backWidth"),
-                gdata.getXmlInt("backHeight"),
-                gdata.getXmlInt("backSrcX"),
-                gdata.getXmlInt("backSrcY"))
+                jgdata.getInt("background.size.width"),
+                jgdata.getInt("background.size.height"),
+                jgdata.getInt("background.src.x"),
+                jgdata.getInt("background.src.y"))
   ),
   world( backFrame ),
   viewport( Viewport::getInstance() ),
   sprites(),
   currentSprite(0),
-  TICK_INTERVAL(gdata.getXmlInt("tickInterval")),
+  TICK_INTERVAL(jgdata.getInt("fpsController.tickInterval")),
   nextTime(clock.getTicks()+TICK_INTERVAL)
 {
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -39,7 +40,7 @@ Manager::Manager() :
   }
   atexit(SDL_Quit);
 
-  unsigned int n = gdata.getXmlInt("triForceNum");
+  unsigned int n = jgdata.getInt("triForce.num");
   sprites.reserve(n+2);
   for(unsigned i = 0; i < n; i++){
     sprites.push_back(new AcceleratingSprite("triForce"));

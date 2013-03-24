@@ -6,7 +6,7 @@
 #include <string>
 #include <sstream>
 using std::string;
-#include "gamedata.h"
+#include "jsongamedata.h"
 
 class IOManager {
 public:
@@ -32,7 +32,7 @@ private:
   IOManager();
   IOManager(const IOManager&);
   IOManager& operator=(const IOManager&);
-  const Gamedata& gdata;
+  const JSONGamedata& jgdata;
   int viewWidth;
   int viewHeight;
   const unsigned MAX_STRING_SIZE;

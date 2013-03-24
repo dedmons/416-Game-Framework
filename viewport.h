@@ -1,7 +1,7 @@
 #ifndef VIEWPORT__H
 #define VIEWPORT__H
 #include "drawable.h"
-#include "gamedata.h"
+#include "jsongamedata.h"
 
 class Viewport {
 public:
@@ -22,7 +22,7 @@ public:
   const Drawable* getObjectToTrack() const { return objectToTrack; }
 
 private:
-  Gamedata& gdata;
+  JSONGamedata& jgdata;
   Vector2f position;
   unsigned viewWidth;
   unsigned viewHeight;

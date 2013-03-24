@@ -1,6 +1,7 @@
 // Brian Malloy        Game Construction
 
 #include "manager.h"
+#include "jsongamedata.h"
 #include <string.h>
 
 int main(int, char*[]) {

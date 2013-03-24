@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include "multisprite.h"
-#include "gamedata.h"
+#include "jsongamedata.h"
 #include "frameFactory.h"
 
 void MultiframeSprite::advanceFrame(Uint32 ticks) {
@@ -15,38 +15,38 @@ void MultiframeSprite::advanceFrame(Uint32 ticks) {
 MultiframeSprite::MultiframeSprite( const std::string& name,
                   const std::vector<Frame*> & fms) :
   Drawable(name,
-           Vector2f(Gamedata::getInstance().getXmlInt(name+"X"),
-                    Gamedata::getInstance().getXmlInt(name+"Y")),
-           Vector2f(Gamedata::getInstance().getXmlInt(name+"SpeedX"),
-                    Gamedata::getInstance().getXmlInt(name+"SpeedY"))
+           Vector2f(JSONGamedata::getInstance().getInt(name+".loc.start.x"),
+                    JSONGamedata::getInstance().getInt(name+".loc.start.y")),
+           Vector2f(JSONGamedata::getInstance().getInt(name+".speed.start.x"),
+                    JSONGamedata::getInstance().getInt(name+".speed.start.y"))
            ),
   frames(fms),
   frameWidth(fms[0]->getWidth()),
   frameHeight(fms[0]->getHeight()),
-  worldWidth(Gamedata::getInstance().getXmlInt("worldWidth")),
-  worldHeight(Gamedata::getInstance().getXmlInt("worldHeight")),
+  worldWidth(JSONGamedata::getInstance().getInt("world.width")),
+  worldHeight(JSONGamedata::getInstance().getInt("world.height")),
   dt(0),
   currentFrame(0),
-  numberOfFrames( Gamedata::getInstance().getXmlInt(name+"Frames") ),
-  frameInterval( Gamedata::getInstance().getXmlInt(name+"FrameInterval") )
+  numberOfFrames( JSONGamedata::getInstance().getInt(name+".frames.num") ),
+  frameInterval( JSONGamedata::getInstance().getInt(name+".frames.interval") )
 { }
 
 MultiframeSprite::MultiframeSprite( const std::string& name) :
   Drawable(name,
-           Vector2f(Gamedata::getInstance().getXmlInt(name+"X"),
-                    Gamedata::getInstance().getXmlInt(name+"Y")),
-           Vector2f(Gamedata::getInstance().getXmlInt(name+"SpeedX"),
-                    Gamedata::getInstance().getXmlInt(name+"SpeedY"))
+           Vector2f(JSONGamedata::getInstance().getInt(name+".loc.start.x"),
+                    JSONGamedata::getInstance().getInt(name+".loc.start.y")),
+           Vector2f(JSONGamedata::getInstance().getInt(name+".speed.start.x"),
+                    JSONGamedata::getInstance().getInt(name+".speed.start.y"))
            ),
   frames( FrameFactory::getInstance().getMultiFrames(name) ),
   frameWidth(frames[0]->getWidth()),
   frameHeight(frames[0]->getHeight()),
-  worldWidth(Gamedata::getInstance().getXmlInt("worldWidth")),
-  worldHeight(Gamedata::getInstance().getXmlInt("worldHeight")),
+  worldWidth(JSONGamedata::getInstance().getInt("world.width")),
+  worldHeight(JSONGamedata::getInstance().getInt("world.height")),
   dt(0),
   currentFrame(0),
-  numberOfFrames( Gamedata::getInstance().getXmlInt(name+"Frames") ),
-  frameInterval( Gamedata::getInstance().getXmlInt(name+"FrameInterval") )
+  numberOfFrames( JSONGamedata::getInstance().getInt(name+".frames.num") ),
+  frameInterval( JSONGamedata::getInstance().getInt(name+".frames.interval") )
 { }
 
 MultiframeSprite::MultiframeSprite(const MultiframeSprite& s) :
@@ -54,8 +54,8 @@ MultiframeSprite::MultiframeSprite(const MultiframeSprite& s) :
   frames(s.frames),
   frameWidth(s.getFrame()->getWidth()),
   frameHeight(s.getFrame()->getHeight()),
-  worldWidth(Gamedata::getInstance().getXmlInt("worldWidth")),
-  worldHeight(Gamedata::getInstance().getXmlInt("worldHeight")),
+  worldWidth(JSONGamedata::getInstance().getInt("world.width")),
+  worldHeight(JSONGamedata::getInstance().getInt("world.height")),
   dt(s.dt),
   currentFrame(s.currentFrame),
   numberOfFrames( s.numberOfFrames ),

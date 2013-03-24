@@ -6,6 +6,7 @@
 #include "ioManager.h"
 #include "clock.h"
 #include "gamedata.h"
+#include "jsongamedata.h"
 #include "drawable.h"
 #include "sprite.h"
 #include "acceleratingSprite.h"
@@ -21,6 +22,7 @@ public:
 private:
   const bool env;
   const Gamedata& gdata;
+  const JSONGamedata& jgdata;
   const IOManager& io;
   Clock& clock;
 

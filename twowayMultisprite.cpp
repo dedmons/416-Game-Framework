@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include "twowayMultisprite.h"
-#include "gamedata.h"
+#include "jsongamedata.h"
 #include "frameFactory.h"
 
 void TwowayMultiframeSprite::advanceFrame(Uint32 ticks) {
@@ -16,42 +16,42 @@ TwowayMultiframeSprite::TwowayMultiframeSprite( const std::string& name,
                   std::vector<Frame*> & fmsLeft,
                   std::vector<Frame*> & fmsRight) :
   Drawable(name,
-           Vector2f(Gamedata::getInstance().getXmlInt(name+"X"),
-                    Gamedata::getInstance().getXmlInt(name+"Y")),
-           Vector2f(Gamedata::getInstance().getXmlInt(name+"SpeedX"),
-                    Gamedata::getInstance().getXmlInt(name+"SpeedY"))
+           Vector2f(JSONGamedata::getInstance().getInt(name+".loc.start.x"),
+                    JSONGamedata::getInstance().getInt(name+".loc.start.y")),
+           Vector2f(JSONGamedata::getInstance().getInt(name+".speed.start.x"),
+                    JSONGamedata::getInstance().getInt(name+".speed.start.y"))
            ),
   framesLeft(fmsLeft),
   framesRight(fmsRight),
   frames(fmsRight),
   frameWidth(framesLeft[0]->getWidth()),
   frameHeight(framesLeft[0]->getHeight()),
-  worldWidth(Gamedata::getInstance().getXmlInt("worldWidth")),
-  worldHeight(Gamedata::getInstance().getXmlInt("worldHeight")),
+  worldWidth(JSONGamedata::getInstance().getInt("world.width")),
+  worldHeight(JSONGamedata::getInstance().getInt("world.height")),
   dt(0),
   currentFrame(0),
-  numberOfFrames( Gamedata::getInstance().getXmlInt(name+"Frames") ),
-  frameInterval( Gamedata::getInstance().getXmlInt(name+"FrameInterval") )
+  numberOfFrames( JSONGamedata::getInstance().getInt(name+".frames.num") ),
+  frameInterval( JSONGamedata::getInstance().getInt(name+".frames.interval") )
 { }
 
 TwowayMultiframeSprite::TwowayMultiframeSprite( const std::string& name):
   Drawable(name,
-           Vector2f(Gamedata::getInstance().getXmlInt(name+"X"),
-                    Gamedata::getInstance().getXmlInt(name+"Y")),
-           Vector2f(Gamedata::getInstance().getXmlInt(name+"SpeedX"),
-                    Gamedata::getInstance().getXmlInt(name+"SpeedY"))
+           Vector2f(JSONGamedata::getInstance().getInt(name+".loc.start.x"),
+                    JSONGamedata::getInstance().getInt(name+".loc.start.y")),
+           Vector2f(JSONGamedata::getInstance().getInt(name+".speed.start.x"),
+                    JSONGamedata::getInstance().getInt(name+".speed.start.y"))
            ),
   framesLeft(FrameFactory::getInstance().getLeftMultiFrames(name)),
   framesRight(FrameFactory::getInstance().getMultiFrames(name)),
   frames(framesRight),
   frameWidth(frames[0]->getWidth()),
   frameHeight(frames[0]->getHeight()),
-  worldWidth(Gamedata::getInstance().getXmlInt("worldWidth")),
-  worldHeight(Gamedata::getInstance().getXmlInt("worldHeight")),
+  worldWidth(JSONGamedata::getInstance().getInt("world.width")),
+  worldHeight(JSONGamedata::getInstance().getInt("world.height")),
   dt(0),
   currentFrame(0),
-  numberOfFrames( Gamedata::getInstance().getXmlInt(name+"Frames") ),
-  frameInterval( Gamedata::getInstance().getXmlInt(name+"FrameInterval") )
+  numberOfFrames( JSONGamedata::getInstance().getInt(name+".frames.num") ),
+  frameInterval( JSONGamedata::getInstance().getInt(name+".frames.interval") )
 { }
 
 TwowayMultiframeSprite::
@@ -62,8 +62,8 @@ TwowayMultiframeSprite(const TwowayMultiframeSprite& s) :
   frames(s.framesRight),
   frameWidth(s.getFrame()->getWidth()),
   frameHeight(s.getFrame()->getHeight()),
-  worldWidth(Gamedata::getInstance().getXmlInt("worldWidth")),
-  worldHeight(Gamedata::getInstance().getXmlInt("worldHeight")),
+  worldWidth(JSONGamedata::getInstance().getInt("world.width")),
+  worldHeight(JSONGamedata::getInstance().getInt("world.height")),
   dt(s.dt),
   currentFrame(s.currentFrame),
   numberOfFrames( s.numberOfFrames ),

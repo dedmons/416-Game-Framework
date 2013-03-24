@@ -1,4 +1,4 @@
-#include <sstream>
+
 #include "ioManager.h"
 #include "viewport.h"
 #include "clock.h"
@@ -9,12 +9,12 @@ Viewport& Viewport::getInstance() {
 }
 
 Viewport::Viewport() :
-  gdata(Gamedata::getInstance()),
+  jgdata(JSONGamedata::getInstance()),
   position(0, 0),
-  viewWidth(gdata.getXmlInt("viewWidth")),
-  viewHeight(gdata.getXmlInt("viewHeight")),
-  worldWidth(gdata.getXmlInt("worldWidth")),
-  worldHeight(gdata.getXmlInt("worldHeight")),
+  viewWidth(jgdata.getInt("view.width")),
+  viewHeight(jgdata.getInt("view.height")),
+  worldWidth(jgdata.getInt("world.width")),
+  worldHeight(jgdata.getInt("world.height")),
   objWidth(0), objHeight(0),
   objectToTrack(NULL)
 {}
@@ -30,21 +30,21 @@ void Viewport::draw() const {
   sstm << "FPS: " << Clock::getInstance().getFps();
   IOManager::getInstance().printMessageAt(
       sstm.str(),
-      gdata.getXmlInt("fpsX"),
-      gdata.getXmlInt("fpsY"));
+      jgdata.getInt("fpsLoc.x"),
+      jgdata.getInt("fpsLoc.y"));
   IOManager::getInstance().
     printMessageCenteredAt("Tracking "+objectToTrack->getName(),
-        gdata.getXmlInt("trackY"));
+        jgdata.getInt("trackText.y"));
 }
 
 void Viewport::drawHelp() const {
   IOManager::getInstance().
     printMessageCenteredAt("Press t to cycle forward through sprites",
-        gdata.getXmlInt("helpLineY"));
+        jgdata.getInt("helpLine.y"));
 
   IOManager::getInstance().
     printMessageCenteredAt("Press shift+t to cycle backward through sprites",
-        gdata.getXmlInt("helpLineY")+15);
+        jgdata.getInt("helpLine.y")+15);
 }
 
 void Viewport::update() {

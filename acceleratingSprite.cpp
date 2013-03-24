@@ -1,28 +1,28 @@
 #include <cmath>
 #include "acceleratingSprite.h"
-#include "gamedata.h"
+#include "jsongamedata.h"
 
 AcceleratingSprite::AcceleratingSprite(const std::string& name, const Frame* fm) :
   Sprite(name,fm),
   acceleration(
-      (rand()%2?1:-1)*Gamedata::getInstance().getXmlInt(name+"AccelX"),
-      (rand()%2?1:-1)*Gamedata::getInstance().getXmlInt(name+"AccelY")
+      (rand()%2?1:-1)*JSONGamedata::getInstance().getInt(name+".accel.x"),
+      (rand()%2?1:-1)*JSONGamedata::getInstance().getInt(name+".accel.y")
   ),
   maxSpeeds(
-      Gamedata::getInstance().getXmlInt(name+"SpeedXMax"),
-      Gamedata::getInstance().getXmlInt(name+"SpeedYMax")
+      JSONGamedata::getInstance().getInt(name+".speed.max.x"),
+      JSONGamedata::getInstance().getInt(name+".speed.max.y")
   )
 { }
 
 AcceleratingSprite::AcceleratingSprite(const std::string& name) :
   Sprite(name),
   acceleration(
-      (rand()%2?1:-1)*Gamedata::getInstance().getXmlInt(name+"AccelX"),
-      (rand()%2?1:-1)*Gamedata::getInstance().getXmlInt(name+"AccelY")
+      (rand()%2?1:-1)*JSONGamedata::getInstance().getInt(name+".accel.x"),
+      (rand()%2?1:-1)*JSONGamedata::getInstance().getInt(name+".accel.y")
   ),
   maxSpeeds(
-      Gamedata::getInstance().getXmlInt(name+"SpeedXMax"),
-      Gamedata::getInstance().getXmlInt(name+"SpeedYMax")
+      JSONGamedata::getInstance().getInt(name+".speed.max.x"),
+      JSONGamedata::getInstance().getInt(name+".speed.max.y")
   )
 { }
 

@@ -1,12 +1,13 @@
 #include "frame.h"
 #include "viewport.h"
+#include "jsongamedata.h"
 
 class World {
 public:
   World(Frame* const frame, int fact = 1) :
       frame1(*frame), frame2(*frame),
       frameWidth( frame1.getWidth() ),
-      worldWidth( Gamedata::getInstance().getXmlInt("worldWidth") ),
+      worldWidth( JSONGamedata::getInstance().getInt("world.width") ),
       factor(fact),
       viewX(0.0), viewY(0.0),
       view(Viewport::getInstance())

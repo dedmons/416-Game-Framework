@@ -35,7 +35,7 @@ void ParseXML::parseXML() {
 }
 
 void ParseXML::displayData() const {
-  std::map<string, string>::const_iterator ptr = xmlData.begin();
+  std::unordered_map<string, string>::const_iterator ptr = xmlData.begin();
   while ( ptr != xmlData.end() ) {
     cout << ptr->first << ", " << ptr->second << endl;
     ++ptr;

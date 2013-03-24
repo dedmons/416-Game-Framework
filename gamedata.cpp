@@ -11,7 +11,7 @@ Gamedata::Gamedata(const string& fn ) :
 { }
 
 bool Gamedata::getXmlBool(const string& tag) const {
-  std::map<string, string>::const_iterator ptr = gameData.find(tag);
+  std::unordered_map<string, string>::const_iterator ptr = gameData.find(tag);
   if ( ptr == gameData.end() )
     throw string("Game: Didn't find boolean tag ")+tag+string(" in xml");
   else {
@@ -21,7 +21,7 @@ bool Gamedata::getXmlBool(const string& tag) const {
 }
 
 int Gamedata::getXmlInt(const string& tag) const {
-  std::map<string, string>::const_iterator ptr = gameData.find(tag);
+  std::unordered_map<string, string>::const_iterator ptr = gameData.find(tag);
   if ( ptr == gameData.end() )
     throw string("Game: Didn't find integer tag ")+tag+string(" in xml");
   else {
@@ -34,7 +34,7 @@ int Gamedata::getXmlInt(const string& tag) const {
 }
 
 float Gamedata::getXmlFloat(const string& tag) const {
-  std::map<string, string>::const_iterator ptr = gameData.find(tag);
+  std::unordered_map<string, string>::const_iterator ptr = gameData.find(tag);
   if ( ptr == gameData.end() )
     throw string("Game: Didn't find float tag ")+tag+string(" in xml");
   else {
@@ -47,14 +47,14 @@ float Gamedata::getXmlFloat(const string& tag) const {
 }
 
 const string& Gamedata::getXmlStr(const string& tag) const {
-  std::map<string, string>::const_iterator ptr = gameData.find(tag);
+  std::unordered_map<string, string>::const_iterator ptr = gameData.find(tag);
   if ( ptr == gameData.end() )
     throw string("Game: Didn't find string tag ")+tag+string(" in xml");
   else return ptr->second;
 }
 
 void Gamedata::displayData() const {
-  std::map<string, string>::const_iterator ptr = gameData.begin();
+  std::unordered_map<string, string>::const_iterator ptr = gameData.begin();
   while ( ptr != gameData.end() ) {
     cout << ptr->first << ", " << ptr->second << endl;
     ++ptr;

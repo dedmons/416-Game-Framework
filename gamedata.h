@@ -2,7 +2,7 @@
 #define GAMEDATA__H
 #include <string>
 #include <sstream>
-#include <map>
+#include <unordered_map>
 using std::string;
 #include "parseXML.h"
 
@@ -17,7 +17,7 @@ public:
   int getXmlInt(const string&) const;
 private:
   ParseXML parser;
-  const map<string, string> gameData;
+  const unordered_map<string, string> gameData;
 
   Gamedata(const string& fn = "xmlSpec/game.xml");
   Gamedata(const Gamedata&);

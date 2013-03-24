@@ -4,9 +4,9 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <map>
+#include <unordered_map>
 #include <expat.h>
-using std::map;
+using std::unordered_map;
 
 using std::cout; using std::endl;
 using std::string; 
@@ -25,7 +25,7 @@ public:
   { parseXML(); }
   virtual ~ParseXML() { XML_ParserFree(parser); }
 
-  const map<string, string> getXmlData() const { return xmlData; }
+  const unordered_map<string, string> getXmlData() const { return xmlData; }
 
   static void wrapper4Start(void *data, const char *el, const char **attr);
   static void wrapper4End(void *data, const char *el);
@@ -40,7 +40,7 @@ private:
   string  lastElementTag;
   string  lastNonTerminal;
 
-  std::map<string, string> xmlData;
+  std::unordered_map<string, string> xmlData;
 
   void parseXML();
   void displayData() const;
