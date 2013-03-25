@@ -1,4 +1,5 @@
 #include <cmath>
+#include <algorithm>
 #include "multisprite.h"
 #include "twowayMultisprite.h"
 #include "manager.h"
@@ -21,7 +22,7 @@ Manager::Manager() :
   screen( io.getScreen() ),
   viewport( Viewport::getInstance() ),
   sprites(),
-  player("tank2"),
+  player(jgdata.getStr("player.name")),
   currentSprite(0),
   TICK_INTERVAL(jgdata.getInt("fpsController.tickInterval")),
   nextTime(clock.getTicks()+TICK_INTERVAL)
@@ -44,13 +45,14 @@ Manager::Manager() :
   }
 
   unsigned int n = jgdata.getInt("triForce.num");
+  float smin = jgdata.getFloat("triForce.scale.min");
+  float smax = jgdata.getFloat("triForce.scale.max");
   sprites.reserve(n+2);
   for(unsigned i = 0; i < n; i++){
-    sprites.push_back(new AcceleratingSprite("triForce"));
+    sprites.push_back(new AcceleratingSprite("triForce",smin,smax));
   }
 
-  // sprites.push_back( new MultiframeSprite("tank") );
-  // sprites.push_back( new TwowayMultiframeSprite("tank2"));
+  sort(sprites.begin(), sprites.end());
 
   viewport.setObjectToTrack(sprites[currentSprite]);
 }
@@ -96,10 +98,11 @@ void Manager::play() {
   while ( ! done ) {
     draw();
     if (showHelp)
-      viewport.drawHelp();
+      viewport.drawHUD();
+
     std::stringstream sstm;
     sstm << "T_INT: " << TICK_INTERVAL+userTickInterval;
-    IOManager::getInstance().printMessageAt(sstm.str(),10,25);
+    IOManager::getInstance().printMessageAt(sstm.str(),viewport.W()-80,viewport.H()-20);
 
     SDL_Flip(screen);
 

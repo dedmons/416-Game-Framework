@@ -8,7 +8,7 @@ public:
   static Viewport& getInstance();
   ~Viewport() { std::cout << "Blocking the view ..." << std::endl; }
   void draw() const;
-  void drawHelp() const;
+  void drawHUD() const;
   void update();
 
   float X() const { return position[0]; }

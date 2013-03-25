@@ -32,7 +32,7 @@ private:
   std::vector<World> worlds;
   Viewport& viewport;
 
-  std::vector<Drawable*> sprites;
+  std::vector<Sprite*> sprites;
 
   Player player;
 

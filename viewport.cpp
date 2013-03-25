@@ -2,6 +2,7 @@
 #include "ioManager.h"
 #include "viewport.h"
 #include "clock.h"
+#include "hud.h"
 
 Viewport& Viewport::getInstance() {
   static Viewport viewport;
@@ -26,25 +27,13 @@ void Viewport::setObjectToTrack(const Drawable *obj) {
 }
 
 void Viewport::draw() const {
-  std::stringstream sstm;
-  sstm << "FPS: " << Clock::getInstance().getFps();
-  IOManager::getInstance().printMessageAt(
-      sstm.str(),
-      jgdata.getInt("fpsLoc.x"),
-      jgdata.getInt("fpsLoc.y"));
   IOManager::getInstance().
     printMessageCenteredAt("Tracking "+objectToTrack->getName(),
         jgdata.getInt("trackText.y"));
 }
 
-void Viewport::drawHelp() const {
-  IOManager::getInstance().
-    printMessageCenteredAt("Press t to cycle forward through sprites",
-        jgdata.getInt("helpLine.y"));
-
-  IOManager::getInstance().
-    printMessageCenteredAt("Press shift+t to cycle backward through sprites",
-        jgdata.getInt("helpLine.y")+15);
+void Viewport::drawHUD() const {
+  HUD::getHUD().draw(0,0);
 }
 
 void Viewport::update() {
