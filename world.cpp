@@ -21,7 +21,7 @@ void World::draw() const {
 	}
 }
 
-World& operator=(const World& other){
+World& World::operator=(const World& other){
   frame1 = other.frame1;
   frameWidth = other.frameWidth;
   frameHeight = other.frameHeight;
@@ -30,6 +30,6 @@ World& operator=(const World& other){
   factor = other.factor;
   viewX = other.viewX;
   viewY = other.viewY;
-  view = other.view;
+  // view = other.view;
   return *this;
 }

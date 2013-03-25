@@ -29,7 +29,7 @@ public:
   World& operator=(const World&);
 
 private:
-  Frame const frame1;
+  Frame frame1;
   unsigned frameWidth;
   unsigned frameHeight;
   unsigned worldWidth;
@@ -37,5 +37,5 @@ private:
   float factor;
   float viewX;
   float viewY;
-  const Viewport & view;
+  Viewport & view;
 };
