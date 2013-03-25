@@ -20,6 +20,7 @@ Manager::Manager() :
   io( IOManager::getInstance() ),
   clock( Clock::getInstance() ),
   screen( io.getScreen() ),
+  worlds(),
   viewport( Viewport::getInstance() ),
   sprites(),
   player(jgdata.getStr("player.name")),
