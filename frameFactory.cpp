@@ -58,7 +58,7 @@ Frame* FrameFactory::getFrame(const std::string& name, const int num, const floa
           jgdata.getStr(name+".file"),
           jgdata.getBool(name+".transparency"));
     SDL_Surface * surface = rotozoomSurface(tmp, 0, scale, SMOOTHING_ON);
-    delete tmp;
+    SDL_FreeSurface(tmp);
     surfaces[fmName] = surface;
     Frame * const frame =new Frame(surface,
                 width*scale,
