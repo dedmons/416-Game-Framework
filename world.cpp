@@ -21,3 +21,15 @@ void World::draw() const {
 	}
 }
 
+World& operator=(const World& other){
+  frame1 = other.frame1;
+  frameWidth = other.frameWidth;
+  frameHeight = other.frameHeight;
+  worldWidth = other.worldWidth;
+  worldHeight = other.worldHeight;
+  factor = other.factor;
+  viewX = other.viewX;
+  viewY = other.viewY;
+  view = other.view;
+  return *this;
+}

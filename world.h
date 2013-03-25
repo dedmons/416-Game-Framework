@@ -26,6 +26,8 @@ public:
   {}
   void update();
   void draw() const;
+  World& operator=(const World&);
+
 private:
   Frame const frame1;
   unsigned frameWidth;
@@ -36,5 +38,4 @@ private:
   float viewX;
   float viewY;
   const Viewport & view;
-  World& operator=(const World&);
 };
