@@ -62,7 +62,7 @@ SDL_Surface* IOManager::loadAndSet(const string& filename, bool setcolorkey) con
   return image;
 }
 
-void IOManager::printMessageAt(const string& msg, Sint32 x, Sint32 y) const {
+void IOManager::printMessageAt(const string& msg, Sint16 x, Sint16 y) const {
    SDL_Rect dest = {x,y,0,0};
    SDL_Surface * stext = TTF_RenderText_Blended(font, msg.c_str(), color);
    if (stext) {
@@ -75,7 +75,7 @@ void IOManager::printMessageAt(const string& msg, Sint32 x, Sint32 y) const {
    }
 }
 
-void IOManager::printMessageCenteredAt( const string& msg, Sint32 y) const {
+void IOManager::printMessageCenteredAt( const string& msg, Sint16 y) const {
    SDL_Surface *stext = TTF_RenderText_Blended(font, msg.c_str(), color);
    if (stext) {
      Uint32 x = ( viewWidth - stext->w ) / 2;
@@ -91,7 +91,9 @@ void IOManager::printMessageCenteredAt( const string& msg, Sint32 y) const {
 
 template <typename T>
 void IOManager::printMessageValueAt(const string& msg, T value,
-     Sint32 x, Sint32 y) const {
+     Sint16
+     x, Sint16
+     y) const {
    std::stringstream strm;
    std::string message = msg;
    strm << message << value << "\0";
@@ -110,7 +112,9 @@ void IOManager::printMessageValueAt(const string& msg, T value,
 }
 
 void IOManager::printStringAfterMessage( const string& msg,
-       Sint32 x, Sint32 y ) const {
+       Sint16
+       x, Sint16
+       y ) const {
    printMessageAt(msg+inputString, x, y);
 }
 
@@ -130,11 +134,11 @@ void IOManager::buildString(SDL_Event event) {
 }
 
 template void IOManager::
-printMessageValueAt(const string& msg, float, Uint32, Uint32) const;
+printMessageValueAt(const string& msg, float, Sint16, Sint16) const;
 
 template void IOManager::
-printMessageValueAt(const string& msg, unsigned, Uint32, Uint32) const;
+printMessageValueAt(const string& msg, unsigned, Sint16, Sint16) const;
 
 template void IOManager::
-printMessageValueAt(const string& msg, int, Uint32, Uint32) const;
+printMessageValueAt(const string& msg, int, Sint16, Sint16) const;
 
