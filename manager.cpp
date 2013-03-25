@@ -3,7 +3,7 @@
 #include "multisprite.h"
 #include "twowayMultisprite.h"
 #include "manager.h"
-#include "framefactory.h"
+#include "frameFactory.h"
 
 Manager::~Manager() {
   // These deletions eliminate "definitely lost" and
