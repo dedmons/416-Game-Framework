@@ -17,13 +17,13 @@ public:
   }
   SDL_Surface* loadAndSet(const string& filename, bool setcolorkey) const;
 
-  void printMessageAt(const string& msg, Uint32 x, Uint32 y) const;
-  void printMessageCenteredAt(const string& msg, Uint32 y) const;
-  void printStringAfterMessage(const string&, Uint32 x, Uint32 y) const;
+  void printMessageAt(const string& msg, Sint32 x, Sint32 y) const;
+  void printMessageCenteredAt(const string& msg, Sint32 y) const;
+  void printStringAfterMessage(const string&, Sint32 x, Sint32 y) const;
 
   template <typename T>
   void printMessageValueAt(const string& msg, T value,
-         Uint32 x, Uint32 y) const;
+         Sint32 x, Sint32 y) const;
 
   void buildString(SDL_Event);
   void clearString() { inputString = ""; }
