@@ -39,8 +39,6 @@ private:
 
   unsigned fpsLogLength;
   std::deque<int> fpsLog;
-  float fps;
-  float fpsAlpha;
 
   Clock();
   Clock(const Clock&);

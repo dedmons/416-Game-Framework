@@ -12,6 +12,7 @@
 #include "acceleratingSprite.h"
 #include "world.h"
 #include "viewport.h"
+#include "player.h"
 
 class Manager {
 public:
@@ -28,12 +29,13 @@ private:
 
   SDL_Surface *screen;
 
-  SDL_Surface * const backSurface;
-  Frame * const backFrame;
-  World world;
+  std::vector<World> worlds;
   Viewport& viewport;
 
   std::vector<Drawable*> sprites;
+
+  Player player;
+
   int currentSprite;
   const unsigned TICK_INTERVAL;
   int nextTime;

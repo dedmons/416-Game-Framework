@@ -2,6 +2,7 @@
 #include "multisprite.h"
 #include "twowayMultisprite.h"
 #include "manager.h"
+#include "framefactory.h"
 
 Manager::~Manager() {
   // These deletions eliminate "definitely lost" and
@@ -9,7 +10,6 @@ Manager::~Manager() {
   for (unsigned i=0; i < sprites.size(); i++){
     delete sprites[i];
   }
-  delete backFrame;
 }
 
 Manager::Manager() :
@@ -19,18 +19,9 @@ Manager::Manager() :
   io( IOManager::getInstance() ),
   clock( Clock::getInstance() ),
   screen( io.getScreen() ),
-  backSurface( io.loadAndSet(jgdata.getStr("background.file"),
-                jgdata.getBool("background.transparency"))
-  ),
-  backFrame(new Frame(backSurface,
-                jgdata.getInt("background.size.width"),
-                jgdata.getInt("background.size.height"),
-                jgdata.getInt("background.src.x"),
-                jgdata.getInt("background.src.y"))
-  ),
-  world( backFrame ),
   viewport( Viewport::getInstance() ),
   sprites(),
+  player("tank2"),
   currentSprite(0),
   TICK_INTERVAL(jgdata.getInt("fpsController.tickInterval")),
   nextTime(clock.getTicks()+TICK_INTERVAL)
@@ -40,23 +31,38 @@ Manager::Manager() :
   }
   atexit(SDL_Quit);
 
+  JSONValue* backs = jgdata.getValue("backgrounds");
+  unsigned int numbacks = backs->CountChildren();
+  std::cout << "Loading " << numbacks << " backgrounds" << std::endl;
+  for(unsigned i = 0; i < numbacks; i++){
+    std::string name = backs->Child(i)->Child("name")->AsString();
+    int fact = 1;
+    if (backs->Child(i)->HasChild("fact"))
+      fact = backs->Child(i)->Child("fact")->AsNumber();
+
+    worlds.push_back( World(FrameFactory::getInstance().getFrame(name), fact) );
+  }
+
   unsigned int n = jgdata.getInt("triForce.num");
   sprites.reserve(n+2);
   for(unsigned i = 0; i < n; i++){
     sprites.push_back(new AcceleratingSprite("triForce"));
   }
 
-  sprites.push_back( new MultiframeSprite("tank") );
-  sprites.push_back( new TwowayMultiframeSprite("tank2"));
+  // sprites.push_back( new MultiframeSprite("tank") );
+  // sprites.push_back( new TwowayMultiframeSprite("tank2"));
 
   viewport.setObjectToTrack(sprites[currentSprite]);
 }
 
 void Manager::draw() const {
-  world.draw();
+  for(unsigned i = 0; i < worlds.size(); i++){
+    worlds[i].draw();
+  }
   for(unsigned i = 0; i < sprites.size(); i++){
     sprites[i]->draw();
   }
+  player.draw();
   viewport.draw();
 
 }
@@ -66,8 +72,11 @@ void Manager::update(){
     for(unsigned i=0; i< sprites.size(); i++){
       sprites[i]->update(ticks);
     }
+    player.update(ticks);
     viewport.update();
-    world.update();
+    for(unsigned i = 0; i < worlds.size(); i++){
+      worlds[i].update();
+    }
 }
 
 int Manager::timeLeft(){
@@ -103,6 +112,7 @@ void Manager::play() {
     nextTime += TICK_INTERVAL+userTickInterval;
 
     SDL_PollEvent(&event);
+    Uint8 *keyState = SDL_GetKeyState(NULL);
     if (event.type ==  SDL_QUIT) { break; }
     if(event.type == SDL_KEYUP) {
       keyCatch = false;
@@ -125,6 +135,14 @@ void Manager::play() {
             keyCatch = true;
             if ( clock.isPaused() ) clock.unpause();
             else clock.pause();
+          }
+          break;
+        }
+        case SDLK_o      : {
+          if (!keyCatch)
+          {
+            keyCatch = true;
+            viewport.setObjectToTrack(player.getSprite());
           }
           break;
         }
@@ -151,6 +169,7 @@ void Manager::play() {
               keyCatch = true;
               userTickInterval = (userTickInterval+1);
           }
+          break;
         }
         case SDLK_f      : {
           if(!keyCatch) {
@@ -158,20 +177,40 @@ void Manager::play() {
               if (TICK_INTERVAL + userTickInterval > 0)
                   userTickInterval--;
           }
+          break;
         }
         case SDLK_r      : {
           if(!keyCatch) {
               keyCatch = true;
               userTickInterval = 0;
           }
+          break;
         }
         case SDLK_F1     : {
           if(!keyCatch) {
               keyCatch = true;
               showHelp = !showHelp;
           }
+          break;
         }
         default          : break;
+      }
+      // bool playerKeyDown = false;
+      if (keyState[SDLK_LEFT]){
+        player.left();
+        // playerKeyDown = true;
+      }
+      if (keyState[SDLK_RIGHT]){
+        player.right();
+        // playerKeyDown = true;
+      }
+      if (keyState[SDLK_UP]){
+        player.up();
+        // playerKeyDown = true;
+      }
+      if (keyState[SDLK_DOWN]){
+        player.down();
+        // playerKeyDown = true;
       }
     }
   }

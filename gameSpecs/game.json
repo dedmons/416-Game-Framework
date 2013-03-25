@@ -5,7 +5,7 @@
 	},
 
 	"world":{
-  	"width":1280,
+  	"width":3200,
   	"height":960
 	},
 
@@ -41,6 +41,21 @@
 	},
 
 	"maxStringSize":50,
+
+	"backgrounds":[
+		{
+			"name":"star-back",
+			"fact":4
+		},
+		{
+			"name":"planets-2",
+			"fact":2
+		},
+		{
+			"name":"planets-1",
+			"fact":1
+		}
+	],
 
 	"triForce": {
 		"num":10,
@@ -100,6 +115,9 @@
 		"speed":{
 			"start":{
 				"x":100, "y":0
+			},
+			"max":{
+				"x":100, "y":100
 			}
 		}
 	},
@@ -129,6 +147,9 @@
 		"speed":{
 			"start":{
 				"x":100, "y":0
+			},
+			"max":{
+				"x":400, "y":400
 			}
 		}
 	},
@@ -146,6 +167,82 @@
 		"loc":{
 			"x":0,
 			"y":0
+		}
+	},
+
+	"star-back": {
+		"file":"images/star-back.png",
+		"transparency":true,
+		"src":{
+			"x":0,"y":0
+		},
+		"size":{
+			"width":320,
+			"height":320
+		},
+		"loc":{
+			"x":0,
+			"y":0
+		}
+	},
+
+	"planets-1":{
+		"file":"images/planets1.png",
+		"transparency":true,
+		"src":{
+			"x":0,"y":0
+		},
+		"size":{
+			"width":800,
+			"height":800
+		},
+		"loc":{
+			"x":0,"y":0
+		}
+	},
+
+	"planets-2":{
+		"file":"images/planets2.png",
+		"transparency":true,
+		"src":{
+			"x":0,"y":0
+		},
+		"size":{
+			"width":800,
+			"height":800
+		},
+		"loc":{
+			"x":0,"y":0
+		}
+	},
+
+	"planets-3":{
+		"file":"images/planets3.png",
+		"transparency":true,
+		"src":{
+			"x":0,"y":0
+		},
+		"size":{
+			"width":800,
+			"height":700
+		},
+		"loc":{
+			"x":0,"y":0
+		}
+	},
+
+	"planets-4":{
+		"file":"images/planets4.png",
+		"transparency":true,
+		"src":{
+			"x":0,"y":0
+		},
+		"size":{
+			"width":800,
+			"height":600
+		},
+		"loc":{
+			"x":0,"y":0
 		}
 	}
 }

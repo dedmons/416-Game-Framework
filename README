@@ -1,33 +1,25 @@
 Name: DJ Edmonson
 Email: dedmons@g.clemson.edu
-Date: March 1, 2013
+Date: March 25, 2013
 
-Proj No: 2
+Proj No: 3
 Description:
-  This program is theamed around zelda. All
-  aspects of the animation can be configured
-  with the xml file.
+
 
 To change the XML file and the animation:
-  Added parameters to:
-    -set the max speed
-    -set the range for the start speed
-    -set acceleration for the sprite
-    -set the default frame rate cap
+  -Converted to JSON
 
 The Specs that I implemented are:
-  -converted project to use the tracker framework
-  -added multiframe and two way multiframe sprites
-  -added a frame factory you make all frames
-  -added help screen
+
 
 The Specs that I was unable to implement are:
   none
 
 Extras:
-  -Improved Makefile
-    -Added target to install the clang static analyzer on macs
-    -added target to check code with cppcheck
-  -I created all the sprites
-  -Added frame rate cap
-  -Changed the way the fps is calculated by using a deque.
+  -World Class
+    -Added tiling of frame to fill viewport.
+    -Reduced to only use one frame.
+
+  -GameData Class
+    -Converted to JSON datafile
+    -Added a way to specify value paths by using dot notation

@@ -4,25 +4,37 @@
 
 class World {
 public:
-  World(Frame* const frame, int fact = 1) :
-      frame1(*frame), frame2(*frame),
-      frameWidth( frame1.getWidth() ),
-      worldWidth( JSONGamedata::getInstance().getInt("world.width") ),
+  World(Frame* const frame, float fact = 1) :
+      frame1(*frame),
+      frameWidth( frame->getWidth() ),
+      frameHeight( frame->getHeight() ),
+      worldWidth( JSONGamedata::getInstance().getInt("view.width") ),
+      worldHeight( JSONGamedata::getInstance().getInt("view.height") ),
       factor(fact),
       viewX(0.0), viewY(0.0),
       view(Viewport::getInstance())
+  {}
+  World(const World& other) : 
+      frame1( other.frame1 ),
+      frameWidth( other.frameWidth ),
+      frameHeight( other.frameHeight ),
+      worldWidth( other.worldWidth ),
+      worldHeight( other.worldHeight ),
+      factor( other.factor ),
+      viewX( other.viewX ), viewY( other.viewY ),
+      view( other.view )
   {}
   void update();
   void draw() const;
 private:
   Frame const frame1;
-  Frame const frame2;
   unsigned frameWidth;
+  unsigned frameHeight;
   unsigned worldWidth;
-  int factor;
+  unsigned worldHeight;
+  float factor;
   float viewX;
   float viewY;
   const Viewport & view;
-  World(const World&);
   World& operator=(const World&);
 };

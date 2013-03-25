@@ -18,6 +18,7 @@ public:
   const string getStr(const string&) const;
   float getFloat(const string&) const;
   int getInt(const string&) const;
+  JSONValue* getValue(const string&) const;
 private:
   JSONValue *root;
 

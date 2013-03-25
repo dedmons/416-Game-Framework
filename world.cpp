@@ -3,11 +3,21 @@
 
 void World::update() {
   viewX = static_cast<int>(view.X() / factor) % frameWidth;
-  viewY = view.Y();
+  viewY = static_cast<int>(view.Y() / factor) % frameHeight;
 }
 
 void World::draw() const {
-  frame1.draw(viewX, viewY, 0, 0);
-  frame2.draw(0, viewY, frameWidth-viewX, 0);
+  unsigned y = 0;
+
+  while (y*frameHeight <= worldHeight+frameHeight){
+		unsigned x = 0;
+  	while (x*frameWidth <= worldWidth+frameWidth){
+  		frame1.draw(viewX*(x==0?1:0),viewY*(y==0?1:0),
+  			(x*frameWidth)-(viewX*(x==0?0:1)),
+  			(y*frameHeight)-(viewY*(y==0?0:1)));
+  		x++;
+  	}
+  	y++;
+	}
 }
 
