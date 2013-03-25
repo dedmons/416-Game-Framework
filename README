@@ -10,16 +10,36 @@ To change the XML file and the animation:
   -Converted to JSON
 
 The Specs that I implemented are:
-
+  -Paralax scolling with 3 background images
+  -Painters algoritm with the triforce vector
+  -Player with the TwowayMultiframe tank
+  -Average FPS using deque
+  -Capping of FPS
+  -Added hud class that is drawn from viewport class
 
 The Specs that I was unable to implement are:
   none
 
 Extras:
+  -Converted/Adapted/Updated an open source json parser
+    written in c++ to work with project. Also added some
+    fetures to the parser and value class. 
+    Orignal Source https://github.com/MJPA/SimpleJSON
+
   -World Class
-    -Added tiling of frame to fill viewport.
     -Reduced to only use one frame.
+    -Added tiling of frame to fill viewport.
 
   -GameData Class
     -Converted to JSON datafile
     -Added a way to specify value paths by using dot notation
+
+  -FrameFactory Class
+    -Added scaling into frame factory generation of frames. 
+      this adds the potental of reusing scaled frames if scale
+      factor is the same.
+
+  -Backgrounds are specified in a list
+  -Player object specified in JSON
+
+Background image of stars is from a1star.com
