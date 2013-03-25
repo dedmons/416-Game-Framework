@@ -10,8 +10,8 @@ class Random {
       static Random random;
       return random;
     }
-    float getRand(int min, int max);
-    float getRand(int max);
+    float getRand(float min, float max);
+    float getRand(float max);
   private:
     Random();
     Random(const Random&);
