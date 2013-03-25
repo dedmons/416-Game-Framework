@@ -1,3 +1,6 @@
+#ifndef PLAYER__H
+#define PLAYER__H
+
 #include <string>
 #include "jsongamedata.h"
 #include "twowayMultisprite.h"
@@ -31,3 +34,4 @@ private:
   Player(const Player&);
   Player& operator=(const Player&);
 };
+#endif
