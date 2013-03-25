@@ -2,8 +2,8 @@
 
 class AcceleratingSprite : public Sprite {
 public:
-  AcceleratingSprite(const std::string&, const Frame*);
-  AcceleratingSprite(const std::string&);
+  // AcceleratingSprite(const std::string&, const Frame*);
+  AcceleratingSprite(const std::string&, const int scaleMin = 1, const int scaleMax = 1);
   AcceleratingSprite(const AcceleratingSprite&);
   virtual ~AcceleratingSprite() { };
 

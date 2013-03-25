@@ -5,7 +5,26 @@
 #include "jsongamedata.h"
 #include "frameFactory.h"
 
-Sprite::Sprite(const std::string& name, const Frame* fm) :
+// Sprite::Sprite(const std::string& name, const Frame* fm) :
+//   Drawable(name,
+//            Vector2f(JSONGamedata::getInstance().getInt(name+".loc.start.x"),
+//                     JSONGamedata::getInstance().getInt(name+".loc.start.y")),
+//            Vector2f(
+//              (rand()%2?1:-1)*Random::getInstance().getRand(
+//                 JSONGamedata::getInstance().getInt(name+".speed.min.x"),
+//                 JSONGamedata::getInstance().getInt(name+".speed.start.x")),
+//              (rand()%2?1:-1)*Random::getInstance().getRand(
+//                   JSONGamedata::getInstance().getInt(name+".speed.min.y"),
+//                   JSONGamedata::getInstance().getInt(name+".speed.start.y")))
+//   ),
+//   frame(fm),
+//   frameWidth(fm->getWidth()),
+//   frameHeight(fm->getHeight()),
+//   worldWidth(JSONGamedata::getInstance().getInt("world.width")),
+//   worldHeight(JSONGamedata::getInstance().getInt("world.height"))
+// { }
+
+Sprite::Sprite( const string& name, const float sMin, const float sMax) :
   Drawable(name,
            Vector2f(JSONGamedata::getInstance().getInt(name+".loc.start.x"),
                     JSONGamedata::getInstance().getInt(name+".loc.start.y")),
@@ -17,14 +36,15 @@ Sprite::Sprite(const std::string& name, const Frame* fm) :
                   JSONGamedata::getInstance().getInt(name+".speed.min.y"),
                   JSONGamedata::getInstance().getInt(name+".speed.start.y")))
   ),
-  frame(fm),
-  frameWidth(fm->getWidth()),
-  frameHeight(fm->getHeight()),
+  scale( Random::getInstance().getRand(sMin,sMax) ),
+  frame( FrameFactory::getInstance().getFrame(name, scale)) ,
+  frameWidth(frame->getWidth()),
+  frameHeight(frame->getHeight()),
   worldWidth(JSONGamedata::getInstance().getInt("world.width")),
   worldHeight(JSONGamedata::getInstance().getInt("world.height"))
 { }
 
-Sprite::Sprite( const string& name) :
+Sprite::Sprite( const string& name, const float s) :
   Drawable(name,
            Vector2f(JSONGamedata::getInstance().getInt(name+".loc.start.x"),
                     JSONGamedata::getInstance().getInt(name+".loc.start.y")),
@@ -36,7 +56,8 @@ Sprite::Sprite( const string& name) :
                   JSONGamedata::getInstance().getInt(name+".speed.min.y"),
                   JSONGamedata::getInstance().getInt(name+".speed.start.y")))
   ),
-  frame( FrameFactory::getInstance().getFrame(name) ),
+  scale( s ),
+  frame( FrameFactory::getInstance().getFrame(name, scale)) ,
   frameWidth(frame->getWidth()),
   frameHeight(frame->getHeight()),
   worldWidth(JSONGamedata::getInstance().getInt("world.width")),
@@ -45,6 +66,7 @@ Sprite::Sprite( const string& name) :
 
 Sprite::Sprite(const Sprite& s) :
   Drawable(s.getName(), s.getPosition(), s.getVelocity()),
+  scale(s.scale),
   frame(s.frame),
   frameWidth(s.getFrame()->getWidth()),
   frameHeight(s.getFrame()->getHeight()),
@@ -84,7 +106,7 @@ int Sprite::getDistance(const Sprite *obj) const {
 }
 
 void Sprite::update(Uint32 ticks) {
-  Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
+  Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001 * scale;
   setPosition(getPosition() + incr);
 
   if ( Y() < 0) {

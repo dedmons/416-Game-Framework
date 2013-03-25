@@ -9,8 +9,9 @@
 
 class Sprite : public Drawable {
 public:
-  Sprite(const std::string& n, const Frame*);
-  Sprite(const std::string& n);
+  // Sprite(const std::string& n, const Frame*);
+  Sprite(const std::string& n, const float scaleMin, const float scaleMax);
+  Sprite(const std::string& n, const float scale = 1);
   Sprite(const Sprite& s);
   virtual ~Sprite() { }
   Sprite& operator=(const Sprite&);
@@ -21,11 +22,18 @@ public:
   virtual void update(Uint32 ticks);
   unsigned getPixel(Uint32, Uint32) const;
 
+  int getScale() const { return scale; }
+
   Vector2f getCenter() const {
     return Vector2f( X()+frame->getWidth()/2, Y()+frame->getHeight()/2 );
   }
 
+  bool operator<(const Sprite& rhs){
+    return scale < rhs.scale;
+  }
+
 private:
+  float scale;
   const Frame * frame;
   int frameWidth;
   int frameHeight;

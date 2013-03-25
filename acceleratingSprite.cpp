@@ -2,20 +2,20 @@
 #include "acceleratingSprite.h"
 #include "jsongamedata.h"
 
-AcceleratingSprite::AcceleratingSprite(const std::string& name, const Frame* fm) :
-  Sprite(name,fm),
-  acceleration(
-      (rand()%2?1:-1)*JSONGamedata::getInstance().getInt(name+".accel.x"),
-      (rand()%2?1:-1)*JSONGamedata::getInstance().getInt(name+".accel.y")
-  ),
-  maxSpeeds(
-      JSONGamedata::getInstance().getInt(name+".speed.max.x"),
-      JSONGamedata::getInstance().getInt(name+".speed.max.y")
-  )
-{ }
+// AcceleratingSprite::AcceleratingSprite(const std::string& name, const Frame* fm) :
+//   Sprite(name,fm),
+//   acceleration(
+//       (rand()%2?1:-1)*JSONGamedata::getInstance().getInt(name+".accel.x"),
+//       (rand()%2?1:-1)*JSONGamedata::getInstance().getInt(name+".accel.y")
+//   ),
+//   maxSpeeds(
+//       JSONGamedata::getInstance().getInt(name+".speed.max.x"),
+//       JSONGamedata::getInstance().getInt(name+".speed.max.y")
+//   )
+// { }
 
-AcceleratingSprite::AcceleratingSprite(const std::string& name) :
-  Sprite(name),
+AcceleratingSprite::AcceleratingSprite(const std::string& name, const int scaleMin, const int scaleMax) :
+  Sprite(name,scaleMin,scaleMax),
   acceleration(
       (rand()%2?1:-1)*JSONGamedata::getInstance().getInt(name+".accel.x"),
       (rand()%2?1:-1)*JSONGamedata::getInstance().getInt(name+".accel.y")
@@ -27,7 +27,7 @@ AcceleratingSprite::AcceleratingSprite(const std::string& name) :
 { }
 
 AcceleratingSprite::AcceleratingSprite(const AcceleratingSprite& o) :
-  Sprite(o.getName(), o.getFrame()),
+  Sprite(o.getName(), o.getScale()),
   acceleration(o.acceleration),
   maxSpeeds(o.maxSpeeds)
 { }

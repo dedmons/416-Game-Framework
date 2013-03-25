@@ -2,6 +2,8 @@
 #include "ioManager.h"
 #include "vector2f.h"
 
+#include <SDL/SDL_rotozoom.h>
+
 FrameFactory::~FrameFactory() {
   std::cout << "The FrameFactory is down sizing!" << std::endl;
   std::map<std::string, SDL_Surface*>::iterator itSurf = surfaces.begin();
@@ -23,40 +25,52 @@ FrameFactory& FrameFactory::getInstance() {
 
 Frame* FrameFactory::getFrame(const std::string& name) {
   return getFrame(name,
-            0,
+            0, 1,
             jgdata.getInt(name+".size.width"),
             jgdata.getInt(name+".size.height"),
             jgdata.getInt(name+".src.x"),
             jgdata.getInt(name+".src.y"));
 }
 
-Frame* FrameFactory::getFrame(const std::string& name, const int num,
+Frame* FrameFactory::getFrame(const std::string& name, const float scale) {
+  return getFrame(name,
+            0, scale,
+            jgdata.getInt(name+".size.width"),
+            jgdata.getInt(name+".size.height"),
+            jgdata.getInt(name+".src.x"),
+            jgdata.getInt(name+".src.y"));
+}
+
+Frame* FrameFactory::getFrame(const std::string& name, const int num, const float scale,
     const Uint16 width, const Uint16 height, const Uint16 srcX, const Uint16 srcY) {
 
   std::stringstream sstm;
-  sstm << name << num;
+  sstm << name << num << "sc" << scale;
   std::string fmName = sstm.str();
 
-  //std::cout << "Getting frame: " << fmName << " => ";
+  // std::cout << "Getting frame: " << fmName << " => ";
 
   std::map<std::string, Frame*>::const_iterator pos = frames.find(fmName);
   if ( pos == frames.end() ) {
-    //std::cout << "Making its frame" << std::endl;
-    SDL_Surface * const surface =
+    // std::cout << "Making its frame" << std::endl;
+    SDL_Surface * tmp =
       IOManager::getInstance().loadAndSet(
           jgdata.getStr(name+".file"),
           jgdata.getBool(name+".transparency"));
+    SDL_Surface * surface = rotozoomSurface(tmp, 0, scale, SMOOTHING_ON);
+    delete tmp;
     surfaces[fmName] = surface;
     Frame * const frame =new Frame(surface,
-                width,
-                height,
+                width*scale,
+                height*scale,
                 srcX,
                 srcY);
+
     frames[fmName] = frame;
     return frame;
   }
   else {
-    //std::cout << "Returning previously made frame" << std::endl;
+    // std::cout << "Returning previously made frame" << std::endl;
     return pos->second;
   }
 }
@@ -75,7 +89,7 @@ std::vector<Frame*> FrameFactory::getMultiFrames(const std::string& name){
   for (unsigned i = 0; i < numberofframes; ++i) {
     unsigned framex = i * (pwidth + xoffset) + srcx;
     retvector.push_back(
-      getFrame(name, i+1, pwidth, pheight, framex, srcy) );
+      getFrame(name, i+1, 1, pwidth, pheight, framex, srcy) );
   }
 
   return retvector;
@@ -98,7 +112,7 @@ std::vector<Frame*> FrameFactory::getLeftMultiFrames(const std::string& name){
     unsigned framex = i * (pwidth + xoffset) + srcx;
     unsigned framey = srcy + pheight + yoffset;
     retvector.push_back(
-      getFrame(name, -(i+1), pwidth, pheight, framex, framey) );
+      getFrame(name, -(i+1), 1, pwidth, pheight, framex, framey) );
   }
 
   return retvector;
