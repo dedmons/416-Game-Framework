@@ -5,6 +5,8 @@ Date: March 25, 2013
 Proj No: 3
 Description:
 
+IMPORTANT: 
+  This project uses C++11, use gcc 4.7+ or clang 3.0+
 
 To change the XML file and the animation:
   -Converted to JSON
