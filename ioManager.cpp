@@ -78,7 +78,7 @@ void IOManager::printMessageAt(const string& msg, Sint16 x, Sint16 y) const {
 void IOManager::printMessageCenteredAt( const string& msg, Sint16 y) const {
    SDL_Surface *stext = TTF_RenderText_Blended(font, msg.c_str(), color);
    if (stext) {
-     Uint32 x = ( viewWidth - stext->w ) / 2;
+     Sint16 x = ( viewWidth - stext->w ) / 2;
      SDL_Rect dest = {x,y,0,0};
      SDL_BlitSurface( stext, NULL, screen, &dest );
      SDL_FreeSurface(stext);
