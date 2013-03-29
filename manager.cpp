@@ -15,7 +15,6 @@ Manager::~Manager() {
 
 Manager::Manager() :
   env( SDL_putenv(const_cast<char*>("SDL_VIDEO_CENTERED=center")) ),
-  gdata( Gamedata::getInstance() ),
   jgdata( JSONGamedata::getInstance() ),
   io( IOManager::getInstance() ),
   clock( Clock::getInstance() ),

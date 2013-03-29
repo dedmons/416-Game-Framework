@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 
-#include "parseXML.h"
 #include "JSON.h"
 
 using std::string;
@@ -22,7 +21,7 @@ public:
 private:
   JSONValue *root;
 
-  std::vector<string> getPathValues(const string& path) const; 
+  std::vector<string> getPathValues(const string& path) const;
 
   JSONGamedata(const string& fn = "gameSpecs/game.json");
   JSONGamedata(const JSONGamedata&);
