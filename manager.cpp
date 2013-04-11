@@ -54,7 +54,7 @@ Manager::Manager() :
 
   sort(sprites.begin(), sprites.end());
 
-  viewport.setObjectToTrack(sprites[currentSprite]);
+  viewport.setObjectToTrack(player.getSprite());
 }
 
 void Manager::draw() const {

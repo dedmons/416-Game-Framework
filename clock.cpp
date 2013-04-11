@@ -22,7 +22,8 @@ Clock::Clock() :
   timeAtStart(0), timeAtPause(0),
   currTicks(0), prevTicks(0), ticks(0),
   fpsLogLength( JSONGamedata::getInstance().getInt("fpsController.fpsLogLength")),
-  fpsLog(fpsLogLength)
+  fpsLog(fpsLogLength, 0),
+  fpsTotal(0)
   {
   start();
 }
@@ -32,7 +33,7 @@ Clock::Clock(const Clock& c) :
   paused(c.paused), frames(c.frames),
   timeAtStart(c.timeAtStart), timeAtPause(c.timeAtPause),
   currTicks(c.currTicks), prevTicks(c.prevTicks), ticks(c.ticks),
-  fpsLogLength(c.fpsLogLength), fpsLog(c.fpsLog)
+  fpsLogLength(c.fpsLogLength), fpsLog(c.fpsLog), fpsTotal(c.fpsTotal)
   {
   start();
 }
@@ -61,20 +62,19 @@ unsigned Clock::getElapsedTicks() {
   ticks = currTicks-prevTicks;
   prevTicks = currTicks;
 
-  fpsLog.push_front(1/(ticks/1000.0));
+  double fps = 1/(ticks/1000.0);
+
+  fpsTotal -= fpsLog.back();
+  fpsTotal += fps;
+
   fpsLog.pop_back();
+  fpsLog.push_front(fps);
 
   return ticks;
 }
 
 float Clock::getFps(){
-  int sum = 0;
-
-  for(unsigned i=0; i < fpsLogLength; i++){
-    sum += fpsLog[i];
-  }
-
-  return sum/fpsLogLength;
+  return fpsTotal/fpsLogLength;
 }
 
 Clock& Clock::operator++() {

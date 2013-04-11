@@ -39,6 +39,7 @@ private:
 
   unsigned fpsLogLength;
   std::deque<int> fpsLog;
+  unsigned fpsTotal;
 
   Clock();
   Clock(const Clock&);
