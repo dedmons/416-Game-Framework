@@ -152,6 +152,8 @@ void Manager::play() {
         case SDLK_t      : {
           if (!keyCatch) {
             keyCatch = true;
+            if(sprites.size() == 0)
+              break;
             if (shiftKeyDown)
               currentSprite = (currentSprite+sprites.size()-1)%sprites.size();
             else
