@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include <deque>
+#include <queue>
 
 class Manager;
 class Clock {
@@ -38,7 +38,7 @@ private:
   unsigned ticks;
 
   unsigned fpsLogLength;
-  std::deque<int> fpsLog;
+  std::queue<int> fpsLog;
   unsigned fpsTotal;
 
   Clock();
