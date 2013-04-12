@@ -48,8 +48,8 @@
 		"file":"images/tri.png",
 		"transparency":true,
 		"scale":{
-			"min":0.75,
-			"max":2.0
+			"min":1,
+			"max":1
 		},
 		"src": {
 			"x":0,
@@ -111,6 +111,95 @@
 			}
 		}
 	},
+    
+    "Etank":{
+		"num":1,
+		"file":"images/mytank.png",
+		"transparency":true,
+		"frames":{
+			"interval":2,
+			"num":4
+		},
+		"loc":{
+			"start":{
+				"x":300,"y":100
+			}
+		},
+		"src":{
+			"x":5, "y":0,
+			"offset":{
+				"x":10, "y":5
+			}
+		},
+		"size":{
+			"width":40, "height":30
+		},
+		"speed":{
+			"start":{
+				"x":0, "y":0
+			},
+			"max":{
+				"x":400, "y":400
+			}
+		}
+	},
+    "Etankproj":{
+		"num":1,
+		"file":"images/mytank.png",
+		"transparency":true,
+		"frames":{
+			"interval":2,
+			"num":4
+		},
+		"loc":{
+			"start":{
+				"x":300,"y":100
+			}
+		},
+		"src":{
+			"x":5, "y":0,
+			"offset":{
+				"x":10, "y":5
+			}
+		},
+		"size":{
+			"width":40, "height":30
+		},
+		"speed":{
+			"start":{
+				"x":100, "y":0
+			},
+			"max":{
+				"x":400, "y":400
+			}
+		}
+	},
+    "EtankChunk":{
+        "loc":{
+            "start":{
+                "x":300, "y":100
+            }
+        },
+        "speed":{
+            "min":{
+                "x":0, "y":0
+            },
+            "start":{
+                "x":100, "y":100
+            }
+        },
+        "size":{
+            "width":10, "height":10
+        },
+        "src":{
+            "x":5, "y":0,
+            "offset":{
+                "x":10, "y":5
+            }
+        },
+        "file":"images/mytank.png",
+        "transparency":true
+    },
 
 	"star-back": {
 		"file":"images/star-back.png",

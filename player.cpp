@@ -7,7 +7,8 @@ Player::~Player() {
 
 Player::Player(const std::string& name) :
   jgdata( JSONGamedata::getInstance() ),
-  keyPressed(false),
+  keyPressedUD(false),
+  keyPressedLR(false),
   worldWidth( jgdata.getInt("world.width") ), 
   worldHeight( jgdata.getInt("world.height") ), 
   maxVel( Vector2f(jgdata.getInt(name+".speed.max.x"), 
@@ -18,43 +19,57 @@ Player::Player(const std::string& name) :
   drawable(NULL)
 { 
    drawable = new TwowayMultiframeSprite(name);
+    strategies.push_back(new RectangularCollisionStrategy);
+    strategy = strategies[0];
 }
 
-void Player::update(Uint32 ticks) { 
-  drawable->update(ticks); 
-  if (!keyPressed ) stop();
-  keyPressed = false;
+void Player::update(Uint32 ticks) {
+    if(keyPressedUD || keyPressedLR) drawable->update(ticks);
+    if(!keyPressedUD) changeMovement(Player::STOPUD);
+    if(!keyPressedLR) changeMovement(Player::STOPLR);
+    keyPressedUD = keyPressedLR = false;
 }
 
-void Player::stop() { 
-  drawable->velocityX(0);  
-  drawable->velocityY(0);  
+void Player::changeMovement(int type)
+{
+    switch(type)
+    {
+        case Player::RIGHT :
+            keyPressedLR = true;
+            if ( drawable->X() < worldWidth-width) {
+                drawable->velocityX(maxVel[0]);
+            }
+            break;
+        case Player::LEFT :
+            keyPressedLR = true;
+            if ( drawable->X() > 0) {
+                drawable->velocityX(-maxVel[0]);
+            }
+            break;
+        case Player::UP :
+            keyPressedUD = true;
+            if ( drawable->Y() < 0 ) {
+                drawable->velocityY( abs( drawable->velocityY() ) );
+            }
+            else {
+                drawable->velocityY(-maxVel[0]);
+            }
+            break;
+        case Player::DOWN :
+            keyPressedUD = true;
+            if ( drawable->Y() < worldHeight-height) {
+                drawable->velocityY(maxVel[0]);
+            }
+            break;
+        case Player::STOPUD :
+            keyPressedUD = false;
+            drawable->velocityY(0);
+        break;
+        case Player::STOPLR :
+            keyPressedLR = false;
+            drawable->velocityX(0);
+        break;
+        default :
+        break;
+    }
 }
-
-void Player::right() { 
-  keyPressed = true;
-  if ( drawable->X() < worldWidth-width) {
-    drawable->velocityX(maxVel[0]);
-  }
-} 
-void Player::left()  { 
-  keyPressed = true;
-  if ( drawable->X() > 0) {
-    drawable->velocityX(-maxVel[0]);
-  }
-} 
-void Player::up()    { 
-  keyPressed = true;
-  if ( drawable->Y() < 0 ) {
-    drawable->velocityY( abs( drawable->velocityY() ) );
-  }
-  else {
-    drawable->velocityY(-maxVel[0]);
-  }
-} 
-void Player::down()  { 
-  keyPressed = true;
-  if ( drawable->Y() < worldHeight-height) {
-    drawable->velocityY(maxVel[0]);
-  }
-} 

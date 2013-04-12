@@ -4,6 +4,7 @@
 #include "twowayMultisprite.h"
 #include "manager.h"
 #include "frameFactory.h"
+#include "sound.h"
 
 Manager::~Manager() {
   // These deletions eliminate "definitely lost" and
@@ -45,25 +46,52 @@ Manager::Manager() :
   }
 
   unsigned int n = jgdata.getInt("triForce.num");
+    std::cout << n;
   float smin = jgdata.getFloat("triForce.scale.min");
   float smax = jgdata.getFloat("triForce.scale.max");
-  sprites.reserve(n+2);
+    sprites.reserve(n+2);
   for(unsigned i = 0; i < n; i++){
     sprites.push_back(new AcceleratingSprite("triForce",smin,smax));
   }
+    
+    explosions.push_back(new TwowayMultiframeSprite("Etank"));
 
   sort(sprites.begin(), sprites.end());
 
   viewport.setObjectToTrack(player.getSprite());
 }
 
+/*bool Manager::checkForCollisions() const {
+    std::list<Drawable*>::const_iterator sprite = explosions.begin();
+    while ( sprite != explosions.end() ) {
+        if ( player.collidedWith(&(*sprite)) )
+        {
+            sprite = explosions.erase(sprite);
+        }
+        else
+        {
+        ++sprite;
+        }
+    }
+    return false;
+}*/
+
 void Manager::draw() const {
+  
   for(unsigned i = 0; i < worlds.size(); i++){
     worlds[i].draw();
   }
   for(unsigned i = 0; i < sprites.size(); i++){
     sprites[i]->draw();
   }
+  
+    std::list<Drawable*>::const_iterator ptr = explosions.begin();
+    while( ptr != explosions.end() )
+    {
+        (*ptr)->draw();
+        ++ptr;
+    }
+
   player.draw();
   viewport.draw();
 
@@ -73,6 +101,12 @@ void Manager::update(){
     Uint32 ticks = clock.getElapsedTicks();
     for(unsigned i=0; i< sprites.size(); i++){
       sprites[i]->update(ticks);
+    }
+    std::list<Drawable*>::const_iterator ptr = explosions.begin();
+    while( ptr != explosions.end() )
+    {
+        (*ptr)->draw();
+        ++ptr;
     }
     player.update(ticks);
     viewport.update();
@@ -86,13 +120,32 @@ int Manager::timeLeft(){
     return std::max(0, nextTime - now);
 }
 
+void Manager::explodeSprite(const string& name)
+{
+    std::list<Drawable*>::iterator ptr = explosions.begin();
+    while (ptr != explosions.end() )
+    {
+        Drawable* sprite = dynamic_cast<TwowayMultiframeSprite*>(*ptr);
+        if (sprite && sprite->getName() == name)
+        {
+            Sprite newSprite("Etank", 1);
+            delete sprite;
+            ptr = explosions.erase(ptr);
+            explosions.push_back(new ExplodingSprite(newSprite) );
+        }
+        else ++ptr;
+    }
+}
+
 void Manager::play() {
   SDL_Event event;
+  SDLSound sound;
 
   bool done = false;
   bool keyCatch = false;
   bool shiftKeyDown = false;
   bool showHelp = false;
+  bool tankExploded = false;
 
   int userTickInterval = 0;
   while ( ! done ) {
@@ -133,6 +186,14 @@ void Manager::play() {
       switch ( event.key.keysym.sym ) {
         case SDLK_ESCAPE : done = true; break;
         case SDLK_q      : done = true; break;
+          case SDLK_SPACE : {
+              if(!keyCatch){
+                  keyCatch = true;
+                  sound[0];
+              }
+              break;
+          }
+          
         case SDLK_p      : {
           if (!keyCatch) {
             keyCatch = true;
@@ -141,6 +202,13 @@ void Manager::play() {
           }
           break;
         }
+          case SDLK_e : {
+              if(!keyCatch) {
+                  keyCatch = true;
+                  explodeSprite("Etank");
+              }
+          }
+
         case SDLK_o      : {
           if (!keyCatch)
           {
@@ -202,19 +270,19 @@ void Manager::play() {
       }
       // bool playerKeyDown = false;
       if (keyState[SDLK_LEFT]){
-        player.left();
+          player.changeMovement(Player::LEFT);
         // playerKeyDown = true;
       }
       if (keyState[SDLK_RIGHT]){
-        player.right();
+          player.changeMovement(Player::RIGHT);
         // playerKeyDown = true;
       }
       if (keyState[SDLK_UP]){
-        player.up();
+          player.changeMovement(Player::UP);
         // playerKeyDown = true;
       }
       if (keyState[SDLK_DOWN]){
-        player.down();
+          player.changeMovement(Player::DOWN);
         // playerKeyDown = true;
       }
     }

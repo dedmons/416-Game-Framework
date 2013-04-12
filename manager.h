@@ -1,8 +1,8 @@
 #include <SDL.h>
 #include <iostream>
 #include <string>
+#include <list>
 #include <vector>
-
 #include "ioManager.h"
 #include "clock.h"
 #include "jsongamedata.h"
@@ -12,6 +12,7 @@
 #include "world.h"
 #include "viewport.h"
 #include "player.h"
+#include "explodingSprite.h"
 
 class Manager {
 public:
@@ -29,18 +30,19 @@ private:
 
   std::vector<World> worlds;
   Viewport& viewport;
-
+    std::list<Drawable*> explosions;
   std::vector<Sprite*> sprites;
-
   Player player;
 
   int currentSprite;
   const unsigned TICK_INTERVAL;
   int nextTime;
-
+  
+    bool checkForCollisions() const;
   void draw() const;
   void update();
   int timeLeft();
+    void explodeSprite(const string&);
   Manager(const Manager&);
   Manager& operator=(const Manager&);
 };
