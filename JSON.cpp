@@ -13,7 +13,7 @@
  */
 JSONValue *JSON::Parse(const std::string &file)
 {
-  std::ifstream t(file);
+  std::ifstream t(file.c_str());
   std::string str((std::istreambuf_iterator<char>(t)),
                    std::istreambuf_iterator<char>());
 
