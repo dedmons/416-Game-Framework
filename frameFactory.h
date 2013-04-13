@@ -11,7 +11,7 @@ public:
   Frame* getFrame(const std::string&);
   Frame* getFrame(const std::string&, const float);
   Frame* getFrame(const std::string&, const int, const float,
-    const Uint16, const Uint16, const Uint16, const Uint16);
+    const int, const Uint16, const Uint16, const Uint16, const Uint16);
   std::vector<Frame*> getMultiFrames(const std::string&);
   std::vector<Frame*> getLeftMultiFrames(const std::string&);
 

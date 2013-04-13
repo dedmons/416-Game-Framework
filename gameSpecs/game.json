@@ -44,12 +44,12 @@
 	},
 
 	"triForce": {
-		"num":0,
+		"num":5,
 		"file":"images/tri.png",
 		"transparency":true,
 		"scale":{
 			"min":0.75,
-			"max":2.0
+			"max":1.5
 		},
 		"src": {
 			"x":0,
@@ -64,7 +64,7 @@
 				"x":0, "y":0
 			},
 			"max":{
-				"x":300, "y":300
+				"x":1000, "y":1000
 			},
 			"start":{
 				"x":90, "y":90
@@ -88,6 +88,7 @@
 			"interval":2,
 			"num":4
 		},
+		"scale":1,
 		"loc":{
 			"start":{
 				"x":200,"y":100
@@ -125,6 +126,10 @@
 		"loc":{
 			"x":0,
 			"y":0
+		},
+		"scale":{
+			"min":1,
+			"max":1
 		}
 	}
 }

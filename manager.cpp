@@ -49,7 +49,7 @@ Manager::Manager() :
   float smax = jgdata.getFloat("triForce.scale.max");
   sprites.reserve(n+2);
   for(unsigned i = 0; i < n; i++){
-    sprites.push_back(new AcceleratingSprite("triForce",smin,smax));
+    sprites.push_back(new Sprite("triForce",smin,smax));
   }
 
   sort(sprites.begin(), sprites.end());

@@ -18,10 +18,10 @@ public:
   float getFloat(const string&) const;
   int getInt(const string&) const;
   JSONValue* getValue(const string&) const;
+
+  bool hasValue(const string&) const;
 private:
   JSONValue *root;
-
-  std::vector<string> getPathValues(const string& path) const;
 
   JSONGamedata(const string& fn = "gameSpecs/game.json");
   JSONGamedata(const JSONGamedata&);

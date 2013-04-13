@@ -1,6 +1,7 @@
 #include "frameFactory.h"
 #include "ioManager.h"
 #include "vector2f.h"
+#include "random.h"
 
 #include <SDL/SDL_rotozoom.h>
 
@@ -25,7 +26,7 @@ FrameFactory& FrameFactory::getInstance() {
 
 Frame* FrameFactory::getFrame(const std::string& name) {
   return getFrame(name,
-            0, 1,
+            0, 1, 1,
             jgdata.getInt(name+".size.width"),
             jgdata.getInt(name+".size.height"),
             jgdata.getInt(name+".src.x"),
@@ -34,7 +35,7 @@ Frame* FrameFactory::getFrame(const std::string& name) {
 
 Frame* FrameFactory::getFrame(const std::string& name, const float scale) {
   return getFrame(name,
-            0, scale,
+            0, scale, 1,
             jgdata.getInt(name+".size.width"),
             jgdata.getInt(name+".size.height"),
             jgdata.getInt(name+".src.x"),
@@ -42,35 +43,56 @@ Frame* FrameFactory::getFrame(const std::string& name, const float scale) {
 }
 
 Frame* FrameFactory::getFrame(const std::string& name, const int num, const float scale,
-    const Uint16 width, const Uint16 height, const Uint16 srcX, const Uint16 srcY) {
+    const int numFrames, const Uint16 width, const Uint16 height, const Uint16 srcX, const Uint16 srcY) {
 
   std::stringstream sstm;
-  sstm << name << num << "sc" << scale;
+
+  float realScale = roundf(scale*10.0)/10.0;
+
+  sstm << name << num << "sc" << realScale;
   std::string fmName = sstm.str();
 
-  // std::cout << "Getting frame: " << fmName << " => ";
+  bool debug = false;
+
+  if(debug)
+    std::cout << "Getting frame: " << fmName << " => ";
 
   std::map<std::string, Frame*>::const_iterator pos = frames.find(fmName);
   if ( pos == frames.end() ) {
-    // std::cout << "Making its frame" << std::endl;
+    if(debug)
+      std::cout << "Making its frame" << std::endl;
+    SDL_Surface * surface;
     SDL_Surface * tmp =
       IOManager::getInstance().loadAndSet(
           jgdata.getStr(name+".file"),
           jgdata.getBool(name+".transparency"));
-    SDL_Surface * surface = rotozoomSurface(tmp, 0, scale, SMOOTHING_ON);
-    SDL_FreeSurface(tmp);
+
+    float newScale = 1.0f;
+
+    if(scale != 1){
+      double oldW = tmp->w;
+      double newW = numFrames*ceil((oldW*realScale-0.5)/numFrames);
+      newScale = newW/oldW;
+
+      surface = rotozoomSurface(tmp, 0, newScale, SMOOTHING_ON);
+      SDL_FreeSurface(tmp);
+    } else {
+      surface = tmp;
+    }
+
     surfaces[fmName] = surface;
     Frame * const frame =new Frame(surface,
-                width*scale,
-                height*scale,
-                srcX,
-                srcY);
+                width*newScale,
+                height*newScale,
+                srcX*newScale,
+                srcY*newScale);
 
     frames[fmName] = frame;
     return frame;
   }
   else {
-    // std::cout << "Returning previously made frame" << std::endl;
+    if(debug)
+      std::cout << "Returning previously made frame" << std::endl;
     return pos->second;
   }
 }
@@ -86,10 +108,14 @@ std::vector<Frame*> FrameFactory::getMultiFrames(const std::string& name){
   Uint16 srcy = jgdata.getInt(name+".src.y");
   Uint16 xoffset = jgdata.getInt(name+".src.offset.x");
 
+  float scale = 1;
+  if (jgdata.hasValue(name+".scale"))
+    scale = jgdata.getFloat(name+".scale");
+
   for (unsigned i = 0; i < numberofframes; ++i) {
     unsigned framex = i * (pwidth + xoffset) + srcx;
     retvector.push_back(
-      getFrame(name, i+1, 1, pwidth, pheight, framex, srcy) );
+      getFrame(name, i+1, scale, numberofframes, pwidth, pheight, framex, srcy) );
   }
 
   return retvector;
@@ -107,12 +133,15 @@ std::vector<Frame*> FrameFactory::getLeftMultiFrames(const std::string& name){
   Uint16 xoffset = jgdata.getInt(name+".src.offset.x");
   Uint16 yoffset = jgdata.getInt(name+".src.offset.y");
 
+  float scale = 1;
+  if (jgdata.hasValue(name+".scale"))
+    scale = jgdata.getFloat(name+".scale");
 
   for (unsigned i = 0; i < numberofframes; ++i) {
     unsigned framex = i * (pwidth + xoffset) + srcx;
-    unsigned framey = srcy + pheight + yoffset;
+    unsigned framey = srcy + pheight + (yoffset);
     retvector.push_back(
-      getFrame(name, -(i+1), 1, pwidth, pheight, framex, framey) );
+      getFrame(name, -(i+1), scale, numberofframes, pwidth, pheight, framex, framey) );
   }
 
   return retvector;

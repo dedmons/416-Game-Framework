@@ -39,6 +39,10 @@ private:
   int frameHeight;
   int worldWidth;
   int worldHeight;
+  Vector2f acceleration;
+  Vector2f maxSpeeds;
+
+  void updateVelocity(Uint32);
   int getDistance(const Sprite*) const;
 };
 #endif
