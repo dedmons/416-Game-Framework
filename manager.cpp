@@ -4,6 +4,7 @@
 #include "twowayMultisprite.h"
 #include "manager.h"
 #include "frameFactory.h"
+#include "planets.h"
 
 Manager::~Manager() {
   // These deletions eliminate "definitely lost" and
@@ -61,12 +62,12 @@ void Manager::draw() const {
   for(unsigned i = 0; i < worlds.size(); i++){
     worlds[i].draw();
   }
+  Planets::getInstance().draw();
   for(unsigned i = 0; i < sprites.size(); i++){
     sprites[i]->draw();
   }
   player.draw();
   viewport.draw();
-
 }
 
 void Manager::update(){

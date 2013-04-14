@@ -4,6 +4,7 @@
 #include "sprite.h"
 #include "jsongamedata.h"
 #include "frameFactory.h"
+#include "planets.h"
 
 Sprite::Sprite( const string& name, const float sMin, const float sMax) :
   Drawable(name,
@@ -24,7 +25,8 @@ Sprite::Sprite( const string& name, const float sMin, const float sMax) :
   worldWidth(JSONGamedata::getInstance().getInt("world.width")),
   worldHeight(JSONGamedata::getInstance().getInt("world.height")),
   acceleration(Vector2f(0,0)),
-  maxSpeeds(Vector2f(-99,-99))
+  maxSpeeds(Vector2f(-99,-99)),
+  mass(0)
 { 
   if(JSONGamedata::getInstance().hasValue(name+".accel")){
     acceleration = Vector2f(
@@ -37,6 +39,9 @@ Sprite::Sprite( const string& name, const float sMin, const float sMax) :
       JSONGamedata::getInstance().getInt(name+".speed.max.x"),
       JSONGamedata::getInstance().getInt(name+".speed.max.y")
     );
+  }
+  if(JSONGamedata::getInstance().hasValue(name+".mass")){
+    mass = JSONGamedata::getInstance().getFloat(name+".mass");
   }
 }
 
@@ -59,7 +64,8 @@ Sprite::Sprite( const string& name, const float s) :
   worldWidth(JSONGamedata::getInstance().getInt("world.width")),
   worldHeight(JSONGamedata::getInstance().getInt("world.height")),
   acceleration(Vector2f(0,0)),
-  maxSpeeds(Vector2f(-99,-99))
+  maxSpeeds(Vector2f(-99,-99)),
+  mass(0)
 { 
   if(JSONGamedata::getInstance().hasValue(name+".accel")){
     acceleration = Vector2f(
@@ -73,6 +79,9 @@ Sprite::Sprite( const string& name, const float s) :
       JSONGamedata::getInstance().getInt(name+".speed.max.y")
     );
   }
+  if(JSONGamedata::getInstance().hasValue(name+".mass")){
+    mass = JSONGamedata::getInstance().getFloat(name+".mass");
+  }
 }
 
 Sprite::Sprite(const Sprite& s) :
@@ -84,7 +93,8 @@ Sprite::Sprite(const Sprite& s) :
   worldWidth(JSONGamedata::getInstance().getInt("world.width")),
   worldHeight(JSONGamedata::getInstance().getInt("world.height")),
   acceleration(s.acceleration),
-  maxSpeeds(s.maxSpeeds)
+  maxSpeeds(s.maxSpeeds),
+  mass(s.mass)
 { }
 
 Sprite& Sprite::operator=(const Sprite& rhs) {
@@ -121,26 +131,35 @@ int Sprite::getDistance(const Sprite *obj) const {
 }
 
 void Sprite::update(Uint32 ticks) {
+
+  const static float speedLoss = JSONGamedata::getInstance().getFloat("sprite.speedLoss");
+
   updateVelocity(ticks);
   Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001 * scale;
   setPosition(getPosition() + incr);
 
   if ( Y() < 0) {
-    velocityY( abs( velocityY() ) );
+    velocityY( abs( velocityY() * speedLoss) );
   }
   if ( Y() > worldHeight-frameHeight) {
-    velocityY( -abs( velocityY() ) );
+    velocityY( -abs( velocityY() * speedLoss) );
   }
 
   if ( X() < 0) {
-    velocityX( abs( velocityX() ) );
+    velocityX( abs( velocityX() * speedLoss) );
   }
   if ( X() > worldWidth-frameWidth) {
-    velocityX( -abs( velocityX() ) );
+    velocityX( -abs( velocityX() * speedLoss) );
   }
 }
 
 void Sprite::updateVelocity(Uint32 ticks){
+
+  Planets &planets = Planets::getInstance();
+
+  acceleration = planets.accelerationFromPlanets(getPosition());
+
+  // std::cout << "Sprite Accel: " << acceleration << std::endl;
 
   float inc = acceleration[0] * 0.001 * static_cast<float>(ticks);
   velocityX( velocityX() + inc );
