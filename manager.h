@@ -8,7 +8,6 @@
 #include "jsongamedata.h"
 #include "drawable.h"
 #include "sprite.h"
-#include "acceleratingSprite.h"
 #include "world.h"
 #include "viewport.h"
 #include "player.h"

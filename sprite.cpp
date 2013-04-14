@@ -4,35 +4,17 @@
 #include "sprite.h"
 #include "jsongamedata.h"
 #include "frameFactory.h"
-
-// Sprite::Sprite(const std::string& name, const Frame* fm) :
-//   Drawable(name,
-//            Vector2f(JSONGamedata::getInstance().getInt(name+".loc.start.x"),
-//                     JSONGamedata::getInstance().getInt(name+".loc.start.y")),
-//            Vector2f(
-//              (rand()%2?1:-1)*Random::getInstance().getRand(
-//                 JSONGamedata::getInstance().getInt(name+".speed.min.x"),
-//                 JSONGamedata::getInstance().getInt(name+".speed.start.x")),
-//              (rand()%2?1:-1)*Random::getInstance().getRand(
-//                   JSONGamedata::getInstance().getInt(name+".speed.min.y"),
-//                   JSONGamedata::getInstance().getInt(name+".speed.start.y")))
-//   ),
-//   frame(fm),
-//   frameWidth(fm->getWidth()),
-//   frameHeight(fm->getHeight()),
-//   worldWidth(JSONGamedata::getInstance().getInt("world.width")),
-//   worldHeight(JSONGamedata::getInstance().getInt("world.height"))
-// { }
+#include "planets.h"
 
 Sprite::Sprite( const string& name, const float sMin, const float sMax) :
   Drawable(name,
            Vector2f(JSONGamedata::getInstance().getInt(name+".loc.start.x"),
                     JSONGamedata::getInstance().getInt(name+".loc.start.y")),
            Vector2f(
-             (rand()%2?1:-1)*Random::getInstance().getRand(
+             ((rand()%2)?1:-1)*Random::getInstance().getRand(
                 JSONGamedata::getInstance().getInt(name+".speed.min.x"),
                 JSONGamedata::getInstance().getInt(name+".speed.start.x")),
-             (rand()%2?1:-1)*Random::getInstance().getRand(
+             ((rand()%2)?1:-1)*Random::getInstance().getRand(
                   JSONGamedata::getInstance().getInt(name+".speed.min.y"),
                   JSONGamedata::getInstance().getInt(name+".speed.start.y")))
   ),
@@ -41,19 +23,38 @@ Sprite::Sprite( const string& name, const float sMin, const float sMax) :
   frameWidth(frame->getWidth()),
   frameHeight(frame->getHeight()),
   worldWidth(JSONGamedata::getInstance().getInt("world.width")),
-  worldHeight(JSONGamedata::getInstance().getInt("world.height"))
-{ }
+  worldHeight(JSONGamedata::getInstance().getInt("world.height")),
+  acceleration(Vector2f(0,0)),
+  maxSpeeds(Vector2f(-99,-99)),
+  mass(0)
+{ 
+  if(JSONGamedata::getInstance().hasValue(name+".accel")){
+    acceleration = Vector2f(
+      ((rand()%2)?1:-1)*JSONGamedata::getInstance().getInt(name+".accel.x"),
+      ((rand()%2)?1:-1)*JSONGamedata::getInstance().getInt(name+".accel.y")
+    );
+  }
+  if(JSONGamedata::getInstance().hasValue(name+".speed.max")){
+    maxSpeeds = Vector2f(
+      JSONGamedata::getInstance().getInt(name+".speed.max.x"),
+      JSONGamedata::getInstance().getInt(name+".speed.max.y")
+    );
+  }
+  if(JSONGamedata::getInstance().hasValue(name+".mass")){
+    mass = JSONGamedata::getInstance().getFloat(name+".mass");
+  }
+}
 
 Sprite::Sprite( const string& name, const float s) :
   Drawable(name,
            Vector2f(JSONGamedata::getInstance().getInt(name+".loc.start.x"),
                     JSONGamedata::getInstance().getInt(name+".loc.start.y")),
            Vector2f(
-             (rand()%2?1:-1)*Random::getInstance().getRand(
-                0,
+             ((rand()%2)?1:-1)*Random::getInstance().getRand(
+                JSONGamedata::getInstance().getInt(name+".speed.min.x"),
                 JSONGamedata::getInstance().getInt(name+".speed.start.x")),
-             (rand()%2?1:-1)*Random::getInstance().getRand(
-                  0,
+             ((rand()%2)?1:-1)*Random::getInstance().getRand(
+                  JSONGamedata::getInstance().getInt(name+".speed.min.y"),
                   JSONGamedata::getInstance().getInt(name+".speed.start.y")))
   ),
   frame( FrameFactory::getInstance().getFrame(name, scale)) ,
@@ -61,8 +62,27 @@ Sprite::Sprite( const string& name, const float s) :
   frameWidth(frame->getWidth()),
   frameHeight(frame->getHeight()),
   worldWidth(JSONGamedata::getInstance().getInt("world.width")),
-  worldHeight(JSONGamedata::getInstance().getInt("world.height"))
-{ }
+  worldHeight(JSONGamedata::getInstance().getInt("world.height")),
+  acceleration(Vector2f(0,0)),
+  maxSpeeds(Vector2f(-99,-99)),
+  mass(0)
+{ 
+  if(JSONGamedata::getInstance().hasValue(name+".accel")){
+    acceleration = Vector2f(
+      ((rand()%2)?1:-1)*JSONGamedata::getInstance().getInt(name+".accel.x"),
+      ((rand()%2)?1:-1)*JSONGamedata::getInstance().getInt(name+".accel.y")
+    );
+  }
+  if(JSONGamedata::getInstance().hasValue(name+".speed.max")){
+    maxSpeeds = Vector2f(
+      JSONGamedata::getInstance().getInt(name+".speed.max.x"),
+      JSONGamedata::getInstance().getInt(name+".speed.max.y")
+    );
+  }
+  if(JSONGamedata::getInstance().hasValue(name+".mass")){
+    mass = JSONGamedata::getInstance().getFloat(name+".mass");
+  }
+}
 
 Sprite::Sprite(const Sprite& s) :
   Drawable(s.getName(), s.getPosition(), s.getVelocity()),
@@ -71,7 +91,10 @@ Sprite::Sprite(const Sprite& s) :
   frameWidth(s.getFrame()->getWidth()),
   frameHeight(s.getFrame()->getHeight()),
   worldWidth(JSONGamedata::getInstance().getInt("world.width")),
-  worldHeight(JSONGamedata::getInstance().getInt("world.height"))
+  worldHeight(JSONGamedata::getInstance().getInt("world.height")),
+  acceleration(s.acceleration),
+  maxSpeeds(s.maxSpeeds),
+  mass(s.mass)
 { }
 
 Sprite& Sprite::operator=(const Sprite& rhs) {
@@ -83,6 +106,8 @@ Sprite& Sprite::operator=(const Sprite& rhs) {
   frameHeight = rhs.frameHeight;
   worldWidth = JSONGamedata::getInstance().getInt("world.width");
   worldHeight = JSONGamedata::getInstance().getInt("world.height");
+  acceleration = rhs.acceleration;
+  maxSpeeds = rhs.maxSpeeds;
   return *this;
 }
 
@@ -106,20 +131,55 @@ int Sprite::getDistance(const Sprite *obj) const {
 }
 
 void Sprite::update(Uint32 ticks) {
+
+  const static float speedLoss = JSONGamedata::getInstance().getFloat("sprite.speedLoss");
+
+  updateVelocity(ticks);
   Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001 * scale;
   setPosition(getPosition() + incr);
 
   if ( Y() < 0) {
-    velocityY( abs( velocityY() ) );
+    velocityY( abs( velocityY() * speedLoss) );
   }
   if ( Y() > worldHeight-frameHeight) {
-    velocityY( -abs( velocityY() ) );
+    velocityY( -abs( velocityY() * speedLoss) );
   }
 
   if ( X() < 0) {
-    velocityX( abs( velocityX() ) );
+    velocityX( abs( velocityX() * speedLoss) );
   }
   if ( X() > worldWidth-frameWidth) {
-    velocityX( -abs( velocityX() ) );
+    velocityX( -abs( velocityX() * speedLoss) );
+  }
+}
+
+void Sprite::updateVelocity(Uint32 ticks){
+
+  Planets &planets = Planets::getInstance();
+
+  acceleration = planets.accelerationFromPlanets(getPosition());
+
+  // std::cout << "Sprite Accel: " << acceleration << std::endl;
+
+  float inc = acceleration[0] * 0.001 * static_cast<float>(ticks);
+  velocityX( velocityX() + inc );
+
+  inc = acceleration[1] * 0.001 * static_cast<float>(ticks);
+  velocityY( velocityY() + inc );
+
+  if(maxSpeeds[0] != -99){
+    if(velocityX() > maxSpeeds[0]) {
+      velocityX( maxSpeeds[0] );
+    } else if(velocityX() < -maxSpeeds[0]){
+      velocityX( -maxSpeeds[0]);
+    }
+  }
+
+  if(maxSpeeds[1] != -99){
+    if(velocityY() > maxSpeeds[1]) {
+      velocityY( maxSpeeds[1] );
+    } else if(velocityY() < -maxSpeeds[1]){
+      velocityY( -maxSpeeds[1]);
+    }
   }
 }

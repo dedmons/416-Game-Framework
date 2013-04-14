@@ -1,4 +1,5 @@
 #include <ctime>
+#include <iostream>
 #include "random.h"
 
 Random::Random() {
@@ -6,8 +7,10 @@ Random::Random() {
 }
 
 float Random::getRand(float min, float max){
-	//LO + (float)rand()/((float)RAND_MAX/(HI-LO));
-  return min + (float)rand() / ((float)std::numeric_limits<int>::max() / ( max-min ));
+	// std::cout << "Getting rand btwn " << min << " and " << max << std::endl;
+  float retval = min + (rand() / (std::numeric_limits<int>::max()+1.0f)) * ( max-min );
+  // std::cout << "Value: " << retval << std::endl;
+  return retval;
 }
 
 float Random::getRand(float max){

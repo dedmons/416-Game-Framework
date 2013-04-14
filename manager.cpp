@@ -5,6 +5,7 @@
 #include "manager.h"
 #include "frameFactory.h"
 #include "sound.h"
+#include "planets.h"
 
 Manager::~Manager() {
   // These deletions eliminate "definitely lost" and
@@ -15,18 +16,18 @@ Manager::~Manager() {
 }
 
 Manager::Manager() :
-  env( SDL_putenv(const_cast<char*>("SDL_VIDEO_CENTERED=center")) ),
-  jgdata( JSONGamedata::getInstance() ),
-  io( IOManager::getInstance() ),
-  clock( Clock::getInstance() ),
-  screen( io.getScreen() ),
-  worlds(),
-  viewport( Viewport::getInstance() ),
-  sprites(),
-  player(jgdata.getStr("player.name")),
-  currentSprite(0),
-  TICK_INTERVAL(jgdata.getInt("fpsController.tickInterval")),
-  nextTime(clock.getTicks()+TICK_INTERVAL)
+env( SDL_putenv(const_cast<char*>("SDL_VIDEO_CENTERED=center")) ),
+jgdata( JSONGamedata::getInstance() ),
+io( IOManager::getInstance() ),
+clock( Clock::getInstance() ),
+screen( io.getScreen() ),
+worlds(),
+viewport( Viewport::getInstance() ),
+sprites(),
+player(jgdata.getStr("player.name")),
+currentSprite(0),
+TICK_INTERVAL(jgdata.getInt("fpsController.tickInterval")),
+nextTime(clock.getTicks()+TICK_INTERVAL)
 {
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     throw string("Unable to initialize SDL: ");
@@ -46,22 +47,24 @@ Manager::Manager() :
   }
 
   unsigned int n = jgdata.getInt("triForce.num");
-    std::cout << n;
+  std::cout << n;
   float smin = jgdata.getFloat("triForce.scale.min");
   float smax = jgdata.getFloat("triForce.scale.max");
-    sprites.reserve(n+2);
+  sprites.reserve(n+2);
   for(unsigned i = 0; i < n; i++){
-    sprites.push_back(new AcceleratingSprite("triForce",smin,smax));
+    sprites.push_back(new Sprite("triForce",smin,smax));
   }
-    
-    explosions.push_back(new TwowayMultiframeSprite("Etank"));
+
+  explosions.push_back(new TwowayMultiframeSprite("Etank"));
 
   sort(sprites.begin(), sprites.end());
 
   viewport.setObjectToTrack(player.getSprite());
 }
 
-/*bool Manager::checkForCollisions() const {
+/*
+
+bool Manager::checkForCollisions() const {
     std::list<Drawable*>::const_iterator sprite = explosions.begin();
     while ( sprite != explosions.end() ) {
         if ( player.collidedWith(&(*sprite)) )
@@ -74,67 +77,68 @@ Manager::Manager() :
         }
     }
     return false;
-}*/
+}
+*/
 
 void Manager::draw() const {
-  
+
   for(unsigned i = 0; i < worlds.size(); i++){
     worlds[i].draw();
   }
+  Planets::getInstance().draw();
   for(unsigned i = 0; i < sprites.size(); i++){
     sprites[i]->draw();
   }
-  
-    std::list<Drawable*>::const_iterator ptr = explosions.begin();
-    while( ptr != explosions.end() )
-    {
-        (*ptr)->draw();
-        ++ptr;
-    }
+
+  std::list<Drawable*>::const_iterator ptr = explosions.begin();
+  while( ptr != explosions.end() )
+  {
+    (*ptr)->draw();
+    ++ptr;
+  }
 
   player.draw();
   viewport.draw();
-
 }
 
 void Manager::update(){
-    Uint32 ticks = clock.getElapsedTicks();
-    for(unsigned i=0; i< sprites.size(); i++){
-      sprites[i]->update(ticks);
-    }
-    std::list<Drawable*>::const_iterator ptr = explosions.begin();
-    while( ptr != explosions.end() )
-    {
-        (*ptr)->draw();
-        ++ptr;
-    }
-    player.update(ticks);
-    viewport.update();
-    for(unsigned i = 0; i < worlds.size(); i++){
-      worlds[i].update();
-    }
+  Uint32 ticks = clock.getElapsedTicks();
+  for(unsigned i=0; i< sprites.size(); i++){
+    sprites[i]->update(ticks);
+  }
+  std::list<Drawable*>::const_iterator ptr = explosions.begin();
+  while( ptr != explosions.end() )
+  {
+    (*ptr)->draw();
+    ++ptr;
+  }
+  player.update(ticks);
+  viewport.update();
+  for(unsigned i = 0; i < worlds.size(); i++){
+    worlds[i].update();
+  }
 }
 
 int Manager::timeLeft(){
-    int now = clock.getTicks();
-    return std::max(0, nextTime - now);
+  int now = clock.getTicks();
+  return std::max(0, nextTime - now);
 }
 
 void Manager::explodeSprite(const string& name)
 {
-    std::list<Drawable*>::iterator ptr = explosions.begin();
-    while (ptr != explosions.end() )
+  std::list<Drawable*>::iterator ptr = explosions.begin();
+  while (ptr != explosions.end() )
+  {
+    Drawable* sprite = dynamic_cast<TwowayMultiframeSprite*>(*ptr);
+    if (sprite && sprite->getName() == name)
     {
-        Drawable* sprite = dynamic_cast<TwowayMultiframeSprite*>(*ptr);
-        if (sprite && sprite->getName() == name)
-        {
-            Sprite newSprite("Etank", 1);
-            delete sprite;
-            ptr = explosions.erase(ptr);
-            explosions.push_back(new ExplodingSprite(newSprite) );
-        }
-        else ++ptr;
+      Sprite newSprite("Etank", 1);
+      delete sprite;
+      ptr = explosions.erase(ptr);
+      explosions.push_back(new ExplodingSprite(newSprite) );
     }
+    else ++ptr;
+  }
 }
 
 void Manager::play() {
@@ -175,25 +179,25 @@ void Manager::play() {
       switch (event.key.keysym.sym) {
         case SDLK_LSHIFT:
         case SDLK_RSHIFT:
-          shiftKeyDown = false;
-          break;
+        shiftKeyDown = false;
+        break;
 
         default:
-          break;
+        break;
       }
     }
     if(event.type == SDL_KEYDOWN) {
       switch ( event.key.keysym.sym ) {
         case SDLK_ESCAPE : done = true; break;
         case SDLK_q      : done = true; break;
-          case SDLK_SPACE : {
-              if(!keyCatch){
-                  keyCatch = true;
-                  sound[0];
-              }
-              break;
+        case SDLK_SPACE : {
+          if(!keyCatch){
+            keyCatch = true;
+            sound[0];
           }
-          
+          break;
+        }
+
         case SDLK_p      : {
           if (!keyCatch) {
             keyCatch = true;
@@ -202,12 +206,12 @@ void Manager::play() {
           }
           break;
         }
-          case SDLK_e : {
-              if(!keyCatch) {
-                  keyCatch = true;
-                  explodeSprite("Etank");
-              }
+        case SDLK_e : {
+          if(!keyCatch) {
+            keyCatch = true;
+            explodeSprite("Etank");
           }
+        }
 
         case SDLK_o      : {
           if (!keyCatch)
@@ -239,30 +243,30 @@ void Manager::play() {
         }
         case SDLK_s      : {
           if(!keyCatch) {
-              keyCatch = true;
-              userTickInterval = (userTickInterval+1);
+            keyCatch = true;
+            userTickInterval = (userTickInterval+1);
           }
           break;
         }
         case SDLK_f      : {
           if(!keyCatch) {
-              keyCatch = true;
-              if (TICK_INTERVAL + userTickInterval > 0)
-                  userTickInterval--;
+            keyCatch = true;
+            if (TICK_INTERVAL + userTickInterval > 0)
+              userTickInterval--;
           }
           break;
         }
         case SDLK_r      : {
           if(!keyCatch) {
-              keyCatch = true;
-              userTickInterval = 0;
+            keyCatch = true;
+            userTickInterval = 0;
           }
           break;
         }
         case SDLK_F1     : {
           if(!keyCatch) {
-              keyCatch = true;
-              showHelp = !showHelp;
+            keyCatch = true;
+            showHelp = !showHelp;
           }
           break;
         }
@@ -270,19 +274,19 @@ void Manager::play() {
       }
       // bool playerKeyDown = false;
       if (keyState[SDLK_LEFT]){
-          player.changeMovement(Player::LEFT);
+        player.changeMovement(Player::LEFT);
         // playerKeyDown = true;
       }
       if (keyState[SDLK_RIGHT]){
-          player.changeMovement(Player::RIGHT);
+        player.changeMovement(Player::RIGHT);
         // playerKeyDown = true;
       }
       if (keyState[SDLK_UP]){
-          player.changeMovement(Player::UP);
+        player.changeMovement(Player::UP);
         // playerKeyDown = true;
       }
       if (keyState[SDLK_DOWN]){
-          player.changeMovement(Player::DOWN);
+        player.changeMovement(Player::DOWN);
         // playerKeyDown = true;
       }
     }

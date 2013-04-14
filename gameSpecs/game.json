@@ -5,8 +5,8 @@
 	},
 
 	"world":{
-  	"width":3200,
-  	"height":1600
+  	"width":1000,
+  	"height":1000
 	},
 
 	"screenTitle":"Basic Animation Framework",
@@ -39,17 +39,26 @@
 		}
 	],
 
+	"planets":[
+		"planet1",
+		"planet2"
+	],
+
 	"player":{
 		"name":"tank"
 	},
 
+	"sprite":{
+		"speedLoss":0.8
+	},
+
 	"triForce": {
-		"num":0,
+		"num":1,
 		"file":"images/tri.png",
 		"transparency":true,
 		"scale":{
-			"min":1,
-			"max":1
+			"min":0.75,
+			"max":1.5
 		},
 		"src": {
 			"x":0,
@@ -64,20 +73,21 @@
 				"x":0, "y":0
 			},
 			"max":{
-				"x":300, "y":300
+				"x":400, "y":400
 			},
 			"start":{
-				"x":90, "y":90
+				"x":0, "y":0
 			}
 		},
 		"accel":{
-			"x":50, "y":80
+			"x":0, "y":0
 		},
 		"loc":{
 			"start":{
-				"x":600, "y":600
+				"x":900, "y":100
 			}
-		}
+		},
+		"mass":1
 	},
 
 	"tank":{
@@ -88,6 +98,7 @@
 			"interval":2,
 			"num":4
 		},
+		"scale":1,
 		"loc":{
 			"start":{
 				"x":200,"y":100
@@ -109,7 +120,8 @@
 			"max":{
 				"x":400, "y":400
 			}
-		}
+		},
+		"mass":100000
 	},
     
     "Etank":{
@@ -214,6 +226,46 @@
 		"loc":{
 			"x":0,
 			"y":0
+		},
+		"scale":{
+			"min":1,
+			"max":1
+		}
+	},
+
+	"planet1":{
+		"mass":1000,
+		"radius":50,
+		"file":"images/planet1.png",
+		"transparency":true,
+		"src":{
+			"x":0,"y":0
+		},
+		"size":{
+			"width":100,
+			"height":100
+		},
+		"loc":{
+			"x":100,
+			"y":100
+		}
+	},
+
+	"planet2":{
+		"mass":3000,
+		"radius":50,
+		"file":"images/planet2.png",
+		"transparency":true,
+		"src":{
+			"x":0,"y":0
+		},
+		"size":{
+			"width":150,
+			"height":150
+		},
+		"loc":{
+			"x":700,
+			"y":700
 		}
 	}
 }
