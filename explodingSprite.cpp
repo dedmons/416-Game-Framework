@@ -6,7 +6,8 @@ ExplodingSprite::ExplodingSprite(const Sprite& s) :
   Sprite(s), 
   chunks(), 
   freeList(),
-  frames() {
+  frames() 
+{
   makeChunks(9); //needs to be put into JSON
 }
 
@@ -58,8 +59,8 @@ void ExplodingSprite::makeChunks(unsigned int n) {
   for (unsigned int i = 0; i < n; ++i) {
     for (unsigned int j = 0; j < n; ++j) {
       // Give each chunk it's own speed/direction:
-      float sx = (rand() % speedx + 40) * (rand()%2?-1:1); // 'cause %0 is 
-      float sy = (rand() % speedy + 40) * (rand()%2?-1:1); // float except
+      float sx = (rand() % speedx + 40) * ((rand()%2)?-1:1); // 'cause %0 is 
+      float sy = (rand() % speedy + 40) * ((rand()%2)?-1:1); // float except
       Frame* frame = 
             new Frame(spriteSurface, chunk_width, chunk_height,
                   source_x+i*chunk_width,  // x coord of surface
