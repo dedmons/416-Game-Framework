@@ -18,8 +18,8 @@ Sprite::Sprite( const string& name, const float sMin, const float sMax) :
                   JSONGamedata::getInstance().getInt(name+".speed.min.y"),
                   JSONGamedata::getInstance().getInt(name+".speed.start.y")))
   ),
-  frame( FrameFactory::getInstance().getFrame(name, scale)) ,
   scale( Random::getInstance().getRand(sMin,sMax) ),
+  frame( FrameFactory::getInstance().getFrame(name, scale)) ,
   frameWidth(frame->getWidth()),
   frameHeight(frame->getHeight()),
   worldWidth(JSONGamedata::getInstance().getInt("world.width")),
@@ -57,8 +57,8 @@ Sprite::Sprite( const string& name, const float s) :
                   JSONGamedata::getInstance().getInt(name+".speed.min.y"),
                   JSONGamedata::getInstance().getInt(name+".speed.start.y")))
   ),
-  frame( FrameFactory::getInstance().getFrame(name, scale)) ,
   scale( s ),
+  frame( FrameFactory::getInstance().getFrame(name, scale)) ,
   frameWidth(frame->getWidth()),
   frameHeight(frame->getHeight()),
   worldWidth(JSONGamedata::getInstance().getInt("world.width")),
@@ -86,8 +86,8 @@ Sprite::Sprite( const string& name, const float s) :
 
 Sprite::Sprite(const Sprite& s) :
   Drawable(s.getName(), s.getPosition(), s.getVelocity()),
-  frame(s.frame),
   scale(s.scale),
+  frame(s.frame),
   frameWidth(s.getFrame()->getWidth()),
   frameHeight(s.getFrame()->getHeight()),
   worldWidth(JSONGamedata::getInstance().getInt("world.width")),

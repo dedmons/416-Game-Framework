@@ -31,10 +31,11 @@ public:
   bool operator<(const Sprite& rhs){
     return scale < rhs.scale;
   }
+private:
+  float scale;
 protected:
   const Frame * frame;
 private:
-  float scale;
   int frameWidth;
   int frameHeight;
   int worldWidth;

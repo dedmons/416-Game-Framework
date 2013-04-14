@@ -16,18 +16,18 @@ Manager::~Manager() {
 }
 
 Manager::Manager() :
-env( SDL_putenv(const_cast<char*>("SDL_VIDEO_CENTERED=center")) ),
-jgdata( JSONGamedata::getInstance() ),
-io( IOManager::getInstance() ),
-clock( Clock::getInstance() ),
-screen( io.getScreen() ),
-worlds(),
-viewport( Viewport::getInstance() ),
-sprites(),
-player(jgdata.getStr("player.name")),
-currentSprite(0),
-TICK_INTERVAL(jgdata.getInt("fpsController.tickInterval")),
-nextTime(clock.getTicks()+TICK_INTERVAL)
+  env( SDL_putenv(const_cast<char*>("SDL_VIDEO_CENTERED=center")) ),
+  jgdata( JSONGamedata::getInstance() ),
+  io( IOManager::getInstance() ),
+  clock( Clock::getInstance() ),
+  screen( io.getScreen() ),
+  worlds(),
+  viewport( Viewport::getInstance() ),
+  sprites(),
+  player(jgdata.getStr("player.name")),
+  currentSprite(0),
+  TICK_INTERVAL(jgdata.getInt("fpsController.tickInterval")),
+  nextTime(clock.getTicks()+TICK_INTERVAL)
 {
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     throw string("Unable to initialize SDL: ");
@@ -47,7 +47,6 @@ nextTime(clock.getTicks()+TICK_INTERVAL)
   }
 
   unsigned int n = jgdata.getInt("triForce.num");
-  std::cout << n;
   float smin = jgdata.getFloat("triForce.scale.min");
   float smax = jgdata.getFloat("triForce.scale.max");
   sprites.reserve(n+2);
