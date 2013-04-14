@@ -6,6 +6,20 @@
 #include "frameFactory.h"
 #include "planets.h"
 
+
+Sprite::Sprite(const Vector2f& pos, const Vector2f& vel, const std::string& name, const Frame* fm) :
+  Drawable(name, pos, vel),
+  scale(1),
+  frame(fm),
+  frameWidth(frame->getWidth()),
+  frameHeight(frame->getHeight()),
+  worldWidth(JSONGamedata::getInstance().getInt("world.width")),
+  worldHeight(JSONGamedata::getInstance().getInt("world.height")),
+  acceleration(Vector2f(0,0)),
+  maxSpeeds(Vector2f(-99,-99)),
+  mass(0)
+{}
+
 Sprite::Sprite( const string& name, const float sMin, const float sMax) :
   Drawable(name,
            Vector2f(JSONGamedata::getInstance().getInt(name+".loc.start.x"),

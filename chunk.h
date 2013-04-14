@@ -5,11 +5,11 @@
 class Chunk : public Sprite {
 public:
   explicit Chunk(
-    const Vector2f& pos, const Vector2f vel, 
+    const Vector2f& pos, const Vector2f& vel, 
     const string& name, const Frame* fm) :
-    Sprite(name, 1,1),
+    Sprite(pos, vel, name, fm), 
     distance(0), 
-    maxDistance(100),
+    maxDistance(JSONGamedata::getInstance().getInt("chunks.distance")), 
     tooFar(false) 
   { }
   virtual void update(Uint32 ticks);

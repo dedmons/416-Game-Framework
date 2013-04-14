@@ -29,19 +29,19 @@ private:
 
   std::vector<World> worlds;
   Viewport& viewport;
-    std::list<Drawable*> explosions;
-  std::vector<Sprite*> sprites;
+  std::list<Drawable*> explosions;
+  std::vector<Drawable*> sprites;
   Player player;
 
   int currentSprite;
   const unsigned TICK_INTERVAL;
   int nextTime;
   
-    bool checkForCollisions() const;
+  bool checkForCollisions() const;
   void draw() const;
   void update();
   int timeLeft();
-    void explodeSprite(const string&);
+  void explodeSprite(const string&);
   Manager(const Manager&);
   Manager& operator=(const Manager&);
 };

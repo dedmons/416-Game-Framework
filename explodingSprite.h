@@ -15,6 +15,10 @@ private:
   std::list<Chunk> chunks; // An ExplodingSprite is a list of sprite chunks
   std::list<Chunk> freeList; // When a chunk gets out of range it goes here
   std::vector<Frame*> frames; // Each chunk has a Frame
+
+  unsigned int maxTicks;
+  unsigned int curTicks;
+
   ExplodingSprite(const ExplodingSprite&); // Explicit disallow (Item 6)
   ExplodingSprite& operator=(const ExplodingSprite&); // (Item 6)
 };

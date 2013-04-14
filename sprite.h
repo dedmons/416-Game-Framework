@@ -10,6 +10,7 @@
 class Sprite : public Drawable {
 public:
   // Sprite(const std::string& n, const Frame*);
+  Sprite(const Vector2f& pos, const Vector2f& vel, const std::string& name, const Frame* fm);
   Sprite(const std::string& n, const float scaleMin, const float scaleMax);
   Sprite(const std::string& n, const float scale = 1);
   Sprite(const Sprite& s);
@@ -23,6 +24,10 @@ public:
   unsigned getPixel(Uint32, Uint32) const;
 
   int getScale() const { return scale; }
+
+  void setAcceleration(const Vector2f& acel) {
+    acceleration = acel;
+  }
 
   Vector2f getCenter() const {
     return Vector2f( X()+frame->getWidth()/2, Y()+frame->getHeight()/2 );

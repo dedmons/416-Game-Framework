@@ -48,6 +48,12 @@
 		"name":"tank"
 	},
 
+	"chunks":{
+		"distance":200,
+		"size":30,
+		"maxTicks":10000
+	},
+
 	"sprite":{
 		"speedLoss":0.8
 	},
@@ -132,13 +138,14 @@
 			"interval":2,
 			"num":4
 		},
+		"scale":1,
 		"loc":{
 			"start":{
-				"x":300,"y":100
+				"x":500,"y":500
 			}
 		},
 		"src":{
-			"x":5, "y":0,
+			"x":5, "y":0, 
 			"offset":{
 				"x":10, "y":5
 			}
@@ -150,13 +157,11 @@
 			"start":{
 				"x":0, "y":0
 			},
-			"min":{
-				"x":0, "y":0
-			},
 			"max":{
 				"x":400, "y":400
 			}
-		}
+		},
+		"mass":100000
 	},
   
   "Etankproj":{

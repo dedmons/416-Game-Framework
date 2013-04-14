@@ -61,24 +61,6 @@ Manager::Manager() :
   viewport.setObjectToTrack(player.getSprite());
 }
 
-/*
-
-bool Manager::checkForCollisions() const {
-    std::list<Drawable*>::const_iterator sprite = explosions.begin();
-    while ( sprite != explosions.end() ) {
-        if ( player.collidedWith(&(*sprite)) )
-        {
-            sprite = explosions.erase(sprite);
-        }
-        else
-        {
-        ++sprite;
-        }
-    }
-    return false;
-}
-*/
-
 void Manager::draw() const {
 
   for(unsigned i = 0; i < worlds.size(); i++){
@@ -108,7 +90,7 @@ void Manager::update(){
   std::list<Drawable*>::const_iterator ptr = explosions.begin();
   while( ptr != explosions.end() )
   {
-    (*ptr)->draw();
+    (*ptr)->update(ticks);
     ++ptr;
   }
   player.update(ticks);
@@ -123,18 +105,20 @@ int Manager::timeLeft(){
   return std::max(0, nextTime - now);
 }
 
-void Manager::explodeSprite(const string& name)
-{
+void Manager::explodeSprite(const string& name) {
   std::list<Drawable*>::iterator ptr = explosions.begin();
-  while (ptr != explosions.end() )
-  {
-    Drawable* sprite = dynamic_cast<TwowayMultiframeSprite*>(*ptr);
-    if (sprite && sprite->getName() == name)
-    {
-      Sprite newSprite("Etank", 1);
-      delete sprite;
-      ptr = explosions.erase(ptr);
-      explosions.push_back(new ExplodingSprite(newSprite) );
+  while ( ptr != explosions.end() ) {
+    Drawable* sprite = *ptr;
+    if ( sprite ){
+      std::cout << "Checking: " << sprite->getName() << std::endl;
+      if (sprite->getName() == name) {
+        const Frame* frame = sprite->getFrame();
+        Sprite newSprite(sprite->getPosition(), sprite->getVelocity(), 
+         name, frame);
+        delete sprite;
+        ptr = explosions.erase(ptr);
+        explosions.push_back( new ExplodingSprite(newSprite) );
+      }
     }
     else ++ptr;
   }
@@ -208,7 +192,10 @@ void Manager::play() {
         case SDLK_e : {
           if(!keyCatch) {
             keyCatch = true;
-            explodeSprite("Etank");
+            if(!tankExploded){
+              tankExploded = true;
+              explodeSprite("Etank");
+            }
           }
         }
 
