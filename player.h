@@ -4,7 +4,7 @@
 #include <string>
 #include "jsongamedata.h"
 #include "twowayMultisprite.h"
-#include "collisionStrategy.h"
+#include "multisprite.h"
 
 class Player {
 public:
@@ -12,19 +12,11 @@ public:
   virtual ~Player();
 
   virtual void update(Uint32 ticks);
-    virtual void draw() const { drawable->draw(); strategy->draw(); }
+  virtual void draw() const { drawable->draw(); }
   const Drawable* getSprite() const { return drawable; }
 
-    enum MoveType { STOPUD, STOPLR, RIGHT, LEFT, UP, DOWN };
-    void changeMovement(int);
-    
-    //bool collidedWith(const Drawable* d) const {
-    //    return strategy->execute(*drawable, *d);
-    //}
-    
-    void setCollisionStrategy(){
-        strategy = strategies[0];
-    }
+  enum MoveType { STOPUD, STOPLR, RIGHT, LEFT, UP, DOWN };
+  void changeMovement(int);
 
 private:
   const JSONGamedata& jgdata;
@@ -36,8 +28,6 @@ private:
   float width;
   float height;
   Drawable * drawable;
-    CollisionStrategy *strategy;
-    std::vector<CollisionStrategy*> strategies;
 
   Player();
   Player(const Player&);

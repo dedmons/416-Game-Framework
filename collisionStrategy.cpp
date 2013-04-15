@@ -1,13 +1,8 @@
 #include <vector>
 #include <algorithm>
-#include "ioManager.h"
 #include "collisionStrategy.h"
-using std::cout; using std::endl;
 
-void RectangularCollisionStrategy::draw() const {
-  // IOManager::
-  // getInstance().printMessageAt("Rectangular Collision Strategy", 320, 10);
-}
+using std::cout; using std::endl;
 
 bool RectangularCollisionStrategy::execute(
       const Drawable& obj1, const Drawable& obj2) const {
@@ -26,16 +21,10 @@ bool RectangularCollisionStrategy::execute(
   return true;
 }
 
-
 float MidPointCollisionStrategy::
 distance(float x1, float y1, float x2, float y2) const {
   float x = x1-x2, y = y1-y2;
   return hypot(x, y);
-}
-
-void MidPointCollisionStrategy::draw() const {
-  // IOManager::
-  // getInstance().printMessageAt("Distance from Middle Strategy", 320, 10);
 }
 
 bool MidPointCollisionStrategy::execute(

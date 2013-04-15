@@ -163,65 +163,6 @@
 		},
 		"mass":100000
 	},
-  
-  "Etankproj":{
-		"num":1,
-		"file":"images/mytank.png",
-		"transparency":true,
-		"frames":{
-			"interval":2,
-			"num":4
-		},
-		"loc":{
-			"start":{
-				"x":300,"y":100
-			}
-		},
-		"src":{
-			"x":5, "y":0,
-			"offset":{
-				"x":10, "y":5
-			}
-		},
-		"size":{
-			"width":40, "height":30
-		},
-		"speed":{
-			"start":{
-				"x":100, "y":0
-			},
-			"max":{
-				"x":400, "y":400
-			}
-		}
-	},
-    
-  "EtankChunk":{
-    "loc":{
-      "start":{
-        "x":300, "y":100
-      }
-    },
-    "speed":{
-      "min":{
-        "x":0, "y":0
-      },
-      "start":{
-        "x":100, "y":100
-     	}
-    },
-    "size":{
-      "width":10, "height":10
-    },
-    "src":{
-      "x":5, "y":0,
-      "offset":{
-        "x":10, "y":5
-      }
-    },
-    "file":"images/mytank.png",
-    "transparency":true
-  },
 
 	"star-back": {
 		"file":"images/star-back.png",

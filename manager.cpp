@@ -8,10 +8,15 @@
 #include "planets.h"
 
 Manager::~Manager() {
-  // These deletions eliminate "definitely lost" and
-  // "still reachable"s in Valgrind.
   for (unsigned i=0; i < sprites.size(); i++){
     delete sprites[i];
+  }
+
+  std::list<Drawable*>::iterator ptr = explosions.begin();
+  while( ptr != explosions.end() )
+  {
+    delete *ptr;
+    ptr = explosions.erase(ptr);
   }
 }
 

@@ -1,5 +1,4 @@
 #include "player.h"
-#include "ioManager.h"
 
 Player::~Player() {
   delete drawable;
@@ -19,8 +18,6 @@ Player::Player(const std::string& name) :
   drawable(NULL)
 { 
    drawable = new TwowayMultiframeSprite(name);
-    strategies.push_back(new RectangularCollisionStrategy);
-    strategy = strategies[0];
 }
 
 void Player::update(Uint32 ticks) {
