@@ -5,6 +5,7 @@
 #include "jsongamedata.h"
 #include "frameFactory.h"
 #include "planets.h"
+#include "collisionStrategy.h"
 
 
 Sprite::Sprite(const Vector2f& pos, const Vector2f& vel, const std::string& name, const Frame* fm) :
@@ -177,6 +178,11 @@ void Sprite::update(Uint32 ticks) {
   }
   if ( X() > worldWidth-frameWidth) {
     velocityX( -abs( velocityX() * speedLoss) );
+  }
+
+  if(Planets::getInstance().checkForCollision(this)){
+    velocityY( -velocityY() * speedLoss );
+    velocityX( -velocityX() * speedLoss );
   }
 }
 
