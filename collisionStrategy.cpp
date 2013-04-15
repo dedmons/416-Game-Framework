@@ -50,6 +50,10 @@ bool CollisionTest::check(TestType type, const Drawable& d1, const Drawable& d2)
     case MidPoint:
       return MidPointCollisionStrategy().execute(d1,d2);
       break;
+    case Pixel:
+      break;
+    default:
+      break;
   }
   return false;
 }

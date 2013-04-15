@@ -29,6 +29,7 @@ Manager::Manager() :
   screen( io.getScreen() ),
   worlds(),
   viewport( Viewport::getInstance() ),
+  explosions(),
   sprites(),
   player(jgdata.getStr("player.name")),
   currentSprite(0),
@@ -94,7 +95,7 @@ void Manager::update(){
   for(unsigned i=0; i< sprites.size(); i++){
     sprites[i]->update(ticks);
   }
-  std::list<Drawable*>::const_iterator ptr = explosions.begin();
+  std::list<Drawable*>::iterator ptr = explosions.begin();
   while( ptr != explosions.end() )
   {
     (*ptr)->update(ticks);
