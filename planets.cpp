@@ -67,3 +67,12 @@ Vector2f Planets::accelerationFromPlanets(Vector2f loc){
 
 	return retVal;
 }
+
+bool Planets::checkForCollision(const Drawable* obj){
+	// CollisionTest ct = CollisionTest::getInstance();
+	// std::vector<Planet>::const_iterator it = planets.begin();
+	// while(it != planets.end()){
+	// 	if(ct.check(CollisionTest::Rectangular,*it,obj))
+	// 		return true;
+	// }
+}

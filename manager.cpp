@@ -6,6 +6,7 @@
 #include "frameFactory.h"
 #include "sound.h"
 #include "planets.h"
+#include "collisionStrategy.h"
 
 Manager::~Manager() {
   for (unsigned i=0; i < sprites.size(); i++){
@@ -96,9 +97,18 @@ void Manager::update(){
   while( ptr != explosions.end() )
   {
     (*ptr)->update(ticks);
-    ++ptr;
+
+    ExplodingSprite *es = dynamic_cast<ExplodingSprite*>(*ptr);
+
+    if(es && es->chunkCount() == 0){
+      viewport.setObjectToTrack(player.getSprite());
+      delete *ptr;
+      ptr = explosions.erase(ptr);
+    } else 
+      ++ptr;
   }
-  player.update(ticks);
+  if(!player.update(ticks))
+    viewport.setObjectToTrack(player.getSprite());
   viewport.update();
   for(unsigned i = 0; i < worlds.size(); i++){
     worlds[i].update();
@@ -129,6 +139,10 @@ void Manager::explodeSprite(const string& name) {
   }
 }
 
+void Manager::checkCollisions(){
+  player.checkCollisions();
+}
+
 void Manager::play() {
   SDL_Event event;
   SDLSound sound;
@@ -138,6 +152,8 @@ void Manager::play() {
   bool shiftKeyDown = false;
   bool showHelp = false;
   bool tankExploded = false;
+
+  bool playerShot = false;
 
   int userTickInterval = 0;
   while ( ! done ) {
@@ -181,7 +197,15 @@ void Manager::play() {
         case SDLK_SPACE : {
           if(!keyCatch){
             keyCatch = true;
-            sound[0];
+            if(playerShot){
+              playerShot = false;
+              player.explodeShot();
+            } else {
+              playerShot = true;
+              sound[0];
+              player.shoot();
+              viewport.setObjectToTrack(player.getProj());
+            }
           }
           break;
         }
@@ -200,6 +224,7 @@ void Manager::play() {
             if(!tankExploded){
               tankExploded = true;
               explodeSprite("Etank");
+              viewport.setObjectToTrack(explosions.back());
             }
           }
         }
@@ -232,25 +257,31 @@ void Manager::play() {
           }
           break;
         }
+        case SDLK_w      : {
+          if(!keyCatch) {
+            keyCatch = true;
+            
+          }
+          break;
+        }
+        case SDLK_a      : {
+          if(!keyCatch) {
+            keyCatch = true;
+
+          }
+          break;
+        }
         case SDLK_s      : {
           if(!keyCatch) {
             keyCatch = true;
-            userTickInterval = (userTickInterval+1);
+            
           }
           break;
         }
-        case SDLK_f      : {
+        case SDLK_d      : {
           if(!keyCatch) {
             keyCatch = true;
-            if (TICK_INTERVAL + userTickInterval > 0)
-              userTickInterval--;
-          }
-          break;
-        }
-        case SDLK_r      : {
-          if(!keyCatch) {
-            keyCatch = true;
-            userTickInterval = 0;
+            
           }
           break;
         }

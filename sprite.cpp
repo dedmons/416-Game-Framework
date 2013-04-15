@@ -20,6 +20,19 @@ Sprite::Sprite(const Vector2f& pos, const Vector2f& vel, const std::string& name
   mass(0)
 {}
 
+Sprite::Sprite(const std::string& name, const Vector2f& pos, const Vector2f& vel) :
+  Drawable(name, pos, vel),
+  scale(1),
+  frame( FrameFactory::getInstance().getFrame(name, scale) ),
+  frameWidth(frame->getWidth()),
+  frameHeight(frame->getHeight()),
+  worldWidth(JSONGamedata::getInstance().getInt("world.width")),
+  worldHeight(JSONGamedata::getInstance().getInt("world.height")),
+  acceleration(Vector2f(0,0)),
+  maxSpeeds(Vector2f(-99,-99)),
+  mass(0)
+{}
+
 Sprite::Sprite( const string& name, const float sMin, const float sMax) :
   Drawable(name,
            Vector2f(JSONGamedata::getInstance().getInt(name+".loc.start.x"),

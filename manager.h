@@ -42,6 +42,8 @@ private:
   void update();
   int timeLeft();
   void explodeSprite(const string&);
+  void checkCollisions();
+  
   Manager(const Manager&);
   Manager& operator=(const Manager&);
 };

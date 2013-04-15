@@ -21,8 +21,7 @@ bool RectangularCollisionStrategy::execute(
   return true;
 }
 
-float MidPointCollisionStrategy::
-distance(float x1, float y1, float x2, float y2) const {
+float MidPointCollisionStrategy::distance(float x1, float y1, float x2, float y2) const {
   float x = x1-x2, y = y1-y2;
   return hypot(x, y);
 }
@@ -38,3 +37,19 @@ bool MidPointCollisionStrategy::execute(
   return distance(xobj1, yobj1, xobj2, yobj2) < COLLISION_DISTANCE;
 }
 
+CollisionTest& CollisionTest::getInstance(){
+  static CollisionTest instance;
+  return instance;
+}
+
+bool CollisionTest::check(TestType type, const Drawable& d1, const Drawable& d2) const{
+  switch(type){
+    case Rectangular:
+      return RectangularCollisionStrategy().execute(d1,d2);
+      break;
+    case MidPoint:
+      return MidPointCollisionStrategy().execute(d1,d2);
+      break;
+  }
+  return false;
+}

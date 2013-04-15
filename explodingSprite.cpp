@@ -14,6 +14,17 @@ ExplodingSprite::ExplodingSprite(const Sprite& s) :
   makeChunks(JSONGamedata::getInstance().getInt("chunks.size"));
 }
 
+ExplodingSprite::ExplodingSprite(const Sprite& s, const int chunks) :
+  Sprite(s), 
+  chunks(), 
+  freeList(),
+  frames(),
+  maxTicks(JSONGamedata::getInstance().getInt("chunks.maxTicks")),
+  curTicks(0)
+{
+  makeChunks(chunks);
+}
+
 ExplodingSprite::~ExplodingSprite() { 
   for ( unsigned int i = 0; i < frames.size(); ++i ) {
     delete frames[i]; // ExplodingSprite made them, so it deletes them
@@ -33,6 +44,7 @@ void ExplodingSprite::draw() const {
 }
 
 void ExplodingSprite::update(Uint32 ticks) { 
+  Sprite::update(ticks);
   curTicks += ticks;
   std::list<Chunk>::iterator ptr = chunks.begin();
   while (ptr != chunks.end()) {
@@ -71,6 +83,7 @@ void ExplodingSprite::makeChunks(unsigned int n) {
       float randx = Random::getInstance().getRand(1.25);
 
       Vector2f speed = dist*randx;
+      speed += getVelocity();
 
       // speed *= 0; //Cool looking affect on tank.
       

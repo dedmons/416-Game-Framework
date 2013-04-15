@@ -14,7 +14,7 @@ void MultiframeSprite::advanceFrame(Uint32 ticks) {
 
 MultiframeSprite::MultiframeSprite( const std::string& name,
                   const std::vector<Frame*> & fms) :
-  Drawable(name,
+  Sprite(name,
            Vector2f(JSONGamedata::getInstance().getInt(name+".loc.start.x"),
                     JSONGamedata::getInstance().getInt(name+".loc.start.y")),
            Vector2f(JSONGamedata::getInstance().getInt(name+".speed.start.x"),
@@ -28,11 +28,13 @@ MultiframeSprite::MultiframeSprite( const std::string& name,
   dt(0),
   currentFrame(0),
   numberOfFrames( JSONGamedata::getInstance().getInt(name+".frames.num") ),
-  frameInterval( JSONGamedata::getInstance().getInt(name+".frames.interval") )
+  frameInterval( JSONGamedata::getInstance().getInt(name+".frames.interval") ),
+  frameNumber(0),
+  manualFrameCTL(false)
 { }
 
 MultiframeSprite::MultiframeSprite( const std::string& name) :
-  Drawable(name,
+  Sprite(name,
            Vector2f(JSONGamedata::getInstance().getInt(name+".loc.start.x"),
                     JSONGamedata::getInstance().getInt(name+".loc.start.y")),
            Vector2f(JSONGamedata::getInstance().getInt(name+".speed.start.x"),
@@ -46,11 +48,13 @@ MultiframeSprite::MultiframeSprite( const std::string& name) :
   dt(0),
   currentFrame(0),
   numberOfFrames( JSONGamedata::getInstance().getInt(name+".frames.num") ),
-  frameInterval( JSONGamedata::getInstance().getInt(name+".frames.interval") )
+  frameInterval( JSONGamedata::getInstance().getInt(name+".frames.interval") ),
+  frameNumber(0),
+  manualFrameCTL(false)
 { }
 
 MultiframeSprite::MultiframeSprite(const MultiframeSprite& s) :
-  Drawable(s.getName(), s.getPosition(), s.getVelocity()),
+  Sprite(s.getName(), s.getPosition(), s.getVelocity()),
   frames(s.frames),
   frameWidth(s.getFrame()->getWidth()),
   frameHeight(s.getFrame()->getHeight()),
@@ -59,32 +63,39 @@ MultiframeSprite::MultiframeSprite(const MultiframeSprite& s) :
   dt(s.dt),
   currentFrame(s.currentFrame),
   numberOfFrames( s.numberOfFrames ),
-  frameInterval( s.frameInterval )
+  frameInterval( s.frameInterval ),
+  frameNumber(s.frameNumber),
+  manualFrameCTL(s.manualFrameCTL)
   { }
 
 void MultiframeSprite::draw() const {
   Uint32 x = static_cast<Uint32>(X());
   Uint32 y = static_cast<Uint32>(Y());
-  frames[currentFrame]->draw(x, y);
+  if (manualFrameCTL)
+    frames[frameNumber]->draw(x,y);
+  else
+    frames[currentFrame]->draw(x, y);
 }
 
 void MultiframeSprite::update(Uint32 ticks) {
   advanceFrame(ticks);
 
-  Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
-  setPosition(getPosition() + incr);
+  Sprite::update(ticks);
 
-  if ( Y() < 0) {
-    velocityY( abs( velocityY() ) );
-  }
-  if ( Y() > worldHeight-frameHeight) {
-    velocityY( -abs( velocityY() ) );
-  }
+  // Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
+  // setPosition(getPosition() + incr);
 
-  if ( X() < 0) {
-    velocityX( abs( velocityX() ) );
-  }
-  if ( X() > worldWidth-frameWidth) {
-    velocityX( -abs( velocityX() ) );
-  }
+  // if ( Y() < 0) {
+  //   velocityY( abs( velocityY() ) );
+  // }
+  // if ( Y() > worldHeight-frameHeight) {
+  //   velocityY( -abs( velocityY() ) );
+  // }
+
+  // if ( X() < 0) {
+  //   velocityX( abs( velocityX() ) );
+  // }
+  // if ( X() > worldWidth-frameWidth) {
+  //   velocityX( -abs( velocityX() ) );
+  // }
 }

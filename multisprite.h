@@ -5,9 +5,9 @@
 #include <iostream>
 #include <vector>
 
-#include "drawable.h"
+#include "sprite.h"
 
-class MultiframeSprite : public Drawable {
+class MultiframeSprite : public Sprite {
 public:
   MultiframeSprite(const std::string& n, const std::vector<Frame*>& fms);
   MultiframeSprite(const std::string& n);
@@ -17,6 +17,11 @@ public:
 
   virtual void draw() const;
   virtual void update(Uint32 ticks);
+
+  void setManualFrames(bool man = false) { manualFrameCTL = man; }
+  void setFrameNumber(int num) { frameNumber = num; }
+  int getNumFrames() { return numberOfFrames; }
+  int getFrameNumber() { return frameNumber; }
 
 private:
   const std::vector<Frame *> frames;
@@ -28,6 +33,9 @@ private:
   unsigned currentFrame;
   unsigned numberOfFrames;
   unsigned frameInterval;
+  int frameNumber;
+  bool manualFrameCTL;
+
   void advanceFrame(Uint32 ticks);
 };
 #endif

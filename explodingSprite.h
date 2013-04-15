@@ -5,6 +5,7 @@
 class ExplodingSprite : public Sprite {
 public:
   ExplodingSprite(const Sprite& s);
+  ExplodingSprite(const Sprite& s, const int chunks);
   ~ExplodingSprite();
   virtual void draw() const;
   virtual void update(Uint32 ticks);

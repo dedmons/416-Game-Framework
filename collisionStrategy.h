@@ -1,3 +1,5 @@
+#ifndef COLLISIONSTRAT__H
+#define COLLISIONSTRAT__H
 #include <cmath>
 #include "drawable.h"
 
@@ -19,3 +21,17 @@ public:
   virtual bool execute(const Drawable&, const Drawable&) const;
   float distance(float, float, float, float) const;
 };
+
+class CollisionTest {
+public:
+	enum TestType {Rectangular,MidPoint,Pixel};
+
+	static CollisionTest& getInstance();
+	bool check(TestType, const Drawable&, const Drawable&) const;
+private:
+	CollisionTest() {};
+	CollisionTest(const CollisionTest&);
+	CollisionTest* operator=(const CollisionTest&);
+};
+
+#endif

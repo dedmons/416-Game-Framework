@@ -10,6 +10,7 @@
 class Sprite : public Drawable {
 public:
   // Sprite(const std::string& n, const Frame*);
+  Sprite(const std::string& name, const Vector2f& pos, const Vector2f& vel);
   Sprite(const Vector2f& pos, const Vector2f& vel, const std::string& name, const Frame* fm);
   Sprite(const std::string& n, const float scaleMin, const float scaleMax);
   Sprite(const std::string& n, const float scale = 1);

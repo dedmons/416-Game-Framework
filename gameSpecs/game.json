@@ -98,11 +98,11 @@
 
 	"tank":{
 		"num":1,
-		"file":"images/mytank.png",
+		"file":"images/mytank2.png",
 		"transparency":true,
 		"frames":{
 			"interval":2,
-			"num":4
+			"num":19
 		},
 		"scale":1,
 		"loc":{
@@ -111,13 +111,13 @@
 			}
 		},
 		"src":{
-			"x":5, "y":0, 
+			"x":0, "y":0, 
 			"offset":{
-				"x":10, "y":5
+				"x":0, "y":0
 			}
 		},
 		"size":{
-			"width":40, "height":30
+			"width":40, "height":40
 		},
 		"speed":{
 			"start":{
@@ -128,6 +128,42 @@
 			}
 		},
 		"mass":100000
+	},
+
+	"proj":{
+		"file":"images/shot.png",
+		"transparency":true,
+		"frames":{
+			"interval":1,
+			"num":5
+		},
+		"scale":1,
+		"loc":{
+			"start":{
+				"x":200,"y":100
+			}
+		},
+		"src":{
+			"x":0, "y":0, 
+			"offset":{
+				"x":0, "y":0
+			}
+		},
+		"size":{
+			"width":10, "height":10
+		},
+		"speed":{
+			"start":{
+				"x":100, "y":0
+			},
+			"max":{
+				"x":400, "y":400
+			}
+		},
+		"mass":1,
+		"chunk":{
+			"size":10
+		}
 	},
     
   "Etank":{
