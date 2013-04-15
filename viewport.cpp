@@ -3,6 +3,7 @@
 #include "viewport.h"
 #include "clock.h"
 #include "hud.h"
+#include "aaline.h"
 
 Viewport& Viewport::getInstance() {
   static Viewport viewport;
@@ -30,6 +31,12 @@ void Viewport::draw() const {
   IOManager::getInstance().
     printMessageCenteredAt("Tracking "+objectToTrack->getName(),
         jgdata.getInt("trackText.y"));
+}
+
+void Viewport::drawPlayerSpeed(float speed) const{
+  const Uint32 RED = SDL_MapRGB(IOManager::getInstance().getScreen()->format, 0xff, 0, 0);
+
+  Draw_AALine(IOManager::getInstance().getScreen(), W()-5, H(), W()-5, H()-((0.9*H())*speed/100), 5 , RED);
 }
 
 void Viewport::drawHUD() const {

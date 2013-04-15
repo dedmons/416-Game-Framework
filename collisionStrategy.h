@@ -28,10 +28,6 @@ public:
 
 	static CollisionTest& getInstance();
 	bool check(TestType, const Drawable&, const Drawable&) const;
-private:
-	CollisionTest() {};
-	CollisionTest(const CollisionTest&);
-	CollisionTest* operator=(const CollisionTest&);
 };
 
 #endif

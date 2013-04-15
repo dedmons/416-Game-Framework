@@ -31,8 +31,7 @@ SDLSound::SDLSound() :
   }
 
   startMusic();
-  sounds.push_back( Mix_LoadWAV("sound/Boom.wav") );
-  sounds.push_back( Mix_LoadWAV("sound/explosion.wav") );
+  sounds.push_back( Mix_LoadWAV("sound/laser.wav") );
   for (unsigned int i = 0; i < sounds.size(); ++i) channels.push_back(i);
 }
 

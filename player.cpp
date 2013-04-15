@@ -16,6 +16,8 @@ Player::Player(const std::string& name) :
   ), 
   width( jgdata.getInt(name+".size.width") ), 
   height( jgdata.getInt(name+".size.height") ),
+  projVel(50),
+  projExpl(false),
   drawable(NULL),
   proj(NULL)
 { 
@@ -26,6 +28,7 @@ Player::Player(const std::string& name) :
 bool Player::update(Uint32 ticks) {
   if(proj)
     if(!proj->update(ticks)){
+      projExpl = false;
       delete proj;
       proj = NULL;
       return false;
@@ -34,15 +37,16 @@ bool Player::update(Uint32 ticks) {
 }
 
 void Player::explodeShot(){
-  if(proj)
+  if(proj){
+    projExpl = true;
     proj->explode();
+  }
 }
 
 bool Player::checkCollisions(){
-  if(proj){
+  if(proj && !projExpl){
     if(Planets::getInstance().checkForCollision(proj->getSprite())){
-      delete proj;
-      proj = NULL;
+      explodeShot();
       return true;
     }
   }
@@ -83,7 +87,7 @@ void Player::shoot() {
 
   Vector2f speed = loc-org;
 
-  proj = new Projectile("proj",speed*10,loc);
+  proj = new Projectile("proj",speed*projVel,loc);
 }
 
 void Player::changeMovement(int type)
@@ -103,8 +107,14 @@ void Player::changeMovement(int type)
             }
             break;
         case Player::UP :
+            if ( projVel < 100) {
+                projVel += 5;
+            }
             break;
         case Player::DOWN :
+          if ( projVel > 10) {
+                projVel -= 5;
+            }
             break;
         default :
         break;

@@ -22,6 +22,7 @@ public:
   void shoot();
   void explodeShot();
   bool checkCollisions();
+  float getProjVel() const { return projVel; }
 
 private:
   const JSONGamedata& jgdata;
@@ -32,6 +33,9 @@ private:
   Vector2f maxVel;
   float width;
   float height;
+  float projVel;
+  bool projExpl;
+
   MultiframeSprite * drawable;
   
   Projectile * proj;

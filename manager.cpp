@@ -86,6 +86,7 @@ void Manager::draw() const {
 
   player.draw();
   viewport.draw();
+  viewport.drawPlayerSpeed(player.getProjVel());
 }
 
 void Manager::update(){
@@ -161,16 +162,12 @@ void Manager::play() {
     if (showHelp)
       viewport.drawHUD();
 
-    std::stringstream sstm;
-    sstm << "T_INT: " << TICK_INTERVAL+userTickInterval;
-    IOManager::getInstance().printMessageAt(sstm.str(),viewport.W()-80,viewport.H()-20);
-
     SDL_Flip(screen);
 
     clock++;
 
     update();
-
+    checkCollisions();
     SDL_Delay(timeLeft());
 
     nextTime += TICK_INTERVAL+userTickInterval;

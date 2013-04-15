@@ -9,6 +9,7 @@ public:
   ~Viewport() { std::cout << "Blocking the view ..." << std::endl; }
   void draw() const;
   void drawHUD() const;
+  void drawPlayerSpeed(float) const;
   void update();
 
   float X() const { return position[0]; }
