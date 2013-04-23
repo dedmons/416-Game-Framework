@@ -36,6 +36,7 @@ Manager::Manager() :
   TICK_INTERVAL(jgdata.getInt("fpsController.tickInterval")),
   nextTime(clock.getTicks()+TICK_INTERVAL)
 {
+  clock.pause();
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     throw string("Unable to initialize SDL: ");
   }
@@ -106,7 +107,7 @@ void Manager::update(){
       viewport.setObjectToTrack(player.getSprite());
       delete *ptr;
       ptr = explosions.erase(ptr);
-    } else 
+    } else
       ++ptr;
   }
   if(!player.update(ticks))
@@ -130,7 +131,7 @@ void Manager::explodeSprite(const string& name) {
       std::cout << "Checking: " << sprite->getName() << std::endl;
       if (sprite->getName() == name) {
         const Frame* frame = sprite->getFrame();
-        Sprite newSprite(sprite->getPosition(), sprite->getVelocity(), 
+        Sprite newSprite(sprite->getPosition(), sprite->getVelocity(),
          name, frame);
         delete sprite;
         ptr = explosions.erase(ptr);
@@ -146,6 +147,7 @@ void Manager::checkCollisions(){
 }
 
 void Manager::play() {
+  clock.unpause();
   SDL_Event event;
   SDLSound sound;
 
@@ -258,7 +260,7 @@ void Manager::play() {
         case SDLK_w      : {
           if(!keyCatch) {
             keyCatch = true;
-            
+
           }
           break;
         }
@@ -272,14 +274,14 @@ void Manager::play() {
         case SDLK_s      : {
           if(!keyCatch) {
             keyCatch = true;
-            
+
           }
           break;
         }
         case SDLK_d      : {
           if(!keyCatch) {
             keyCatch = true;
-            
+
           }
           break;
         }
@@ -311,4 +313,5 @@ void Manager::play() {
       }
     }
   }
+  clock.pause();
 }

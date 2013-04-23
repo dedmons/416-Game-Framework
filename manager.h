@@ -1,3 +1,6 @@
+#ifndef __MANAGER__H
+#define __MANAGER__H
+
 #include <SDL.h>
 #include <iostream>
 #include <string>
@@ -36,14 +39,16 @@ private:
   int currentSprite;
   const unsigned TICK_INTERVAL;
   int nextTime;
-  
+
   bool checkForCollisions() const;
   void draw() const;
   void update();
   int timeLeft();
   void explodeSprite(const string&);
   void checkCollisions();
-  
+
   Manager(const Manager&);
   Manager& operator=(const Manager&);
 };
+
+#endif

@@ -55,7 +55,7 @@ Sprite::Sprite( const string& name, const float sMin, const float sMax) :
   acceleration(Vector2f(0,0)),
   maxSpeeds(Vector2f(-99,-99)),
   mass(0)
-{ 
+{
   if(JSONGamedata::getInstance().hasValue(name+".accel")){
     acceleration = Vector2f(
       ((rand()%2)?1:-1)*JSONGamedata::getInstance().getInt(name+".accel.x"),
@@ -94,7 +94,7 @@ Sprite::Sprite( const string& name, const float s) :
   acceleration(Vector2f(0,0)),
   maxSpeeds(Vector2f(-99,-99)),
   mass(0)
-{ 
+{
   if(JSONGamedata::getInstance().hasValue(name+".accel")){
     acceleration = Vector2f(
       ((rand()%2)?1:-1)*JSONGamedata::getInstance().getInt(name+".accel.x"),
@@ -181,8 +181,8 @@ void Sprite::update(Uint32 ticks) {
   }
 
   if(Planets::getInstance().checkForCollision(this)){
-    velocityY( -velocityY() * speedLoss );
-    velocityX( -velocityX() * speedLoss );
+    //velocityY( -velocityY() * speedLoss );
+    //velocityX( -velocityX() * speedLoss );
   }
 }
 

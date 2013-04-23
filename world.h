@@ -1,3 +1,6 @@
+#ifndef __WORLD__H
+#define __WORLD__H
+
 #include "frame.h"
 #include "viewport.h"
 #include "jsongamedata.h"
@@ -14,7 +17,7 @@ public:
       viewX(0.0), viewY(0.0),
       view(Viewport::getInstance())
   {}
-  World(const World& other) : 
+  World(const World& other) :
       frame1( other.frame1 ),
       frameWidth( other.frameWidth ),
       frameHeight( other.frameHeight ),
@@ -39,3 +42,5 @@ private:
   float viewY;
   Viewport & view;
 };
+
+#endif

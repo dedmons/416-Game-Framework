@@ -23,6 +23,7 @@ public:
   JSONValue(const JSONArray &m_array_value);
   JSONValue(const JSONObject &m_object_value);
   JSONValue(const JSONValue &other);
+  JSONValue(const JSONValue *other);
   ~JSONValue();
 
   JSONValue& operator=(const JSONValue &other);

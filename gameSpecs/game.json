@@ -1,258 +1,277 @@
 {
-	"view":{
-  	"width":640,
-  	"height":480
-	},
+  "view":{
+    "width":640,
+    "height":480
+  },
 
-	"world":{
-  	"width":1000,
-  	"height":1000
-	},
+  "world":{
+    "width":5000,
+    "height":5000
+  },
 
-	"screenTitle":"Basic Animation Framework",
+  "screenTitle":"Basic Animation Framework",
 
-	"trackText":{
-		"x":"center",
-		"y":10
-	},
+  "trackText":{
+    "x":"center",
+    "y":10
+  },
 
-	"fpsController": {
-		"tickInterval":18,
-		"fpsLogLength":100,
-		"fpsAlpha":0.9
-	},
+  "fpsController": {
+    "tickInterval":18,
+    "fpsLogLength":100,
+    "fpsAlpha":0.9
+  },
 
-	"font": {
-		"name":"font",
-		"file":"font/dyslexic-bold.otf",
-		"size":14,
-		"color":{ "r":255, "b":0, "g":0 },
-		"unused": 0
-	},
+  "font": {
+    "name":"font",
+    "file":"font/dyslexic-bold.otf",
+    "size":14,
+    "color":{ "r":255, "b":0, "g":0 },
+    "unused": 0
+  },
 
-	"maxStringSize":50,
+  "menu":{
+    "loc":{
+      "x":300,"y":100
+    },
+    "space":{
+      "x":70,"y":40
+    },
+    "options":[
+      "Start Game",
+      "Load Level File",
+      "Help",
+      "Exit"
+    ],
 
-	"backgrounds":[
-		{
-			"name":"star-back",
-			"fact":4
-		}
-	],
+    "clickoff":{
+      "file":"images/clickoff.png",
+      "transparency":true,
+      "size":{
+        "w":40,"h":40
+      },
+      "src":{
+        "x":0,"y":0
+      }
+    },
+    "clickon":{
+      "file":"images/clickon.png",
+      "transparency":true,
+      "size":{
+        "w":40,"h":40
+      },
+      "src":{
+        "x":0,"y":0
+      }
+    }
+  },
 
-	"planets":[
-		"planet1",
-		"planet2"
-	],
+  "maxStringSize":50,
 
-	"player":{
-		"name":"tank"
-	},
+  "backgrounds":[
+    {
+      "name":"star-back",
+      "fact":4
+    }
+  ],
 
-	"chunks":{
-		"distance":200,
-		"size":30,
-		"maxTicks":10000
-	},
+  "player":{
+    "name":"tank"
+  },
 
-	"sprite":{
-		"speedLoss":0.8
-	},
+  "chunks":{
+    "distance":200,
+    "size":30,
+    "maxTicks":10000
+  },
 
-	"triForce": {
-		"num":1,
-		"file":"images/tri.png",
-		"transparency":true,
-		"scale":{
-			"min":0.75,
-			"max":1.5
-		},
-		"src": {
-			"x":0,
-			"y":0
-		},
-		"size":{
-			"width":50,
-			"height":50
-		},
-		"speed":{
-			"min":{
-				"x":0, "y":0
-			},
-			"max":{
-				"x":400, "y":400
-			},
-			"start":{
-				"x":0, "y":0
-			}
-		},
-		"accel":{
-			"x":0, "y":0
-		},
-		"loc":{
-			"start":{
-				"x":900, "y":100
-			}
-		},
-		"mass":1
-	},
+  "sprite":{
+    "speedLoss":0.8
+  },
 
-	"tank":{
-		"num":1,
-		"file":"images/mytank2.png",
-		"transparency":true,
-		"frames":{
-			"interval":2,
-			"num":19
-		},
-		"scale":1,
-		"loc":{
-			"start":{
-				"x":200,"y":100
-			}
-		},
-		"src":{
-			"x":0, "y":0, 
-			"offset":{
-				"x":0, "y":0
-			}
-		},
-		"size":{
-			"width":40, "height":40
-		},
-		"speed":{
-			"start":{
-				"x":100, "y":0
-			},
-			"max":{
-				"x":400, "y":400
-			}
-		},
-		"mass":100000
-	},
+  "triForce": {
+    "num":1,
+    "file":"images/tri.png",
+    "transparency":true,
+    "scale":{
+      "min":0.75,
+      "max":1.5
+    },
+    "src": {
+      "x":0,
+      "y":0
+    },
+    "size":{
+      "width":50,
+      "height":50
+    },
+    "speed":{
+      "min":{
+        "x":0, "y":0
+      },
+      "max":{
+        "x":400, "y":400
+      },
+      "start":{
+        "x":0, "y":0
+      }
+    },
+    "accel":{
+      "x":0, "y":0
+    },
+    "loc":{
+      "start":{
+        "x":900, "y":100
+      }
+    },
+    "mass":1
+  },
 
-	"proj":{
-		"file":"images/shot.png",
-		"transparency":true,
-		"frames":{
-			"interval":1,
-			"num":5
-		},
-		"scale":1,
-		"loc":{
-			"start":{
-				"x":200,"y":100
-			}
-		},
-		"src":{
-			"x":0, "y":0, 
-			"offset":{
-				"x":0, "y":0
-			}
-		},
-		"size":{
-			"width":10, "height":10
-		},
-		"speed":{
-			"start":{
-				"x":100, "y":0
-			},
-			"max":{
-				"x":400, "y":400
-			}
-		},
-		"mass":1,
-		"chunk":{
-			"size":10
-		}
-	},
-    
+  "tank":{
+    "num":1,
+    "file":"images/mytank2.png",
+    "transparency":true,
+    "frames":{
+      "interval":2,
+      "num":19
+    },
+    "scale":1,
+    "loc":{
+      "start":{
+        "x":50,"y":4950
+      }
+    },
+    "src":{
+      "x":0, "y":0,
+      "offset":{
+        "x":0, "y":0
+      }
+    },
+    "size":{
+      "width":40, "height":40
+    },
+    "speed":{
+      "start":{
+        "x":100, "y":0
+      },
+      "max":{
+        "x":400, "y":400
+      }
+    },
+    "mass":100000
+  },
+
+  "proj":{
+    "file":"images/shot.png",
+    "transparency":true,
+    "frames":{
+      "interval":50,
+      "num":5
+    },
+    "scale":1,
+    "loc":{
+      "start":{
+        "x":200,"y":100
+      }
+    },
+    "src":{
+      "x":0, "y":0,
+      "offset":{
+        "x":0, "y":0
+      }
+    },
+    "size":{
+      "width":10, "height":10
+    },
+    "speed":{
+      "start":{
+        "x":100, "y":0
+      },
+      "max":{
+        "x":400, "y":400
+      }
+    },
+    "mass":1,
+    "chunk":{
+      "size":10
+    }
+  },
+
   "Etank":{
-		"num":1,
-		"file":"images/mytank.png",
-		"transparency":true,
-		"frames":{
-			"interval":2,
-			"num":4
-		},
-		"scale":1,
-		"loc":{
-			"start":{
-				"x":500,"y":500
-			}
-		},
-		"src":{
-			"x":5, "y":0, 
-			"offset":{
-				"x":10, "y":5
-			}
-		},
-		"size":{
-			"width":40, "height":30
-		},
-		"speed":{
-			"start":{
-				"x":0, "y":0
-			},
-			"max":{
-				"x":400, "y":400
-			}
-		},
-		"mass":100000
-	},
+    "num":1,
+    "file":"images/mytank.png",
+    "transparency":true,
+    "frames":{
+      "interval":2,
+      "num":4
+    },
+    "scale":1,
+    "loc":{
+      "start":{
+        "x":500,"y":500
+      }
+    },
+    "src":{
+      "x":5, "y":0,
+      "offset":{
+        "x":10, "y":5
+      }
+    },
+    "size":{
+      "width":40, "height":30
+    },
+    "speed":{
+      "start":{
+        "x":0, "y":0
+      },
+      "max":{
+        "x":400, "y":400
+      }
+    },
+    "mass":100000
+  },
 
-	"star-back": {
-		"file":"images/star-back.png",
-		"transparency":true,
-		"src":{
-			"x":0,"y":0
-		},
-		"size":{
-			"width":320,
-			"height":320
-		},
-		"loc":{
-			"x":0,
-			"y":0
-		},
-		"scale":{
-			"min":1,
-			"max":1
-		}
-	},
+  "star-back": {
+    "file":"images/star-back.png",
+    "transparency":true,
+    "src":{
+      "x":0,"y":0
+    },
+    "size":{
+      "width":320,
+      "height":320
+    },
+    "loc":{
+      "x":0,
+      "y":0
+    },
+    "scale":{
+      "min":1,
+      "max":1
+    }
+  },
 
-	"planet1":{
-		"mass":1000,
-		"radius":50,
-		"file":"images/planet1.png",
-		"transparency":true,
-		"src":{
-			"x":0,"y":0
-		},
-		"size":{
-			"width":100,
-			"height":100
-		},
-		"loc":{
-			"x":100,
-			"y":100
-		}
-	},
+  "planet1":{
+      "file":"images/planet1.png",
+      "transparency":true,
+      "src":{
+        "x":0,"y":0
+      },
+      "size":{
+        "width":100,
+        "height":100
+      }
+    },
 
-	"planet2":{
-		"mass":3000,
-		"radius":50,
-		"file":"images/planet2.png",
-		"transparency":true,
-		"src":{
-			"x":0,"y":0
-		},
-		"size":{
-			"width":150,
-			"height":150
-		},
-		"loc":{
-			"x":700,
-			"y":700
-		}
-	}
+    "planet2":{
+      "file":"images/planet2.png",
+      "transparency":true,
+      "src":{
+        "x":0,"y":0
+      },
+      "size":{
+        "width":150,
+        "height":150
+      }
+    }
 }

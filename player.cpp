@@ -9,18 +9,18 @@ Player::Player(const std::string& name) :
   jgdata( JSONGamedata::getInstance() ),
   keyPressedUD(false),
   keyPressedLR(false),
-  worldWidth( jgdata.getInt("world.width") ), 
-  worldHeight( jgdata.getInt("world.height") ), 
-  maxVel( Vector2f(jgdata.getInt(name+".speed.max.x"), 
+  worldWidth( jgdata.getInt("world.width") ),
+  worldHeight( jgdata.getInt("world.height") ),
+  maxVel( Vector2f(jgdata.getInt(name+".speed.max.x"),
                                jgdata.getInt(name+".speed.max.y") )
-  ), 
-  width( jgdata.getInt(name+".size.width") ), 
+  ),
+  width( jgdata.getInt(name+".size.width") ),
   height( jgdata.getInt(name+".size.height") ),
   projVel(50),
   projExpl(false),
   drawable(NULL),
   proj(NULL)
-{ 
+{
    drawable = new MultiframeSprite(name);
    drawable->setManualFrames(true);
 }
