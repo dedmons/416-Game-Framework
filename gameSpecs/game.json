@@ -5,8 +5,8 @@
   },
 
   "world":{
-    "width":5000,
-    "height":5000
+    "width":3000,
+    "height":3000
   },
 
   "screenTitle":"Basic Animation Framework",

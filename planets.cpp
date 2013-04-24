@@ -54,7 +54,7 @@ Vector2f Planets::accelerationFromPlanets(Vector2f loc){
   Vector2f retVal = Vector2f(0,0);
 
   // real value 0.00000000006674
-  const double GRAV = 2000;
+  const double GRAV = 1500;
 
   double accelMag = 0;
 

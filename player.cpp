@@ -23,6 +23,7 @@ Player::Player(const std::string& name) :
 {
    drawable = new MultiframeSprite(name);
    drawable->setManualFrames(true);
+   drawable->setPosition(Vector2f(50,worldHeight-40));
 }
 
 bool Player::update(Uint32 ticks) {
