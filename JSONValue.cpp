@@ -10,8 +10,8 @@
 #include "JSONValue.h"
 
 // Macros to free an array/object
-#define FREE_ARRAY(x) { /*JSONArray::iterator iter; for (iter = x.begin(); iter != x.end(); ++iter) { delete *iter; }*/ }
-#define FREE_OBJECT(x) { /*JSONObject::iterator iter; for (iter = x.begin(); iter != x.end(); ++iter) { delete (*iter).second; }*/ }
+#define FREE_ARRAY(x) { JSONArray::iterator iter; for (iter = x.begin(); iter != x.end(); ++iter) { delete *iter; } x.clear(); }
+#define FREE_OBJECT(x) { JSONObject::iterator iter; for (iter = x.begin(); iter != x.end(); ++iter) { delete iter->second; } x.clear(); }
 
 std::vector<std::string> getPathValues(const std::string& path) {
   std::istringstream f(path);
@@ -310,7 +310,7 @@ JSONValue::JSONValue(/*NULL*/):
  */
 JSONValue::JSONValue(const char *m_char_value):
  type(JSONType_String),
- string_value(std::string(m_char_value)),
+ string_value(m_char_value),
  bool_value(),
  number_value(),
  array_value(),
@@ -326,7 +326,7 @@ JSONValue::JSONValue(const char *m_char_value):
  */
 JSONValue::JSONValue(const std::string &m_string_value):
  type(JSONType_String),
- string_value(std::string(m_string_value)),
+ string_value(m_string_value),
  bool_value(),
  number_value(),
  array_value(),
@@ -343,7 +343,7 @@ JSONValue::JSONValue(const std::string &m_string_value):
 JSONValue::JSONValue(bool m_bool_value):
  type(JSONType_Bool),
  string_value(),
- bool_value(bool(m_bool_value)),
+ bool_value(m_bool_value),
  number_value(),
  array_value(),
  object_value()
@@ -360,7 +360,7 @@ JSONValue::JSONValue(double m_number_value):
  type(JSONType_Number),
  string_value(),
  bool_value(),
- number_value(double(m_number_value)),
+ number_value(m_number_value),
  array_value(),
  object_value()
 {}
@@ -377,7 +377,7 @@ JSONValue::JSONValue(const JSONArray &m_array_value):
  string_value(),
  bool_value(),
  number_value(),
- array_value(JSONArray(m_array_value)),
+ array_value(m_array_value),
  object_value()
 {}
 
@@ -394,12 +394,12 @@ JSONValue::JSONValue(const JSONObject &m_object_value):
  bool_value(),
  number_value(),
  array_value(),
- object_value(JSONObject(m_object_value))
+ object_value(m_object_value)
 {}
 
 JSONValue::JSONValue(const JSONValue &other):
  type(other.type),
- string_value(std::string(other.string_value)),
+ string_value(other.string_value),
  bool_value(other.bool_value),
  number_value(other.number_value),
  array_value(),
@@ -422,7 +422,7 @@ JSONValue::JSONValue(const JSONValue &other):
 
 JSONValue::JSONValue(const JSONValue *other):
  type(other->type),
- string_value(std::string(other->string_value)),
+ string_value(other->string_value),
  bool_value(other->bool_value),
  number_value(other->number_value),
  array_value(),
@@ -449,18 +449,16 @@ JSONValue::JSONValue(const JSONValue *other):
  */
 JSONValue::~JSONValue()
 {
-  if (type == JSONType_Array)
-  {
-    JSONArray::iterator iter;
-    for (iter = array_value.begin(); iter != array_value.end(); ++iter)
-      delete *iter;
-  }
-  else if (type == JSONType_Object)
-  {
-    JSONObject::iterator iter;
-    for (iter = object_value.begin(); iter != object_value.end(); ++iter)
-      delete (*iter).second;
-  }
+    JSONArray::iterator aiter;
+    for (aiter = array_value.begin(); aiter != array_value.end(); ++aiter)
+      delete *aiter;
+
+    JSONObject::iterator oiter;
+    for (oiter = object_value.begin(); oiter != object_value.end(); ++oiter)
+      delete oiter->second;
+
+    array_value.clear();
+    object_value.clear();
 }
 
 JSONValue &JSONValue::operator=(const JSONValue &other){
@@ -470,9 +468,9 @@ JSONValue &JSONValue::operator=(const JSONValue &other){
   this->type = other.type;
   switch(this->type){
     case JSONType_Null: break;
-    case JSONType_Bool: this->bool_value = bool(other.bool_value); break;
-    case JSONType_String: this->string_value = std::string(other.string_value); break;
-    case JSONType_Number: this->number_value = double(other.number_value); break;
+    case JSONType_Bool: this->bool_value = other.bool_value; break;
+    case JSONType_String: this->string_value = other.string_value; break;
+    case JSONType_Number: this->number_value = other.number_value; break;
     case JSONType_Object:
       // FREE_OBJECT(this->object_value);
       this->object_value = JSONObject(other.object_value);
@@ -492,9 +490,9 @@ JSONValue &JSONValue::operator=(JSONValue *other){
   this->type = other->type;
   switch(this->type){
     case JSONType_Null: break;
-    case JSONType_Bool: this->bool_value = bool(other->bool_value); break;
-    case JSONType_String: this->string_value = std::string(other->string_value); break;
-    case JSONType_Number: this->number_value = double(other->number_value); break;
+    case JSONType_Bool: this->bool_value = other->bool_value; break;
+    case JSONType_String: this->string_value = other->string_value; break;
+    case JSONType_Number: this->number_value = other->number_value; break;
     case JSONType_Object:
       // FREE_OBJECT(this->object_value);
       this->object_value = JSONObject(other->object_value);
@@ -801,12 +799,10 @@ bool JSONValue::HasChildAtPath(const std::string& path) const{
     else if(retval.HasChild(*it)){
       retval = retval.Child(*it);
     } else {
-      retval = JSONValue();
       return false;
     }
   }
 
-  retval = JSONValue();
   return true;
 }
 
