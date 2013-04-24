@@ -4,7 +4,7 @@
 # Warnings frequently signal eventual errors:
 CXXFLAGS=`sdl-config --cflags` -g -W -Wall -Weffc++ -Wextra -pedantic -O0
 # Linker flags for both OS X and Linux
-LDFLAGS = `sdl-config --libs` -lSDL_ttf -lSDL_image -lSDL_gfx -lexpat -lSDL_mixer
+LDFLAGS = `sdl-config --libs` -lSDL_ttf -lSDL_image -lSDL_gfx -lSDL_mixer
 
 # Generates list of object files from all the
 #   source files in directory

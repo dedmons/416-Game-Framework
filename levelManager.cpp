@@ -1,4 +1,4 @@
-#include "levelmanager.h"
+#include "levelManager.h"
 #include "planets.h"
 
 LevelManager& LevelManager::getInstance(){

@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "JSONGamedata.h"
+#include "jsongamedata.h"
 #include "JSON.h"
 
 class LevelManager {
