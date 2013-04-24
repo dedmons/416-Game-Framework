@@ -14,7 +14,7 @@
 #include "world.h"
 #include "viewport.h"
 #include "player.h"
-#include "explodingSprite.h"
+#include "explodingsprite.h"
 
 class Manager {
 public:

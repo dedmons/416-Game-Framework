@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cmath>
-#include "explodingSprite.h"
+#include "explodingsprite.h"
 #include "random.h"
 
 ExplodingSprite::ExplodingSprite(const Sprite& s) :
