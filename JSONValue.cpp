@@ -406,16 +406,18 @@ JSONValue::JSONValue(const JSONValue &other):
  object_value()
 {
 
-  JSONArray_iter ait = other.array_value.begin();
-  while(ait != other.array_value.end()){
-    array_value.push_back(new JSONValue(*ait));
-    ++ait;
-  }
-
-  JSONObject_iter oit = other.object_value.begin();
-  while(oit!= other.object_value.end()){
-    object_value[oit->first] = new JSONValue(oit->second);
-    ++oit;
+  if(type == JSONType_Array){
+    JSONArray_iter it = other.array_value.begin();
+    while(it != other.array_value.end()){
+      array_value.push_back(new JSONValue(*it));
+      ++it;
+    }
+  } else if{
+    JSONObject_iter it = other.object_value.begin();
+    while(it != other.object_value.end()){
+      object_value[it->first] = new JSONValue(it->second);
+      ++it;
+    }
   }
 
 }
@@ -428,16 +430,18 @@ JSONValue::JSONValue(const JSONValue *other):
  array_value(),
  object_value()
 {
-  JSONArray_iter ait = other->array_value.begin();
-  while(ait != other->array_value.end()){
-    array_value.push_back(new JSONValue(*ait));
-    ++ait;
-  }
-
-  JSONObject_iter oit = other->object_value.begin();
-  while(oit!= other->object_value.end()){
-    object_value[oit->first] = new JSONValue(oit->second);
-    ++oit;
+  if(type == JSONType_Array){
+    JSONArray_iter it = other->array_value.begin();
+    while(it != other->array_value.end()){
+      array_value.push_back(new JSONValue(*it));
+      ++it;
+    }
+  } else if(type == JSONType_Object){
+    JSONObject_iter it = other->object_value.begin();
+    while(it != other->object_value.end()){
+      object_value[it->first] = new JSONValue(it->second);
+      ++it;
+    }
   }
 }
 
@@ -449,16 +453,21 @@ JSONValue::JSONValue(const JSONValue *other):
  */
 JSONValue::~JSONValue()
 {
-    JSONArray::iterator aiter;
-    for (aiter = array_value.begin(); aiter != array_value.end(); ++aiter)
-      delete *aiter;
-
-    JSONObject::iterator oiter;
-    for (oiter = object_value.begin(); oiter != object_value.end(); ++oiter)
-      delete oiter->second;
-
+  if(type == JSONType_Array){
+    JSONArray::iterator iter = array_value.begin();
+    while (iter != array_value.end()){
+      delete *iter;
+      iter = array_value.erase(iter);
+    }
     array_value.clear();
+  } else if(type == JSONType_Object){
+    JSONObject::iterator iter = object_value.begin();
+    while (iter != object_value.end()){
+      delete iter->second;
+      iter = array_value.erase(iter);
+    }
     object_value.clear();
+  }
 }
 
 JSONValue &JSONValue::operator=(const JSONValue &other){
