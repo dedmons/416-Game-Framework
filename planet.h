@@ -28,6 +28,5 @@ private:
   float radius;
 
   Planet();
-  Planet& operator=(const Planet&);
 };
 #endif

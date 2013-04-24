@@ -1,6 +1,6 @@
 #include "projectile.h"
 #include "sprite.h"
-#include "explodingsprite.h"
+#include "explodingSprite.h"
 #include "viewport.h"
 
 Projectile::Projectile(const std::string& name, const Vector2f& vel, const Vector2f& pos) : 
