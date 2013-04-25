@@ -15,30 +15,29 @@ DEPS = $(OBJS:.o=.d)
 EXEC = run
 
 ifeq (/,$(findstring /,$(shell which g++-4.8)))
-	GXX = g++-4.8
+	CXX = g++-4.8
 else
 ifeq (/,$(findstring /,$(shell which g++-4.7)))
-	GXX = g++-4.7
+	CXX = g++-4.7
 else
 ifeq (/,$(findstring /,$(shell which g++-4.6)))
-	GXX = g++-4.6
+	CXX = g++-4.6
 else
-	GCC = g++
+	CXX = g++
 endif
 endif
 endif
 
 # Declare the phony targets
-.PHONY: echo clean r clang gcc gcc47 \
+.PHONY: echo clean r clang gcc \
   setclang setgcc vg
 
 # Phony targets to run dependencies in order
 clang: | setclang $(EXEC)
 gcc: | setgcc $(EXEC)
-gcc47: | setgcc47 $(EXEC)
 
 comptest:
-	echo $(GXX)
+	echo $(CXX)
 
 # target to run valgrind on executable
 vg: $(EXEC)
@@ -69,15 +68,6 @@ endif
 # Phony target to use g++ for compile and linking
 setgcc:
 	@echo "Setting g++"
-	$(eval CXX = g++)
-	$(eval CXX_LINK = g++)
-	$(eval CXXFLAGS = $(CXXFLAGS) -std=c++11)
-
-# Phony target to use g++ 4.7 for compile and linking
-setgcc47:
-	@echo "Setting g++47"
-	$(eval CXX = $(GXX))
-	$(eval CXX_LINK = $(GXX))
 	$(eval CXXFLAGS = $(CXXFLAGS) -std=c++11)
 
 # $< refers to the first dependency
@@ -90,7 +80,7 @@ $(OBJS): %.o: %.cpp
 $(DEPS): %.d: %.cpp
 	@echo "Generating "$@
 	@set -e; rm -f $@; \
-      $(GXX) -MM $(CPPFLAGS) -std=c++0x $< > $@.$$$$; \
+      $(CXX) -MM $(CPPFLAGS) -std=c++0x $< > $@.$$$$; \
       sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
       rm -f $@.$$$$
 
