@@ -18,7 +18,7 @@ Viewport::Viewport() :
   worldWidth(jgdata.getInt("world.width")),
   worldHeight(jgdata.getInt("world.height")),
   objWidth(0), objHeight(0),
-  objectToTrack(NULL)
+  objectToTrack(NULL),freeMode(false)
 {}
 
 void Viewport::setObjectToTrack(const Drawable *obj) {
