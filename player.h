@@ -19,7 +19,7 @@ public:
 
   enum MoveType { STOPUD, STOPLR, RIGHT, LEFT, UP, DOWN };
   void changeMovement(int);
-  void shoot();
+  bool shoot();
   void explodeShot();
   bool checkCollisions();
   float getProjVel() const { return projVel; }
@@ -37,7 +37,7 @@ private:
   bool projExpl;
 
   MultiframeSprite * drawable;
-  
+
   Projectile * proj;
 
   Player();

@@ -156,8 +156,7 @@ void Manager::play() {
   bool shiftKeyDown = false;
   bool showHelp = false;
   bool tankExploded = false;
-
-  bool playerShot = false;
+  bool freeCam = false;
 
   int userTickInterval = 0;
   while ( ! done ) {
@@ -183,7 +182,7 @@ void Manager::play() {
       switch (event.key.keysym.sym) {
         case SDLK_LSHIFT:
         case SDLK_RSHIFT:
-        shiftKeyDown = false;
+          shiftKeyDown = false;
         break;
 
         default:
@@ -197,13 +196,8 @@ void Manager::play() {
         case SDLK_SPACE : {
           if(!keyCatch){
             keyCatch = true;
-            if(playerShot){
-              playerShot = false;
-              player.explodeShot();
-            } else {
-              playerShot = true;
+            if(player.shoot()){
               sound[0];
-              player.shoot();
               viewport.setObjectToTrack(player.getProj());
             }
           }
@@ -257,31 +251,11 @@ void Manager::play() {
           }
           break;
         }
-        case SDLK_w      : {
+        case SDLK_f      : {
           if(!keyCatch) {
             keyCatch = true;
-
-          }
-          break;
-        }
-        case SDLK_a      : {
-          if(!keyCatch) {
-            keyCatch = true;
-
-          }
-          break;
-        }
-        case SDLK_s      : {
-          if(!keyCatch) {
-            keyCatch = true;
-
-          }
-          break;
-        }
-        case SDLK_d      : {
-          if(!keyCatch) {
-            keyCatch = true;
-
+            freeCam = !freeCam;
+            viewport.setFreeMode(freeCam);
           }
           break;
         }
@@ -294,22 +268,21 @@ void Manager::play() {
         }
         default          : break;
       }
-      // bool playerKeyDown = false;
       if (keyState[SDLK_LEFT]){
-        player.changeMovement(Player::LEFT);
-        // playerKeyDown = true;
+        if(freeCam) viewport.moveLeft();
+        else player.changeMovement(Player::LEFT);
       }
       if (keyState[SDLK_RIGHT]){
-        player.changeMovement(Player::RIGHT);
-        // playerKeyDown = true;
+        if(freeCam) viewport.moveRight();
+        else player.changeMovement(Player::RIGHT);
       }
       if (keyState[SDLK_UP]){
-        player.changeMovement(Player::UP);
-        // playerKeyDown = true;
+        if(freeCam) viewport.moveUp();
+        else player.changeMovement(Player::UP);
       }
       if (keyState[SDLK_DOWN]){
-        player.changeMovement(Player::DOWN);
-        // playerKeyDown = true;
+        if(freeCam) viewport.moveDown();
+        else player.changeMovement(Player::DOWN);
       }
     }
   }

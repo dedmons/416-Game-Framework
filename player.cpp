@@ -1,4 +1,5 @@
 #include "player.h"
+#include "sound.h"
 #include "planets.h"
 
 Player::~Player() {
@@ -16,7 +17,7 @@ Player::Player(const std::string& name) :
   ),
   width( jgdata.getInt(name+".size.width") ),
   height( jgdata.getInt(name+".size.height") ),
-  projVel(50),
+  projVel(10),
   projExpl(false),
   drawable(NULL),
   proj(NULL)
@@ -38,7 +39,7 @@ bool Player::update(Uint32 ticks) {
 }
 
 void Player::explodeShot(){
-  if(proj){
+  if(proj && !projExpl){
     projExpl = true;
     proj->explode();
   }
@@ -54,9 +55,11 @@ bool Player::checkCollisions(){
   return false;
 }
 
-void Player::shoot() {
-  if(proj != NULL)
-    return;
+bool Player::shoot() {
+  if(proj != NULL){
+    if(!projExpl) explodeShot();
+    return false;
+  }
 
   int fn = drawable->getFrameNumber();
   int dx = 0;
@@ -89,6 +92,7 @@ void Player::shoot() {
   Vector2f speed = loc-org;
 
   proj = new Projectile("proj",speed*projVel,loc);
+  return true;
 }
 
 void Player::changeMovement(int type)
@@ -108,13 +112,13 @@ void Player::changeMovement(int type)
             }
             break;
         case Player::UP :
-            if ( projVel < 100) {
-                projVel += 5;
+            if ( projVel < 25) {
+                projVel += 1;
             }
             break;
         case Player::DOWN :
-          if ( projVel > 10) {
-                projVel -= 5;
+          if ( projVel > 5) {
+                projVel -= 1;
             }
             break;
         default :

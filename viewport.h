@@ -22,6 +22,12 @@ public:
   void setObjectToTrack(const Drawable *obj);
   const Drawable* getObjectToTrack() const { return objectToTrack; }
 
+  void setFreeMode(bool isFree) { freeMode = isFree; }
+  void moveUp();
+  void moveDown();
+  void moveLeft();
+  void moveRight();
+
 private:
   JSONGamedata& jgdata;
   Vector2f position;
@@ -31,6 +37,7 @@ private:
   unsigned worldHeight;
   Uint16 objWidth;
   Uint16 objHeight;
+  bool freeMode;
 
   const Drawable *objectToTrack;
 
