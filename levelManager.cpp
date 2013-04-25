@@ -28,7 +28,8 @@ int LevelManager::loadFile(const std::string& file) {
       planetDataList.push_back(fileData->Child("Planets"));
     }
   }
-
+  
+  delete fileData;
   return retval;
 }
 

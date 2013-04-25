@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <string>
 #include "explodingsprite.h"
 #include "random.h"
 
@@ -92,10 +93,16 @@ void ExplodingSprite::makeChunks(unsigned int n) {
                   source_x+i*chunk_width,  // x coord of surface
                   source_y+j*chunk_height // y coord of surface
                 );
+      std::string name;
+      //std::stringstream strm;
+      //strm << getName();
+      //strm << "Chunk"
+      //name = strm.str();
+      name = getName() + "Chunk";
       Chunk chunk(
                 Vector2f(X()+i*chunk_width,Y()+j*chunk_height),
                 speed,
-                getName()+"Chunk",
+                name,
                 frame);
 
       chunks.push_back(chunk);

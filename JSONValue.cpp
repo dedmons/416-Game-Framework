@@ -412,7 +412,7 @@ JSONValue::JSONValue(const JSONValue &other):
       array_value.push_back(new JSONValue(*it));
       ++it;
     }
-  } else if{
+  } else if(type == JSONType_Object){
     JSONObject_iter it = other.object_value.begin();
     while(it != other.object_value.end()){
       object_value[it->first] = new JSONValue(it->second);
@@ -464,7 +464,7 @@ JSONValue::~JSONValue()
     JSONObject::iterator iter = object_value.begin();
     while (iter != object_value.end()){
       delete iter->second;
-      iter = array_value.erase(iter);
+      iter = object_value.erase(iter);
     }
     object_value.clear();
   }
@@ -789,6 +789,7 @@ JSONValue* JSONValue::Child(const std::string& name)
  * @return      [description]
  */
 bool JSONValue::HasChildAtPath(const std::string& path) const{
+  return true;
   JSONValue retval(*this);
   std::vector<std::string> comp = getPathValues(path);
 
