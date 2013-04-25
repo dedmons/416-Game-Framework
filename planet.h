@@ -11,6 +11,8 @@ public:
   Planet(const std::string&, float, float, Vector2f);
   Planet(const Planet&);
 
+  Planet& operator=(const Planet&);
+
   const Frame* getFrame() const { return frame; }
   void draw() const;
   void update(Uint32 ticks){ ++ticks; };

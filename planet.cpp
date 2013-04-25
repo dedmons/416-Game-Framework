@@ -19,6 +19,24 @@ Planet::Planet(const Planet& o):
   radius(o.radius)
 {}
 
+Planet& Planet::operator=(const Planet& other){
+  if(this == &other)
+    return *this;
+
+  setName(other.getName());
+  setPosition(other.getPosition());
+  setVelocity(other.getVelocity());
+
+  frame = other.frame;
+  frameWidth = other.frameWidth;
+  frameHeight = other.frameHeight;
+
+  mass = other.mass;
+  radius = other.radius;
+
+  return *this;
+}
+
 Vector2f Planet::getLocation() const {
   return Vector2f(X()+radius,Y()+radius);
 }

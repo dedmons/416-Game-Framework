@@ -37,9 +37,10 @@ private:
   unsigned worldHeight;
   Uint16 objWidth;
   Uint16 objHeight;
-  bool freeMode;
 
   const Drawable *objectToTrack;
+
+  bool freeMode;
 
   Viewport();
   Viewport(const Viewport&);

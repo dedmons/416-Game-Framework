@@ -12,7 +12,7 @@ LevelManager::LevelManager():
   levelList(),
   planetDataList()
 {
-  loadFile("levels/defualt.json");
+  loadFile("levels/default.json");
 }
 
 int LevelManager::loadFile(const std::string& file) {
@@ -28,7 +28,7 @@ int LevelManager::loadFile(const std::string& file) {
       planetDataList.push_back(fileData->Child("Planets"));
     }
   }
-  
+
   delete fileData;
   return retval;
 }
