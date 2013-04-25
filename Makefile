@@ -14,10 +14,18 @@ DEPS = $(OBJS:.o=.d)
 # Set executable name
 EXEC = run
 
-ifeq "$(shell uname)" "Darwin"
+ifeq (/,$(findstring /,$(shell which g++-4.8)))
 	GXX = g++-4.8
 else
+ifeq (/,$(findstring /,$(shell which g++-4.7)))
 	GXX = g++-4.7
+else
+ifeq (/,$(findstring /,$(shell which g++-4.6)))
+	GXX = g++-4.6
+else
+	GCC = g++
+endif
+endif
 endif
 
 # Declare the phony targets
@@ -28,6 +36,9 @@ endif
 clang: | setclang $(EXEC)
 gcc: | setgcc $(EXEC)
 gcc47: | setgcc47 $(EXEC)
+
+comptest:
+	echo $(GXX)
 
 # target to run valgrind on executable
 vg: $(EXEC)
