@@ -1,32 +1,24 @@
 Name: DJ Edmonson & Tyler McGough
 Email: dedmons@g.clemson.edu
-Date: April 15, 2013
+Date: April 25, 2013
 
-Proj No: 4
+Proj No: 5
 Description:
 
-IMPORTANT: 
-  This project uses C++11, use gcc 4.7+ or clang 3.0+
+IMPORTANT:
+  This project uses C++11, use gcc 4.6+ or clang 3.0+
 
 To change the XML file and the animation:
   -Converted to JSON
+  -Can load levels from multiple json files
 
 The Specs that I implemented are:
-  -Projectiles from the player
-  -Collisions for the projectiles
-  -Explosions
-  -Sounds
+  -Menu
+  -Loading of levels from files that you can specify in the menu
 
 The Specs that I was unable to implement are:
   none
 
 Extras:
-  -Gravity around planets in the world. Affects are based
-    on all planets defined and their masses.
-
-  -Chunk explosions implode first when exploding. 
-    Best seen at low velocities
-
-  -Sprites loose velocity when boucing off walls of the world
-
-Background image of stars is from a1star.com
+  -Free camera mode to "explore world"
+  -Choose levels when you start the game.
