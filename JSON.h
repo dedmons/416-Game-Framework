@@ -20,7 +20,7 @@
   #else
     #include <algorithm>
   #endif
-#else 
+#else
   #define GCC_VERSION (__GNUC__ * 10000 \
                         + __GNUC_MINOR__ * 100 \
                         + __GNUC_PATCHLEVEL__)
@@ -53,10 +53,13 @@ static inline bool strminlen(const char *s, size_t n) {
 // Custom types
 class JSONValue;
 typedef std::vector<JSONValue*> JSONArray;
+typedef std::vector<JSONValue*>::const_iterator JSONArray_iter;
 #ifdef JSON_UMAP
   typedef std::unordered_map<std::string, JSONValue*> JSONObject;
+  typedef std::unordered_map<std::string, JSONValue*>::const_iterator JSONObject_iter;
 #else
   typedef std::map<std::string, JSONValue*> JSONObject;
+  typedef std::map<std::string, JSONValue*>::const_iterator JSONObject_iter;
 #endif
 
 #include "JSONValue.h"

@@ -121,7 +121,7 @@ void IOManager::printStringAfterMessage( const string& msg,
 void IOManager::buildString(SDL_Event event) {
   if( inputString.size() <= MAX_STRING_SIZE) {
     unsigned ch = event.key.keysym.sym;
-    if ( isalpha(ch) || isdigit(ch) || ch == ' ') {
+    if ( isalpha(ch) || isdigit(ch) || ch == ' ' || ch == '/' || ch == '.') {
       inputString += char(event.key.keysym.unicode);
     }
   }

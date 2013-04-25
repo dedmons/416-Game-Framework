@@ -28,7 +28,7 @@ float MidPointCollisionStrategy::distance(float x1, float y1, float x2, float y2
 
 bool MidPointCollisionStrategy::execute(
       const Drawable& obj1, const Drawable& obj2) const {
-  int COLLISION_DISTANCE = 
+  int COLLISION_DISTANCE =
     obj1.getFrame()->getWidth()/2 + obj2.getFrame()->getWidth()/2;
   float xobj1 = obj1.X()+obj1.getFrame()->getWidth()/2;
   float yobj1 = obj1.Y()+obj1.getFrame()->getHeight()/2;

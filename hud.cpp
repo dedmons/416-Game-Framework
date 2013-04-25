@@ -4,7 +4,7 @@
 #include "aaline.h"
 
 void HUD::draw(const int dx, const int dy) {
-	IOManager& iom = IOManager::getInstance();
+  IOManager& iom = IOManager::getInstance();
 
   const Uint32 RED = SDL_MapRGB(screen->format, 0xff, 0, 0);
   Sint16 w=250,h=115;

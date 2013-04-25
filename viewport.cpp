@@ -18,7 +18,7 @@ Viewport::Viewport() :
   worldWidth(jgdata.getInt("world.width")),
   worldHeight(jgdata.getInt("world.height")),
   objWidth(0), objHeight(0),
-  objectToTrack(NULL)
+  objectToTrack(NULL),freeMode(false)
 {}
 
 void Viewport::setObjectToTrack(const Drawable *obj) {
@@ -36,7 +36,7 @@ void Viewport::draw() const {
 void Viewport::drawPlayerSpeed(float speed) const{
   const Uint32 RED = SDL_MapRGB(IOManager::getInstance().getScreen()->format, 0xff, 0, 0);
 
-  Draw_AALine(IOManager::getInstance().getScreen(), W()-5, H(), W()-5, H()-((0.9*H())*speed/100), 5 , RED);
+  Draw_AALine(IOManager::getInstance().getScreen(), W()-5, H(), W()-5, H()-((0.9*H())*speed/25), 5 , RED);
 }
 
 void Viewport::drawHUD() const {
@@ -44,6 +44,8 @@ void Viewport::drawHUD() const {
 }
 
 void Viewport::update() {
+  if(freeMode) return;
+
   const float x = objectToTrack->X();
   const float y = objectToTrack->Y();
   position[0] = (x + objWidth/2) - viewWidth/2;
@@ -55,5 +57,37 @@ void Viewport::update() {
   }
   if (position[1] > (worldHeight - viewHeight)) {
     position[1] = worldHeight-viewHeight;
+  }
+}
+
+void Viewport::moveUp(){
+  position[1] -= 10;
+  if (position[1] < 0) position[1] = 0;
+  if (position[1] > (worldWidth - viewWidth)) {
+    position[1] = worldWidth-viewWidth;
+  }
+}
+
+void Viewport::moveDown(){
+  position[1] += 10;
+  if (position[1] < 0) position[1] = 0;
+  if (position[1] > (worldWidth - viewWidth)) {
+    position[1] = worldWidth-viewWidth;
+  }
+}
+
+void Viewport::moveLeft(){
+  position[0] -= 10;
+  if (position[0] < 0) position[0] = 0;
+  if (position[0] > (worldWidth - viewWidth)) {
+    position[0] = worldWidth-viewWidth;
+  }
+}
+
+void Viewport::moveRight(){
+  position[0] += 10;
+  if (position[0] < 0) position[0] = 0;
+  if (position[0] > (worldWidth - viewWidth)) {
+    position[0] = worldWidth-viewWidth;
   }
 }

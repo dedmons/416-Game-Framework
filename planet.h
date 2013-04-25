@@ -8,10 +8,12 @@
 
 class Planet : public Drawable{
 public:
-	Planet(std::string&, float, float, Vector2f);
-	Planet(const Planet&);
+  Planet(const std::string&, float, float, Vector2f);
+  Planet(const Planet&);
 
-	const Frame* getFrame() const { return frame; }
+  Planet& operator=(const Planet&);
+
+  const Frame* getFrame() const { return frame; }
   void draw() const;
   void update(Uint32 ticks){ ++ticks; };
 
@@ -20,7 +22,7 @@ public:
   Vector2f getLocation() const;
 
 private:
-	const Frame * frame;
+  const Frame * frame;
   int frameWidth;
   int frameHeight;
 

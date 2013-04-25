@@ -1,0 +1,33 @@
+{
+  "levels":[
+    {
+      "name":"default",
+      "planets":[
+        "planet1",
+        "planet2"
+      ]
+    }
+  ],
+
+  "Planets":{
+    "planet1":{
+      "sprite":"planet1",
+      "mass":1000,
+      "radius":50,
+      "loc":{
+        "x":300,
+        "y":100
+      }
+    },
+
+    "planet2":{
+      "sprite":"planet2",
+      "mass":3000,
+      "radius":50,
+      "loc":{
+        "x":700,
+        "y":700
+      }
+    }
+  }
+}

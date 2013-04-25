@@ -4,6 +4,7 @@
 #include <map>
 
 #include "jsongamedata.h"
+#include "JSON.h"
 #include "vector2f.h"
 #include "planet.h"
 #include "collisionStrategy.h"
@@ -11,6 +12,8 @@
 class Planets {
 public:
   static Planets& getInstance();
+
+  bool loadPlanets(JSONValue*,JSONValue*);
 
   void draw();
 
